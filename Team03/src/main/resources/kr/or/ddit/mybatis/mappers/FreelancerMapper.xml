@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="kr.or.ddit.freelancer.freelancer.dao.FreelancerMapper">
+	<sql id="freelancerColumns">
+		  MEM_ID
+		, FREE_FIELD
+		, FREE_JOB
+		, FREE_STYLE
+		, FREE_SALARYTYPE
+		, FREE_SALARY
+		, FREE_TYPE
+		, TO_CHAR(TO_DATE(FREE_SDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS FREE_SDT
+		, FREE_EXPERIENCE
+		, FREE_CAREER
+		, FREE_DETAIL
+		, ATCH_FILE_NO
+		, FREE_UPDATE
+	</sql>
+
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*)
+	    FROM FREELANCER FR
+	    <include refid="searchFrag" />
+	</select>
+	
+	<resultMap type="FreelancerVO" id="freelancerMap" autoMapping="true">
+		<id property="memId" column="MEM_ID" />
+		<result  property="memNm" column="MEM_NM" />
+		<result property="memImageAtchFileNo" column="MEM_IMG_ATCH_FILE_NO" />
+		<result property="atchFileNo" column="ATCH_FILE_NO" />
+		<result property="freeskillsTypeList" column="FREESKILLS_TYPE_LIST" />
+		<result property="freeskillsProfList" column="FREESKILLS_PROF_LIST" />
+		<association property="memAtchFile" column="MEM_IMG_ATCH_FILE_NO" select="kr.or.ddit.file.dao.FileMapper.selectFileEnable"/>
+		<association property="atchFile" column="ATCH_FILE_NO" select="kr.or.ddit.file.dao.FileMapper.selectFileEnable"/>
+		<association property="code" javaType="CodeVO" autoMapping="true"/>
+		<collection property="freeskills" ofType="FreeskillsVO">
+	        <result property="freeskillsType" column="FREESKILLS_TYPE" />
+	        <result property="freeskillsProf" column="FREESKILLS_PROF" />
+	        <result property="freeskillsTypeNm" column="FREESKILLS_TYPE_NM" />
+	        <result property="freeskillsProfNm" column="FREESKILLS_PROF_NM" />
+	    </collection>
+	</resultMap>
+	
+	<select id="selectFreelancer" resultMap="freelancerMap">
+		SELECT 
+			  FR.MEM_ID
+			, F.MEM_NM
+			, FR.FREE_FIELD
+			, FR.FREE_JOB
+			, FR.FREE_STYLE
+			, FR.FREE_SALARYTYPE
+			, FR.FREE_SALARY
+			, FR.FREE_TYPE
+			, TO_CHAR(TO_DATE(FR.FREE_SDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS FREE_SDT
+			, FR.FREE_EXPERIENCE
+			, FR.FREE_CAREER
+			, FR.FREE_DETAIL
+			, FR.ATCH_FILE_NO
+			, FR.FREE_UPDATE
+			, F.ATCH_FILE_NO AS MEM_IMG_ATCH_FILE_NO
+			, FS.FREESKILLS_TYPE
+			, FS.FREESKILLS_PROF
+			, CT.CODE_NM AS FREESKILLS_TYPE_NM
+		    , CP.CODE_NM AS FREESKILLS_PROF_NM
+		FROM FREELANCER FR
+			INNER JOIN MEMBER F ON FR.MEM_ID = F.MEM_ID
+			LEFT OUTER JOIN FREESKILLS FS ON FR.MEM_ID = FS.MEM_ID
+			LEFT OUTER JOIN CODE CT ON FS.FREESKILLS_TYPE = CT.CODE_CD
+			LEFT OUTER JOIN CODE CP ON FS.FREESKILLS_PROF = CP.CODE_CD
+		WHERE FR.MEM_ID = #{memId}
+	</select>
+	
+	<sql id="searchFrag">
+	    <where>
+	        <if test="simpleCondition.searchMap != null and !simpleCondition.searchMap.isEmpty()">
+				<foreach collection="simpleCondition.searchMap" item="value" index="key" separator="and">
+	                <choose>
+	                    <!-- 직무 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'job')">
+	                        FR.FREE_JOB IN
+	                        <foreach collection="value" item="value" open="(" separator="," close=")">
+	                            <if test="value != null">
+	                                #{value}
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                    <!-- 스킬 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'skill')">
+	                        FR.MEM_ID IN (
+	                            SELECT FS.MEM_ID
+	                            FROM FREESKILLS FS
+	                            WHERE FS.FREESKILLS_TYPE IN
+	                            <foreach collection="value" item="value" open="(" separator="," close=")">
+	                                <if test="value != null">
+	                                    #{value}
+	                                </if>
+	                            </foreach>
+	                        )
+	                    </when>
+	                    <!-- 근무형태 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'freeStyle')">
+	                        FR.FREE_STYLE IN
+	                        <foreach collection="value" item="value" open="(" separator="," close=")">
+	                            <if test="value != null">
+	                                #{value}, 'FS03'
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                </choose>
+	            </foreach>
+	        </if>
+	    </where>
+	</sql>
+
+    <sql id="sortFrag">
+        <choose>
+            <when test="simpleCondition.sortBy == 'FREE_UPDATE'">
+                ORDER BY FREE_UPDATE DESC
+            </when>
+            <when test="simpleCondition.sortBy == 'FREE_CAREER'">
+                ORDER BY FREE_CAREER DESC
+            </when>
+            <otherwise>
+                ORDER BY FREE_UPDATE DESC
+            </otherwise>
+        </choose>
+    </sql>
+	<select id="selectFreelancerList" resultMap="freelancerMap" parameterType="kr.or.ddit.paging.PaginationInfo">
+		<include refid="CommonsMapper.pageHeader"/>
+			SELECT
+			    FR.MEM_ID
+			    , F.MEM_NM
+			    , A.CODE_NM AS FREE_FIELD
+			    , FREE_JOB
+			    , C.CODE_NM AS FREE_STYLE
+			    , D.CODE_NM AS FREE_SALARYTYPE
+			    , FR.FREE_SALARY
+			    , E.CODE_NM AS FREE_TYPE
+			    , TO_CHAR(TO_DATE(FREE_SDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS FREE_SDT
+			    , FR.FREE_EXPERIENCE
+			    , FR.FREE_CAREER
+			    , FR.FREE_DETAIL
+			    , FR.ATCH_FILE_NO
+			    , F.ATCH_FILE_NO AS MEM_IMG_ATCH_FILE_NO
+			    , FREE_UPDATE
+			    , (
+			          SELECT LISTAGG(C2.CODE_NM, ', ') WITHIN GROUP (ORDER BY FS.FREESKILLS_NO)
+			            FROM FREESKILLS FS
+			            JOIN CODE C2 ON FS.FREESKILLS_TYPE = C2.CODE_CD
+			           WHERE FS.MEM_ID = FR.MEM_ID
+			        ) AS FREESKILLS_TYPE_LIST
+			     , (
+			          SELECT LISTAGG(C3.CODE_NM, ', ') WITHIN GROUP (ORDER BY FS.FREESKILLS_NO)
+			            FROM FREESKILLS FS
+			            JOIN CODE C3 ON FS.FREESKILLS_PROF = C3.CODE_CD
+			           WHERE FS.MEM_ID = FR.MEM_ID
+			        ) AS FREESKILLS_PROF_LIST
+				FROM FREELANCER FR
+				INNER JOIN MEMBER F ON (FR.MEM_ID = F.MEM_ID)
+				LEFT JOIN CODE A ON (FREE_FIELD = A.CODE_CD)
+				LEFT JOIN CODE C ON (FR.FREE_STYLE = C.CODE_CD)
+				LEFT JOIN CODE D ON (FR.FREE_SALARYTYPE = D.CODE_CD)
+				LEFT JOIN CODE E ON (FR.FREE_TYPE = E.CODE_CD)
+				<include refid="searchFrag" />
+				<include refid="sortFrag" />
+		<include refid="CommonsMapper.pageFooter"/>
+	</select>
+	
+	<insert id="insertFreelancer" parameterType="FreelancerVO">
+		INSERT INTO FREELANCER (
+			MEM_ID
+			, FREE_FIELD
+			, FREE_JOB
+			, FREE_STYLE
+			, FREE_SALARYTYPE
+			, FREE_SALARY
+			, FREE_TYPE
+			, FREE_SDT
+			, FREE_EXPERIENCE
+			, FREE_CAREER
+			, FREE_DETAIL
+			, ATCH_FILE_NO
+		) VALUES ( 
+			  #{memId, jdbcType=VARCHAR}
+			, #{freeField, jdbcType=VARCHAR}
+			, #{freeJob, jdbcType=VARCHAR}
+			, #{freeStyle, jdbcType=VARCHAR}
+			, #{freeSalarytype, jdbcType=VARCHAR}
+			, #{freeSalary, jdbcType=NUMERIC}
+			, #{freeType, jdbcType=VARCHAR}
+			, TO_CHAR(TO_DATE(#{freeSdt, jdbcType=VARCHAR}, 'YYYY-MM-DD'), 'YYYYMMDD')
+			, #{freeExperience, jdbcType=VARCHAR}
+			, #{freeCareer, jdbcType=NUMERIC}
+			, #{freeDetail, jdbcType=CLOB}
+			, #{atchFileNo, jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<update id="updateFreelancer" parameterType="FreelancerVO">
+		UPDATE FREELANCER
+	       SET    FREE_FIELD = #{freeField, jdbcType=VARCHAR}
+				, FREE_JOB = #{freeJob, jdbcType=VARCHAR}
+				, FREE_STYLE = #{freeStyle, jdbcType=VARCHAR}
+				, FREE_SALARY = #{freeSalary, jdbcType=NUMERIC}
+				, FREE_TYPE = #{freeType, jdbcType=VARCHAR}
+				, FREE_SDT = TO_CHAR(TO_DATE(#{freeSdt, jdbcType=VARCHAR}, 'YYYY-MM-DD'), 'YYYYMMDD')
+				, FREE_EXPERIENCE = #{freeExperience, jdbcType=VARCHAR}
+				, FREE_CAREER = #{freeCareer, jdbcType=VARCHAR}
+				, FREE_DETAIL = #{freeDetail, jdbcType=CLOB}
+				<if test="atchFileNo neq null">
+					, ATCH_FILE_NO = #{atchFileNo, jdbcType=NUMERIC}
+				</if>
+				, FREE_UPDATE = SYSDATE
+	     WHERE MEM_ID = #{memId}
+	</update>
+	
+	<update id="updateMemberToFreelancer">
+		UPDATE MEMBER
+	       SET MEM_FREELANCER = 'Y'
+	     WHERE MEM_ID = #{memId}
+	</update>
+	
+	<update id="deleteFreelancer">
+		UPDATE MEMBER
+	       SET MEM_FREELANCER = 'N'
+	     WHERE MEM_ID = #{memId}
+	</update>
+	<select id="selectCodeList" resultType="CodeVO">
+		SELECT CODE_CD, CODE_NM, CODE_PARENT
+		FROM CODE
+		WHERE CODE_PARENT in ('job'
+							, 'FREESTYLE'
+							, 'FREETYPE'
+							, 'SALARYTYPE'
+							, 'SKILLTYPE'
+							, 'SKILLPROF')
+		   OR CODE_CD LIKE 'jo%'
+	</select>
+	
+	<!-- 프리랜서 보유스킬 등록 -->
+	<insert id="insertFreeskills" parameterType="FreeskillsVO">
+		INSERT INTO FREESKILLS (
+			  FREESKILLS_NO
+			, MEM_ID
+			, FREESKILLS_TYPE
+			, FREESKILLS_PROF
+		) VALUES ( 
+			  FREESKILLS_SEQ.NEXTVAL
+			, #{memId, jdbcType=VARCHAR}
+			, #{freeskillsType, jdbcType=VARCHAR}
+			, #{freeskillsProf, jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- 프리랜서 보유스킬 수정 -->
+	<delete id="deleteFreeskills">
+		DELETE 
+		  FROM FREESKILLS
+		 WHERE MEM_ID = #{memId}
+	</delete>
+</mapper>

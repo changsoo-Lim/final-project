@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.talent.dao.TalentMapper">
+
+	<resultMap type="kr.or.ddit.vo.MemberVO" id="memberMap">
+		<!-- 기본 정보 매핑 -->
+		<id property="memId" column="MEM_ID" />
+		<result property="memNm" column="MEM_NM" />
+		<result property="memGen" column="MEM_GEN" />
+		<result property="memRegno" column="MEM_REGNO" />
+		<result property="memZip" column="MEM_ZIP" />
+		<result property="memAddr1" column="MEM_ADDR1" />
+		<result property="memAddr2" column="MEM_ADDR2" />
+		<result property="memEmail" column="MEM_EMAIL" />
+		<result property="memHp" column="MEM_HP" />
+		<result property="memClassify" column="MEM_CLASSIFY" />
+		<result property="memStatus" column="MEM_STATUS" />
+		<result property="memUrl" column="MEM_URL" />
+		<result property="memDateType" column="MEM_DATE_TYPE" />
+
+		<!-- 첨부 파일 -->
+		<association property="file" column="ATCH_FILE_NO"
+			select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+
+		<!-- 고등학교 정보 -->
+		<collection property="highSchoolList"
+			ofType="kr.or.ddit.vo.HighSchoolVO" autoMapping="true">
+			<id property="highschoolNo" column="HIGHSCHOOL_NO" />
+			<result property="highschoolNm" column="HIGHSCHOOL_NM" />
+			<result property="highschoolLocation"
+				column="HIGHSCHOOL_LOCATION" />
+			<result property="highschoolPeriod" column="HIGHSCHOOL_PERIOD" />
+			<result property="highschoolStatus" column="HIGHSCHOOL_STATUS" />
+			<result property="highschoolMajor" column="HIGHSCHOOL_MAJOR" />
+		</collection>
+
+		<!-- 경력 목록 -->
+		<collection property="careerList"
+			ofType="kr.or.ddit.vo.CareerVO">
+			<id property="careerNo" column="CAREER_NO" />
+			<result property="careerCompanyNm" column="CAREER_COMPANY_NM" />
+			<result property="careerIndustryType"
+				column="CAREER_INDUSTRY_TYPE" />
+			<result property="careerSubIndustry"
+				column="CAREER_SUB_INDUSTRY" />
+			<result property="careerCompanySize"
+				column="CAREER_COMPANY_SIZE" />
+			<result property="careerCompanyType"
+				column="CAREER_COMPANY_TYPE" />
+			<result property="careerListed" column="CAREER_LISTED" />
+			<result property="careerCity" column="CAREER_CITY" />
+			<result property="careerDistrict" column="CAREER_DISTRICT" />
+			<result property="careerJobTitle" column="CAREER_JOB_TITLE" />
+			<result property="careerStartDate" column="CAREER_START_DATE" />
+			<result property="careerEndDate" column="CAREER_END_DATE" />
+			<result property="careerSalary" column="CAREER_SALARY" />
+			<result property="careerReason" column="CAREER_REASON" />
+		</collection>
+
+		<!-- 학력 목록 -->
+		<collection property="uniList" ofType="kr.or.ddit.vo.UniVO">
+			<id property="uniNo" column="UNI_NO" />
+			<result property="uniNm" column="UNI_NM" />
+			<result property="uniType" column="UNI_TYPE" />
+			<result property="uniMajorCategory"
+				column="UNI_MAJOR_CATEGORY" />
+			<result property="uniMajorNm" column="UNI_MAJOR_NM" />
+			<result property="uniGpa" column="UNI_GPA" />
+			<result property="uniSdt" column="UNI_SDT" />
+			<result property="uniEdt" column="UNI_EDT" />
+		</collection>
+
+		<!-- 스킬 목록 -->
+		<collection property="compList"
+			ofType="kr.or.ddit.vo.CompVO">
+			<id property="compSkillNo" column="COMP_SKILL_NO" />
+			<result property="compSkillField" column="COMP_SKILL_FIELD" />
+			<result property="compSkillDetail" column="COMP_SKILL_DETAIL" />
+			<result property="compSkillLevel" column="COMP_SKILL_LEVEL" />
+		</collection>
+
+		<!-- 자격증 목록 -->
+		<collection property="certrList"
+			ofType="kr.or.ddit.vo.CertVO">
+			<id property="certNo" column="CERT_NO" />
+			<result property="certNm" column="CERT_NM" />
+			<result property="certIssuer" column="CERT_ISSUER" />
+			<result property="certDate" column="CERT_DATE" />
+			<result property="certPassCd" column="CERT_PASS_CD" />
+		</collection>
+
+		<!-- 언어 목록 -->
+		<collection property="languageList"
+			ofType="kr.or.ddit.vo.LanguageVO">
+			<id property="langNo" column="LANG_NO" />
+			<result property="langNm" column="LANG_NM" />
+			<result property="langSpeakingLevel"
+				column="LANG_SPEAKING_LEVEL" />
+			<result property="langReadingLevel"
+				column="LANG_READING_LEVEL" />
+			<result property="langWritingLevel"
+				column="LANG_WRITING_LEVEL" />
+		</collection>
+
+		<!-- 활동 목록 -->
+		<collection property="activityList"
+			ofType="kr.or.ddit.vo.ActivityVO">
+			<id property="activityNo" column="ACTIVITY_NO" />
+			<result property="activityOrganization"
+				column="ACTIVITY_ORGANIZATION" />
+			<result property="activityDesc" column="ACTIVITY_DESC" />
+			<result property="activitySdt" column="ACTIVITY_SDT" />
+			<result property="activityEdt" column="ACTIVITY_EDT" />
+		</collection>
+
+		<!-- 수상 목록 -->
+		<collection property="awardList"
+			ofType="kr.or.ddit.vo.AwardVO">
+			<id property="awardNo" column="AWARD_NO" />
+			<result property="awardTitle" column="AWARD_TITLE" />
+			<result property="awardIssuer" column="AWARD_ISSUER" />
+			<result property="awardDate" column="AWARD_DATE" />
+		</collection>
+
+		<!-- 자기소개서 -->
+		<collection property="intro" ofType="kr.or.ddit.vo.IntroVO">
+			<id property="introNo" column="INTRO_NO" />
+			<result property="introTitle" column="INTRO_TITLE" />
+			<result property="introDel" column="INTRO_DEL" />
+			<collection property="introDetail"
+				ofType="kr.or.ddit.vo.Intro_DetailVO">
+				<id property="introDetailNo" column="INTRO_DETAIL_NO" />
+				<result property="introDetailTitle"
+					column="INTRO_DETAIL_TITLE" />
+				<result property="introDetailCont" column="INTRO_DETAIL_CONT" />
+			</collection>
+		</collection>
+
+		<!-- 근무 조건 -->
+		<collection property="workCondList"
+			ofType="kr.or.ddit.vo.Work_CondVO">
+			<id property="workCondNo" column="WORK_COND_NO" />
+			<result property="workCondJobType" column="WORK_COND_JOB_TYPE" />
+			<result property="workCondType" column="WORK_COND_TYPE" />
+			<result property="workCondSalary" column="WORK_COND_SALARY" />
+			<result property="workCondSalaryVisible"
+				column="WORK_COND_SALARY_VISIBLE" />
+			<collection property="workCity"
+				ofType="kr.or.ddit.vo.Work_CityVO">
+				<id property="workCityNo" column="WORK_CITY_NO" />
+				<result property="sidoCd" column="SIDO_CD" />
+				<result property="gugunCd" column="GUGUN_CD" />
+				<result property="workCityYn" column="WORK_CITY_YN" />
+			</collection>
+		</collection>
+
+		<!-- 선호 정보 -->
+		<collection property="prefList"
+			ofType="kr.or.ddit.vo.PrefVO">
+			<id property="prefNo" column="PREF_NO" />
+			<result property="prefMilitary" column="PREF_MILITARY" />
+			<result property="prefPatriot" column="PREF_PATRIOT" />
+			<result property="prefDisability" column="PREF_DISABILITY" />
+			<result property="prefEmploySupport"
+				column="PREF_EMPLOY_SUPPORT" />
+			<result property="prefHobbies" column="PREF_HOBBIES" />
+			<result property="prefSkills" column="PREF_SKILLS" />
+		</collection>
+
+		<!-- 교육 정보 -->
+		<collection property="eduList" ofType="kr.or.ddit.vo.EduVO">
+			<id property="eduNo" column="EDU_NO" />
+			<result property="eduTitle" column="EDU_TITLE" />
+			<result property="eduInstitution" column="EDU_INSTITUTION" />
+			<result property="eduSdt" column="EDU_SDT" />
+			<result property="eduEdt" column="EDU_EDT" />
+			<result property="eduDesc" column="EDU_DESC" />
+		</collection>
+
+		<!-- 언어 시험 -->
+		<collection property="langTestList"
+			ofType="kr.or.ddit.vo.Lang_TestVO">
+			<id property="langTestNo" column="LANG_TEST_NO" />
+			<result property="langTestName" column="LANG_TEST_NAME" />
+			<result property="langTestLevel" column="LANG_TEST_LEVEL" />
+			<result property="langTestDate" column="LANG_TEST_DATE" />
+		</collection>
+
+		<!-- 해외 경험 -->
+		<collection property="experienceList"
+			ofType="kr.or.ddit.vo.ExperienceVO">
+			<id property="expNo" column="EXP_NO" />
+			<result property="expCountry" column="EXP_COUNTRY" />
+			<result property="expSdt" column="EXP_SDT" />
+			<result property="expEdt" column="EXP_EDT" />
+			<result property="expDesc" column="EXP_DESC" />
+		</collection>
+	</resultMap>
+
+
+	<sql id="searchFrag">
+		<where>
+			<if
+				test="simpleCondition != null and simpleCondition.searchMap != null and !simpleCondition.searchMap.isEmpty()">
+				<foreach collection="simpleCondition.searchMap" item="value"
+					index="key" separator="AND">
+					<choose>
+						<when
+							test="key == 'jobs' and value != null and value.size() > 0">
+							b.career_job_title IN
+							<foreach collection="value" item="val" open="("
+								separator="," close=")">
+								#{val, jdbcType=VARCHAR}
+							</foreach>
+						</when>
+						<when
+							test="key == 'regions' and value != null and value.size() > 0">
+							d.gugun_cd IN
+							<foreach collection="value" item="val" open="("
+								separator="," close=")">
+								#{val, jdbcType=VARCHAR}
+							</foreach>
+						</when>
+						<when
+							test="key == 'skills' and value != null and value.size() > 0">
+							e.comp_skill_detail IN
+							<foreach collection="value" item="val" open="("
+								separator="," close=")">
+								#{val, jdbcType=VARCHAR}
+							</foreach>
+						</when>
+						<when
+							test="key == 'languages' and value != null and value.size() > 0">
+							f.lang_nm IN
+							<foreach collection="value" item="val" open="("
+								separator="," close=")">
+								#{val, jdbcType=VARCHAR}
+							</foreach>
+						</when>
+						<when
+							test="key == 'certificate' and value != null and value.size() > 0">
+							g.cert_nm IN
+							<foreach collection="value" item="val" open="("
+								separator="," close=")">
+								#{val, jdbcType=VARCHAR}
+							</foreach>
+						</when>
+						<when
+							test="key == 'univ' and value != null and value.size() > 0">
+							h.uni_type IN
+							<foreach collection="value" item="val" open="("
+								separator="," close=")">
+								#{val, jdbcType=VARCHAR}
+							</foreach>
+						</when>
+					</choose>
+				</foreach>
+			</if>
+		</where>
+	</sql>
+
+
+
+
+
+	<select id="selectCode" resultType="kr.or.ddit.vo.CodeVO">
+		SELECT
+		code_cd
+		, code_nm
+		,
+		code_parent
+		FROM
+		code
+		WHERE
+		code_cd LIKE 'jo%'
+		OR code_cd LIKE 'city%'
+		OR
+		code_cd LIKE 'sk%'
+		OR code_cd LIKE
+		'lang%'
+		OR code_cd LIKE 'cer%'
+		OR
+		code_cd LIKE 'univ-type%'
+	</select>
+
+	<select id="selectTotalRecord" resultType="int">
+		SELECT COUNT(DISTINCT a.mem_id) AS total_count
+		FROM member a
+		LEFT OUTER JOIN career b ON a.mem_id = b.mem_id
+		LEFT OUTER JOIN work_cond c ON a.mem_id = c.mem_id
+		LEFT OUTER JOIN work_city d ON c.work_cond_no = d.work_cond_no
+		LEFT OUTER JOIN comp e ON a.mem_id = e.mem_id
+		LEFT OUTER JOIN language f ON a.mem_id = f.mem_id
+		LEFT OUTER JOIN cert g ON a.mem_id = g.mem_id
+		LEFT OUTER JOIN uni h ON a.mem_id = h.mem_id
+		INNER JOIN status i ON a.mem_id = i.mem_id
+		<include refid="searchFrag" />
+		AND i.status_resume = 'Y'
+	</select>
+
+
+	<select id="searchTalent" resultMap="memberMap"
+		parameterType="kr.or.ddit.paging.PaginationInfo">
+		<include refid="CommonsMapper.pageHeader" />
+		SELECT
+		a.mem_id,
+		MAX(a.mem_nm) AS mem_nm,
+		MAX(a.mem_gen) AS mem_gen,
+		MAX(a.mem_regno) AS mem_regno,
+		MAX(a.mem_zip) AS mem_zip,
+		MAX(a.mem_addr1) AS mem_addr1,
+		MAX(a.mem_addr2) AS mem_addr2,
+		MAX(a.mem_email) AS mem_email,
+		MAX(a.mem_hp) AS mem_hp,
+		MAX(a.mem_classify) AS mem_classify,
+		MAX(a.mem_status) AS mem_status,
+		MAX(a.mem_url) AS mem_url,
+		MAX(a.mem_date_type) AS mem_date_type,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM career b
+		JOIN code c ON b.career_job_title = c.code_cd
+		WHERE b.mem_id = a.mem_id) AS career_job_title,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM work_city d
+		JOIN work_cond wc ON d.work_cond_no = wc.work_cond_no
+		JOIN code c ON d.gugun_cd = c.code_cd
+		WHERE wc.mem_id = a.mem_id) AS gugun_cd,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM comp e
+		JOIN code c ON e.comp_skill_detail = c.code_cd
+		WHERE e.mem_id = a.mem_id) AS comp_skill_detail,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM language f
+		JOIN code c ON f.lang_nm = c.code_cd
+		WHERE f.mem_id = a.mem_id) AS lang_name,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM cert g
+		JOIN code c ON g.cert_nm = c.code_cd
+		WHERE g.mem_id = a.mem_id) AS cert_nm,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM uni h
+		JOIN code c ON h.uni_type = c.code_cd
+		WHERE h.mem_id = a.mem_id) AS uni_type
+		FROM member a
+		LEFT OUTER JOIN career b ON a.mem_id = b.mem_id
+		LEFT OUTER JOIN work_cond c ON a.mem_id = c.mem_id
+		LEFT OUTER JOIN work_city d ON c.work_cond_no = d.work_cond_no
+		LEFT OUTER JOIN comp e ON a.mem_id = e.mem_id
+		LEFT OUTER JOIN language f ON a.mem_id = f.mem_id
+		LEFT OUTER JOIN cert g ON a.mem_id = g.mem_id
+		LEFT OUTER JOIN uni h ON a.mem_id = h.mem_id
+		INNER JOIN status i ON a.mem_id = i.mem_id
+		<include refid="searchFrag" />
+		AND i.status_resume = 'Y'
+		GROUP BY a.mem_id
+		ORDER BY a.mem_id ASC
+		<include refid="CommonsMapper.pageFooter" />
+	</select>
+
+	<select id="talentList" resultMap="memberMap">
+		SELECT
+		a.mem_id,
+		MAX(a.mem_nm) AS mem_nm,
+		MAX(a.mem_gen) AS mem_gen,
+		MAX(a.mem_regno) AS mem_regno,
+		MAX(a.mem_zip) AS mem_zip,
+		MAX(a.mem_addr1) AS mem_addr1,
+		MAX(a.mem_addr2) AS mem_addr2,
+		MAX(a.mem_email) AS mem_email,
+		MAX(a.mem_hp) AS mem_hp,
+		MAX(a.mem_classify) AS mem_classify,
+		MAX(a.mem_status) AS mem_status,
+		MAX(a.mem_url) AS mem_url,
+		MAX(a.mem_date_type) AS mem_date_type,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM career b
+		JOIN code c ON b.career_job_title = c.code_cd
+		WHERE b.mem_id = a.mem_id) AS career_job_title,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM work_city d
+		JOIN work_cond wc ON d.work_cond_no = wc.work_cond_no
+		JOIN code c ON d.gugun_cd = c.code_cd
+		WHERE wc.mem_id = a.mem_id) AS gugun_cd,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM comp e
+		JOIN code c ON e.comp_skill_detail = c.code_cd
+		WHERE e.mem_id = a.mem_id) AS comp_skill_detail,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM language f
+		JOIN code c ON f.lang_nm = c.code_cd
+		WHERE f.mem_id = a.mem_id) AS lang_name,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM cert g
+		JOIN code c ON g.cert_nm = c.code_cd
+		WHERE g.mem_id = a.mem_id) AS cert_nm,
+		(SELECT LISTAGG(c.code_nm, ', ') WITHIN GROUP (ORDER BY c.code_nm)
+		FROM uni h
+		JOIN code c ON h.uni_type = c.code_cd
+		WHERE h.mem_id = a.mem_id) AS uni_type
+		FROM member a
+		LEFT OUTER JOIN career b ON a.mem_id = b.mem_id
+		LEFT OUTER JOIN work_cond c ON a.mem_id = c.mem_id
+		LEFT OUTER JOIN work_city d ON c.work_cond_no = d.work_cond_no
+		LEFT OUTER JOIN comp e ON a.mem_id = e.mem_id
+		LEFT OUTER JOIN language f ON a.mem_id = f.mem_id
+		LEFT OUTER JOIN cert g ON a.mem_id = g.mem_id
+		LEFT OUTER JOIN uni h ON a.mem_id = h.mem_id
+		INNER JOIN status i ON a.mem_id = i.mem_id 
+		<where>
+        <if test="memIdList != null and memIdList.size() > 0">
+            a.mem_id IN
+            <foreach collection="memIdList" item="memId" open="(" separator="," close=")">
+                #{memId}
+            </foreach>
+        </if>
+    </where>
+   	AND i.status_resume = 'Y'
+    	GROUP BY a.mem_id
+		ORDER BY a.mem_id ASC
+	</select>
+
+	<select id="selectMember" resultMap="memberMap" >
+		SELECT
+		a.mem_id,
+		a.mem_nm,
+		a.mem_gen,
+		a.mem_regno,
+		a.mem_zip,
+		a.mem_addr1,
+		a.mem_addr2,
+		a.mem_email,
+		a.mem_hp,
+		a.mem_classify,
+		a.mem_status,
+		a.mem_url,
+		a.atch_file_no,
+		a.mem_date_type,
+
+		b.highschool_no,
+		b.highschool_nm,
+		b.highschool_location,
+		TO_CHAR(TO_DATE(b.highschool_period, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		highschool_period,
+		hs_status.code_nm AS highschool_status,
+		hs_major.code_nm AS highschool_major,
+
+		c.career_no,
+		c.career_company_nm,
+		ci_type.code_nm AS career_industry_type,
+		ci_sub.code_nm AS career_sub_industry,
+		ci_size.code_nm AS career_company_size,
+		ci_type2.code_nm AS career_company_type,
+		ci_listed.code_nm AS career_listed,
+		ci_city.code_nm AS career_city,
+		ci_district.code_nm AS career_district,
+		TO_CHAR(TO_DATE(c.career_start_date, 'YYYYMMDD'), 'YYYY-MM-DD') AS career_start_date,
+		TO_CHAR(TO_DATE(c.career_end_date, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		career_end_date,
+		c.career_tentre,
+		c.career_job_title,
+		c.career_job_desc,
+		c.career_position,
+		c.career_department,
+		ci_type3.code_nm AS career_type,
+		c.career_salary,
+		ci_reason.code_nm AS career_reason,
+
+		d.uni_no,
+		d.uni_nm,
+		uni_type.code_nm AS uni_type,
+		TO_CHAR(TO_DATE(d.uni_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS uni_sdt,
+		uni_s_status.code_nm AS uni_s_status,
+		TO_CHAR(TO_DATE(d.uni_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS uni_edt,
+		uni_e_status.code_nm AS uni_e_status,
+		uni_major_category.code_nm AS uni_major_category,
+		d.uni_major_nm,
+		uni_degree.code_nm AS uni_major_degree,
+		d.uni_gpa,
+		d.uni_project_nm,
+		d.uni_project_desc,
+
+		e.port_url,
+
+		f.award_no,
+		f.award_title,
+		f.award_issuer,
+		TO_CHAR(TO_DATE(f.award_date, 'YYYYMMDD'), 'YYYY-MM-DD') AS award_date,
+
+		g.edu_title,
+		g.edu_institution,
+		TO_CHAR(TO_DATE(g.edu_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS edu_sdt,
+		TO_CHAR(TO_DATE(g.edu_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS edu_edt,
+		g.edu_desc,
+
+		h.comp_skill_no,
+		cs_field.code_nm AS comp_skill_field,
+		cs_detail.code_nm AS comp_skill_detail,
+		cs_level.code_nm AS comp_skill_level,
+
+		i.cert_no,
+		cert_name.code_nm AS cert_nm,
+		i.cert_issuer,
+		TO_CHAR(TO_DATE(i.cert_date, 'YYYYMMDD'), 'YYYY-MM-DD') AS cert_date,
+		cert_pass.code_nm AS cert_pass_cd,
+
+		j.intro_no,
+		j.intro_title,
+		k.intro_detail_title,
+		k.intro_detail_no,
+		DBMS_LOB.SUBSTR(k.intro_detail_cont, 4000, 1) AS intro_detail_cont,
+
+		l.activity_no,
+		l.activity_organization,
+		l.activity_desc,
+		TO_CHAR(TO_DATE(l.activity_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS activity_sdt,
+		TO_CHAR(TO_DATE(l.activity_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		activity_edt,
+
+		n.lang_no,
+		lang_nm.code_nm as lang_nm,
+		lang_speak.code_nm AS lang_speaking_level,
+		lang_read.code_nm AS lang_reading_level,
+		lang_write.code_nm AS lang_writing_level,
+
+		m.work_cond_no,
+		m.work_cond_job_type,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(m.work_cond_type, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(m.work_cond_type) -
+		LENGTH(REPLACE(m.work_cond_type, ',', '')) + 1))
+		AS work_cond_type,
+		wc_salary.code_nm AS work_cond_salary, 
+		m.work_cond_salary_visible, 
+
+		
+		o.work_city_no,
+		sido.code_nm AS sido_cd,
+		gugun.code_nm AS gugun_cd,
+		o.work_city_yn,
+
+		p.pref_no,
+		p.pref_military,
+		p.pref_patriot,
+		p.pref_disability,
+		p.pref_employ_support,
+		p.pref_hobbies,
+		p.pref_skills,
+
+		q.edu_no,
+		q.edu_title,
+		q.edu_institution,
+		q.edu_sdt,
+		q.edu_edt,
+		q.edu_desc,
+
+		
+		
+		r.lang_test_no,
+		ltn.code_nm AS lang_test_name,
+		r.lang_test_level,
+		r.lang_test_date,
+
+		s.exp_no,
+		exp_country.code_nm AS exp_country,
+		s.exp_sdt,
+		s.exp_edt,
+		s.exp_desc
+
+		FROM
+		member a
+		LEFT JOIN HIGHSCHOOL b ON a.mem_id = b.mem_id
+		LEFT JOIN CAREER c ON a.mem_id = c.mem_id
+		LEFT JOIN UNI d ON a.mem_id = d.mem_id
+		LEFT JOIN PORTFOLIO e ON a.mem_id = e.mem_id
+		LEFT JOIN AWARD f ON a.mem_id = f.mem_id
+		LEFT JOIN EDU g ON a.mem_id = g.mem_id
+		LEFT JOIN COMP h ON a.mem_id = h.mem_id
+		LEFT JOIN CERT i ON a.mem_id = i.mem_id
+		LEFT JOIN INTRO j ON a.mem_id = j.mem_id
+		LEFT JOIN INTRO_DETAIL k ON j.intro_no = k.intro_no
+		LEFT JOIN ACTIVITY l ON a.mem_id = l.mem_id
+		LEFT JOIN LANGUAGE n ON a.mem_id = n.mem_id
+		LEFT JOIN WORK_COND m ON a.mem_id = m.mem_id
+		LEFT JOIN WORK_CITY o ON m.WORK_COND_NO = o.WORK_COND_NO
+		LEFT JOIN pref p ON a.mem_id = p.mem_id
+		LEFT JOIN edu q ON a.mem_id = q.mem_id
+		LEFT JOIN lang_test r ON a.mem_id = r.mem_id
+		LEFT JOIN experience s ON a.mem_id = s.mem_id
+
+
+
+		LEFT JOIN CODE hs_status ON b.highschool_status = hs_status.code_cd
+		LEFT JOIN CODE hs_major ON b.highschool_major = hs_major.code_cd
+		LEFT JOIN CODE ci_type ON c.career_industry_type = ci_type.code_cd
+		LEFT JOIN CODE ci_sub ON c.career_sub_industry = ci_sub.code_cd
+		LEFT JOIN CODE ci_size ON c.career_company_size = ci_size.code_cd
+		LEFT JOIN CODE ci_type2 ON c.career_company_type = ci_type2.code_cd
+		LEFT JOIN CODE ci_listed ON c.career_listed = ci_listed.code_cd
+		LEFT JOIN CODE ci_city ON c.career_city = ci_city.code_cd
+		LEFT JOIN CODE ci_district ON c.career_district = ci_district.code_cd
+		LEFT JOIN CODE ci_type3 ON c.career_type = ci_type3.code_cd
+		LEFT JOIN CODE ci_reason ON c.career_reason = ci_reason.code_cd
+		LEFT JOIN CODE uni_type ON d.uni_type = uni_type.code_cd
+		LEFT JOIN CODE uni_s_status ON d.uni_s_status = uni_s_status.code_cd
+		LEFT JOIN CODE uni_e_status ON d.uni_e_status = uni_e_status.code_cd
+		LEFT JOIN CODE uni_major_category ON d.uni_major_category = uni_major_category.code_cd
+		LEFT JOIN CODE uni_degree ON d.uni_major_degree = uni_degree.code_cd
+		LEFT JOIN CODE cs_field ON h.comp_skill_field = cs_field.code_cd
+		LEFT JOIN CODE cs_detail ON h.comp_skill_detail = cs_detail.code_cd
+		LEFT JOIN CODE cs_level ON h.comp_skill_level = cs_level.code_cd
+		LEFT JOIN CODE cert_name ON i.cert_nm = cert_name.code_cd
+		LEFT JOIN CODE cert_pass ON i.cert_pass_cd = cert_pass.code_cd
+		LEFT JOIN CODE lang_nm ON n.lang_nm = lang_nm.code_cd
+		LEFT JOIN CODE lang_speak ON n.lang_speaking_level = lang_speak.code_cd
+		LEFT JOIN CODE lang_read ON n.lang_reading_level = lang_read.code_cd
+		LEFT JOIN CODE lang_write ON n.lang_writing_level = lang_write.code_cd
+		LEFT JOIN CODE wc_salary ON m.work_cond_salary = wc_salary.code_cd
+		LEFT JOIN CODE sido ON o.sido_cd = sido.code_cd
+		LEFT JOIN CODE gugun ON o.gugun_cd = gugun.code_cd
+		LEFT JOIN CODE exp_country ON s.exp_country = exp_country.code_cd
+		LEFT JOIN CODE ltn ON r.lang_test_name = ltn.code_cd
+		WHERE
+		a.mem_id = #{memId}
+	</select>
+	
+	
+	
+	
+	<resultMap type="kr.or.ddit.vo.EmployVO" id="employMap" autoMapping="true">
+		<id property="employNo" column="EMPLOY_NO" />
+		<association property="code" javaType="CodeVO" autoMapping="true"/>
+		<association property="company" javaType="CompanyVO" column="COMP_ID" select="kr.or.ddit.company.company.dao.CompanyMapper.selectCompany"/>
+		<collection property="fieldList" ofType="FieldVO" autoMapping="true">
+			<id property="filedNo" column="FILED_NO"/>
+		</collection>
+	</resultMap>
+	
+
+	
+	<select id="selectEmployList" resultMap="employMap">
+				SELECT 
+		      a.EMPLOY_NO
+		    , a.COMP_ID
+		    , a.EMPLOY_TITLE
+		    , TO_CHAR(TO_DATE(a.EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM-DD') AS EMPLOY_SD
+    		, TO_CHAR(TO_DATE(a.EMPLOY_ED, 'YYYYMMDD'), 'YYYY-MM-DD') AS EMPLOY_ED
+    		, a.EMPLOY_URL
+    		, a.EMPLOY_HIT
+    		, a.EMPLOY_SALARY_YN
+    		, a.EMPLOY_APPLICATION
+		    , (
+		        SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(a.EMPLOY_TYPE, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(a.EMPLOY_TYPE, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS EMPLOY_TYPE_NM
+		    , (
+		        SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(a.EMPLOY_EXPERIENCE, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(a.EMPLOY_EXPERIENCE, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS EMPLOY_EXPERIENCE_NM
+		    
+		    , (SELECT code_nm FROM code WHERE code_cd = a.EMPLOY_EDUCATION) AS EMPLOY_EDUCATION_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = a.EMPLOY_SALARY) AS EMPLOY_SALARY_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = a.EMPLOY_APPLICATION) AS EMPLOY_APPLICATION_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = a.EMPLOY_WORKDAY) AS EMPLOY_WORKDAY_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = a.EMPLOY_SWH) AS EMPLOY_SWH_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = a.EMPLOY_EWH) AS EMPLOY_EWH_NM
+		    
+		    , b.FILED_NO
+		    , b.EMPLOY_NO
+		    , b.FILED_NM
+		    
+		FROM 
+		    EMPLOY a
+		INNER JOIN FIELD b ON a.EMPLOY_NO = b.EMPLOY_NO
+		WHERE EMPLOY_DEL = 'N'
+			AND COMP_ID = #{compId}
+	</select>
+	
+</mapper>

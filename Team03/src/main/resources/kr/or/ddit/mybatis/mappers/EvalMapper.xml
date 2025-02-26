@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.eval.eval.dao.EvalMapper">
+	
+	<insert id="insertEval">
+		<selectKey order="BEFORE" resultType="int" keyProperty="evalNo">
+		    SELECT EVAL_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO eval (
+		    eval_no,
+		    vchat_no,
+		    eval_dt,
+		    eval_del,
+		    intv_no
+		) VALUES (
+		      #{evalNo,jdbcType=NUMERIC}
+		    , #{vchatNo,jdbcType=NUMERIC}
+		    , SYSDATE
+		    , 'N'
+		    , #{intvNo,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+</mapper>

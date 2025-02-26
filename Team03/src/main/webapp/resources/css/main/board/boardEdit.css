@@ -1,0 +1,110 @@
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 페이지 타이틀 */
+.page-title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #000000;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* 폼 컨테이너 스타일 */
+.board-edit-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* 제목 필드 스타일 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.form-group .form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-group .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 내용 필드 스타일 */
+.form-group .form-control[rows] {
+    resize: vertical;
+}
+
+/* 기존 파일 리스트 스타일 */
+.file-list {
+    margin-top: 10px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.file-item span {
+    margin-right: 10px;
+}
+
+
+
+
+
+/* 파일 업로드 필드 스타일 */
+.file-upload {
+    margin-top: 15px;
+}
+
+.file-upload input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+}
+
+.file-upload input[type="file"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 버튼들을 한 줄로 배치 */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ck-editor__editable {
+    height: 300px; /* 초기 높이 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}
+
+/* 입력 시 크기 자동 조정 */
+.ck-editor__editable {
+    height: auto; /* 텍스트 입력에 따라 자동으로 조정 */
+    min-height: 300px; /* 최소 높이 설정 */
+    max-height: 500px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}

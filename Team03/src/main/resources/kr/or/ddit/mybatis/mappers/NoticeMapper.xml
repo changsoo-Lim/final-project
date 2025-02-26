@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.ddit.notice.dao.HelpMapper">
+
+	<sql id="searchFrag">
+		<if test="paging.simpleCondition != null">
+			<if
+				test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.simpleCondition.searchWord)">
+				<choose>
+					<when test="paging.simpleCondition.searchType eq 'noticeTitle'">
+						AND INSTR(NOTICE_TITLE,
+						#{paging.simpleCondition.searchWord}) > 0
+					</when>
+					<when test="paging.simpleCondition.searchType eq 'noticeCont'">
+						AND INSTR(NOTICE_CONT,
+						#{paging.simpleCondition.searchWord}) > 0
+					</when>
+				</choose>
+			</if>
+		</if>
+	</sql>
+	
+	<resultMap type="NoticeVO" id="noticeMap" autoMapping="true">
+        <id property="noticeNo" column="NOTICE_NO"/>
+        <result property="atchFileNo" column="ATCH_FILE_NO"/> 
+        <association property="file" column="ATCH_FILE_NO" 
+        		select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />  
+    </resultMap>
+    
+	<select id="selectNoticeList" resultType="NoticeVO">
+		SELECT
+			(SELECT COUNT(*)
+			FROM NOTICE
+			WHERE NOTICE_TYPE = 'NT01'
+			AND NOTICE_DEL = 'N'
+			<include refid="searchFrag" />
+			) - RNUM + 1 AS ROW_NUMBER_DESC,
+				NOTICE_NO
+				, NOTICE_TITLE
+				, NOTICE_CONT
+				, NOTICE_DT
+				, NOTICE_PINNED
+				, NOTICE_DEL
+		FROM (
+			SELECT
+				ROW_NUMBER() OVER (
+				ORDER BY NOTICE_PINNED DESC
+				, NOTICE_DT DESC
+				) AS RNUM
+				, NOTICE.*
+			FROM NOTICE
+			WHERE NOTICE_DEL = 'N'
+			  AND NOTICE_TYPE = 'NT01'
+		<include refid="searchFrag" />
+		)
+		WHERE RNUM BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+
+	<select id="selectNotice" parameterType="int" resultMap="noticeMap">
+		SELECT
+			NOTICE_NO
+			, NOTICE_TITLE
+			, NOTICE_CONT
+			, NOTICE_DT
+			, ATCH_FILE_NO
+		FROM NOTICE
+		WHERE
+		NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*)
+	    FROM NOTICE
+	    WHERE NOTICE_DEL = 'N'
+	      AND NOTICE_TYPE = 'NT01'
+	    <include refid="searchFrag" />
+	</select>
+
+    <select id="selectTotalFaqRecord" resultType="int">
+	    SELECT COUNT(*)
+	    FROM NOTICE
+	    WHERE NOTICE_DEL = 'N'
+	      AND NOTICE_TYPE = #{type}
+	    <include refid="searchFrag" />
+	</select>
+
+	<select id="selectFaqListByType" resultType="NoticeVO">
+	    SELECT
+	        NOTICE_NO
+	        , NOTICE_TITLE
+	        , NOTICE_CONT
+	        , NOTICE_DT
+	        , NOTICE_PINNED
+	    FROM (
+	        SELECT ROW_NUMBER() OVER (
+	        ORDER BY NOTICE_PINNED DESC
+	        , NOTICE_DT DESC
+	        ) 
+	        AS RNUM
+	        , NOTICE.*
+	        FROM NOTICE
+	        WHERE NOTICE_DEL = 'N'
+	          AND NOTICE_TYPE = #{type}
+	          <include refid="searchFrag" />
+	    )
+	    WHERE RNUM BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+
+	<insert id="insertInquiry" parameterType="NoticeVO">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="noticeNo">
+			SELECT NOTICE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO NOTICE (
+			NOTICE_NO
+			, NOTICE_TITLE
+			, NOTICE_CONT
+			, MEM_ID
+			, NOTICE_TYPE
+			, ATCH_FILE_NO
+		)
+		VALUES (
+			#{noticeNo, jdbcType=NUMERIC}
+			, #{noticeTitle, jdbcType=VARCHAR}
+			, #{noticeCont, jdbcType=CLOB}
+			, #{memId, jdbcType=VARCHAR}
+			, 'NT05'
+			, #{atchFileNo,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="selectInquiryList" resultType="NoticeVO">
+		SELECT
+			(SELECT COUNT(*)
+			FROM NOTICE
+			WHERE NOTICE_TYPE = 'NT05'
+				AND NOTICE_DEL = 'N'
+				AND MEM_ID = #{memId}
+				<include refid="searchFrag" />
+			) - RNUM + 1 AS ROW_NUMBER_DESC,
+			NOTICE_NO
+			, NOTICE_TITLE
+			, NOTICE_CONT
+			, NOTICE_DT
+			, NOTICE_INQUIRIES_YN
+			, MEM_ID
+		FROM (
+		SELECT
+		ROW_NUMBER() OVER (
+			ORDER BY NOTICE_DT DESC
+		) AS RNUM
+			, NOTICE_NO
+			, NOTICE_TITLE
+			, NOTICE_CONT
+			, NOTICE_DT
+			, NOTICE_INQUIRIES_YN
+			, MEM_ID
+		FROM NOTICE
+		WHERE NOTICE_TYPE = 'NT05'
+			AND NOTICE_DEL = 'N'
+			AND MEM_ID = #{memId}
+		<include refid="searchFrag" />
+		)
+		WHERE RNUM BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+
+
+	<!-- 총 문의 수 조회 -->
+	<select id="selectTotalInquiry" resultType="int">
+		SELECT COUNT(*)
+		FROM NOTICE
+		WHERE NOTICE_TYPE = 'NT05'
+		AND NOTICE_DEL = 'N'
+		AND MEM_ID = #{memId}
+		<include refid="searchFrag" />
+	</select>
+
+	<!-- 문의 상세 조회 -->
+	<select id="selectInquiry" parameterType="int"
+		resultMap="noticeMap">
+		SELECT
+			NOTICE_NO
+			, NOTICE_TITLE
+			, NOTICE_CONT
+			, NOTICE_DT
+			, MEM_ID
+			, NOTICE_INQUIRIES_YN
+			, NOTICE_INQUIRIES_CONT
+			, NOTICE_INQUIRIES_DT
+			, ATCH_FILE_NO
+		FROM NOTICE
+		WHERE NOTICE_NO = #{noticeNo}
+	</select>
+</mapper>
+

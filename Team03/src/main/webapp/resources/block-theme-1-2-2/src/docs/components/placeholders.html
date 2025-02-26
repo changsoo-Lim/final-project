@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      @@include("../../partials/head/meta.html")
+      <link href="@@webRoot/node_modules/prismjs/themes/prism-okaidia.min.css" rel="stylesheet" />
+      @@include("../../partials/head/head-links.html") @@include("../../partials/head/analytics.html")
+      <title>Placeholders - Responsive Website Template | Block</title>
+   </head>
+
+   <body>
+      <!-- Main wrapper -->
+      <main class="docs-main-wrapper">
+         @@include("../../partials/docs-navbar.html", { "classList": "w-100 fixed-top bg-white" })
+         <!-- left sidebar -->
+         @@include("../../partials/docs-sidenav.html")
+         <!-- Wrapper  -->
+         <div class="docs-wrapper">
+            <div class="docs-content">
+               <!-- Content -->
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="mb-5" id="intro">
+                           <h1>Placeholders</h1>
+                           <p class="mb-0">Use loading placeholders for your components or pages to indicate something may still be loading.</p>
+                        </div>
+                     </div>
+                  </div>
+                  <!--example-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Example</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-example-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-example-preview"
+                                    role="tab"
+                                    aria-controls="pills-example-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="pills-example-code-tab" data-bs-toggle="pill" href="#pills-example-code" role="tab" aria-controls="pills-example-code" aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-example-preview" role="tabpanel" aria-labelledby="pills-example-preview-tab">
+                                 <!--example-->
+                                 <div class="d-flex">
+                                    <div class="card w-lg-25 w-100 me-3">
+                                       <img src="@@webRoot/assets/images/blog/blog-img-1.jpg" class="card-img-top" alt="img" />
+
+                                       <div class="card-body">
+                                          <h3 class="card-title">Card title</h3>
+                                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                                       </div>
+                                    </div>
+                                    <div class="card w-lg-25 w-100">
+                                       <img src="@@webRoot/assets/images/blog/blog-img-1.jpg" class="card-img-top" alt="img" />
+                                       <div class="card-body">
+                                          <h3 class="card-title placeholder-glow">
+                                             <span class="placeholder col-6"></span>
+                                          </h3>
+                                          <p class="card-text placeholder-glow">
+                                             <span class="placeholder col-7"></span>
+                                             <span class="placeholder col-4"></span>
+                                             <span class="placeholder col-4"></span>
+                                             <span class="placeholder col-6"></span>
+                                             <span class="placeholder col-8"></span>
+                                          </p>
+                                          <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-6"></a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-example-code" role="tabpanel" aria-labelledby="pills-example-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--example--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d-flex<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card w-lg-25 w-100 me-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/blog/blog-img-1.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-img-top<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>img<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-body<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-title<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Card title<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-text<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Some quick example text to build on the card title and make up the bulk
+        of the card's content.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn btn-primary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Go somewhere<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card w-lg-25 w-100<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/blog/blog-img-1.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-img-top<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>img<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-body<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-title placeholder-glow<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-6<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>card-text placeholder-glow<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-7<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-6<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span> <span class="token attr-name">tabindex</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>-1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn btn-primary disabled placeholder col-6<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--example-->
+                  <!--width-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Width</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-width-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-width-preview"
+                                    role="tab"
+                                    aria-controls="pills-width-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="pills-width-code-tab" data-bs-toggle="pill" href="#pills-width-code" role="tab" aria-controls="pills-width-code" aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-width-preview" role="tabpanel" aria-labelledby="pills-width-preview-tab">
+                                 <!--width-->
+                                 <span class="placeholder col-6"></span>
+                                 <span class="placeholder w-75"></span>
+                                 <span class="placeholder" style="width: 25%"></span>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-width-code" role="tabpanel" aria-labelledby="pills-width-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--width--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-6<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder w-75<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width: 25%;<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+  </code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--width-->
+                  <!--color-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Color</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-color-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-color-preview"
+                                    role="tab"
+                                    aria-controls="pills-color-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="pills-color-code-tab" data-bs-toggle="pill" href="#pills-color-code" role="tab" aria-controls="pills-color-code" aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-color-preview" role="tabpanel" aria-labelledby="pills-color-preview-tab">
+                                 <!-- color -->
+                                 <span class="placeholder col-12"></span>
+                                 <span class="placeholder col-12 bg-primary"></span>
+                                 <span class="placeholder col-12 bg-secondary"></span>
+                                 <span class="placeholder col-12 bg-success"></span>
+                                 <span class="placeholder col-12 bg-danger"></span>
+                                 <span class="placeholder col-12 bg-warning"></span>
+                                 <span class="placeholder col-12 bg-info"></span>
+                                 <span class="placeholder col-12 bg-light"></span>
+                                 <span class="placeholder col-12 bg-dark"></span>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-color-code" role="tabpanel" aria-labelledby="pills-color-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!-- color --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-primary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-secondary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-success<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-danger<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-warning<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-info<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-light<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 bg-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--color-->
+                  <!--sizing-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Sizing</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-sizing-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-sizing-preview"
+                                    role="tab"
+                                    aria-controls="pills-sizing-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="pills-sizing-code-tab" data-bs-toggle="pill" href="#pills-sizing-code" role="tab" aria-controls="pills-sizing-code" aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-sizing-preview" role="tabpanel" aria-labelledby="pills-sizing-preview-tab">
+                                 <!-- sizing -->
+                                 <span class="placeholder col-12 placeholder-lg"></span>
+                                 <span class="placeholder col-12"></span>
+                                 <span class="placeholder col-12 placeholder-sm"></span>
+                                 <span class="placeholder col-12 placeholder-xs"></span>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-sizing-code" role="tabpanel" aria-labelledby="pills-sizing-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"> <span class="token comment">&lt;!-- sizing --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 placeholder-lg<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 placeholder-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12 placeholder-xs<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--sizing-->
+                  <!--animation-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Animation</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-animation-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-animation-preview"
+                                    role="tab"
+                                    aria-controls="pills-animation-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    id="pills-animation-code-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-animation-code"
+                                    role="tab"
+                                    aria-controls="pills-animation-code"
+                                    aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-animation-preview" role="tabpanel" aria-labelledby="pills-animation-preview-tab">
+                                 <!--animation-->
+                                 <p class="placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                 </p>
+                                 <p class="placeholder-wave">
+                                    <span class="placeholder col-12"></span>
+                                 </p>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-animation-code" role="tabpanel" aria-labelledby="pills-animation-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--animation--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder-glow<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder-wave<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>placeholder col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            @@include("../../partials/docs-footer.html")
+         </div>
+      </main>
+
+      <!-- Scripts -->
+      @@include("../../partials/scripts.html")
+
+      <script src="@@webRoot/node_modules/prismjs/prism.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/components/prism-scss.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/sidebar-menu.js"></script>
+      <script src="@@webRoot/assets/js/vendors/search.js"></script>
+   </body>
+</html>

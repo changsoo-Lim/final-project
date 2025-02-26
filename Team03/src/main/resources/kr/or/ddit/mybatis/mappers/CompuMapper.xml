@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.compu.dao.CompuMapper">
+	<insert id="insertComp">
+		<selectKey order="BEFORE" resultType="int" keyProperty="compSkillNo">
+		    SELECT COMPU_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO comp (
+		    comp_skill_no,
+		    comp_skill_field,
+		    comp_skill_detail,
+		    comp_skill_level,
+		    mem_id
+		) VALUES (
+		      #{compSkillNo,jdbcType=NUMERIC}
+		    , #{compSkillField,jdbcType=VARCHAR}
+		    , #{compSkillDetail,jdbcType=VARCHAR}
+		    , #{compSkillLevel,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectCompList" resultType="CompVO">
+		SELECT
+		    comp_skill_no,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = a.comp_skill_field) as comp_skill_field,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = a.comp_skill_detail) as comp_skill_detail,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = a.comp_skill_level) as comp_skill_level,
+		    mem_id
+		FROM
+    		comp a
+    	WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+    	ORDER BY 
+    		comp_skill_no
+	</select>
+	
+	<update id="updateComp">
+		UPDATE comp
+		SET
+		    COMP_SKILL_NO = #{compSkillNo,jdbcType=NUMERIC}
+		    ,COMP_SKILL_FIELD = #{compSkillField,jdbcType=VARCHAR}
+		    ,COMP_SKILL_DETAIL = #{compSkillDetail,jdbcType=VARCHAR}
+		    ,COMP_SKILL_LEVEL = #{compSkillLevel,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    COMP_SKILL_NO = #{compSkillNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteComp">
+		DELETE FROM comp
+		WHERE
+		    COMP_SKILL_NO = #{compSkillNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectComp" resultType="CompVO">
+		SELECT
+		    comp_skill_no,
+		    comp_skill_field,
+		    comp_skill_detail,
+		    comp_skill_level,
+		    mem_id
+		FROM
+    		comp a
+    	WHERE 
+    		COMP_SKILL_NO = #{compSkillNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

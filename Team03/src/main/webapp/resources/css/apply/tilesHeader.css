@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+#main-wrapper[data-layout=vertical][data-header-position=fixed] .app-header {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+}

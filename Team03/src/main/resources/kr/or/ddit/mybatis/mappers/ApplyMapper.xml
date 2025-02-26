@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.apply.dao.ApplyMapper">
+
+    <!-- ApplyVO에 매핑될 결과 맵 -->
+    <resultMap id="applyResultMap" type="ApplyVO">
+        <!-- 기본 필드 매핑 -->
+        <id property="applyNo" column="APPLY_NO"/>
+        <result property="memId" column="MEM_ID"/>
+        <result property="filedNo" column="FILED_NO"/>
+        <result property="appProcStatus" column="APP_PROC_STATUS"/>
+        <result property="appDate" column="APP_DATE"/>
+        <result property="appProcChangeDt" column="APP_PROC_CHANGE_DT"/>
+        <result property="appPassYn" column="APP_PASS_YN"/>
+        <result property="appCancelYn" column="APP_CANCEL_YN"/>
+        <result property="appCancelDt" column="APP_CANCEL_DT"/>
+        <result property="appDel" column="APP_DEL"/>
+        <result property="appOpenYn" column="APP_OPEN_YN"/>
+        <result property="codeNm" column="CODE_NM"/>
+        <result property="atchFileNo" column="ATCH_FILE_NO"/>
+        <association property="file" column="ATCH_FILE_NO"
+	                 select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+        
+        <!-- 연관 객체 매핑 -->
+        <!-- 공통 코드 정보 -->
+        <association property="code" javaType="CodeVO" autoMapping="true">
+            <id property="codeCd" column="CODE_CD"/>
+            <result property="codeNm" column="CODE_NM"/>
+        </association>
+        
+        <!-- 회원 정보 -->
+        <association property="member" javaType="MemberVO" autoMapping="true">
+            <id property="memId" column="MEM_ID"/>
+            <result property="memNm" column="MEM_NM"/>
+            <result property="memEmail" column="MEM_EMAIL"/>
+            <result property="memHp" column="MEM_HP"/>
+        </association>
+        
+        <!-- 채용 공고 정보 -->
+        <association property="employ" javaType="EmployVO" autoMapping="true">
+            <id property="employNo" column="EMPLOY_NO"/>
+            <result property="employTitle" column="EMPLOY_TITLE"/>
+        </association>
+        
+        <association property="status" javaType="StatusVO" autoMapping="true">
+        	<id property="memId" column="MEM_ID"/>
+	        <result property="statusSms" column="STATUS_SMS"/>
+	        <result property="statusEmail" column="STATUS_EMAIL"/>
+	    </association>
+	    
+        <!-- 모집 분야 정보 -->
+        <collection property="field" ofType="FieldVO" autoMapping="true">
+	        <id property="filedNo" column="FILED_NO"/>
+	        <result property="filedNm" column="FILED_NM"/>
+	    </collection>
+	    
+        <!-- 절차 정보 -->
+        <collection property="procedure" ofType="ProcedureVO" autoMapping="true">
+	        <id property="procedureCd" column="PROCEDURE_CD"/>
+	        <result property="filedNo" column="FILED_NO"/>
+	        <result property="procedureTurn" column="PROCEDURE_TURN"/>
+	    </collection>
+	    
+	    <!-- InterviewVO 리스트 매핑 -->
+	    <collection property="interviews" ofType="InterviewVO">
+	        <id property="intvNo" column="INTV_NO"/>
+	        <result property="intvDt" column="INTV_DT"/>
+	        <result property="intvYn" column="INTV_YN"/>
+	        <result property="applyNo" column="APPLY_NO"/>
+	
+	        <!-- EvalVO 리스트 매핑 -->
+	        <collection property="evalVO" ofType="EvalVO">
+	            <id property="evalNo" column="EVAL_NO"/>
+	            <result property="vchatNo" column="VCHAT_NO"/>
+	            <result property="evalDt" column="EVAL_DT"/>
+	            <result property="evalDel" column="EVAL_DEL"/>
+	            <result property="intvNo" column="EVAL_INTV_NO"/>
+	
+	            <!-- Eval_CateVO 리스트 매핑 -->
+	            <collection property="evalCateVO" ofType="Eval_CateVO">
+	                <id property="evalcateNo" column="EVALCATE_NO"/>
+	                <result property="evalNo" column="EVAL_NO"/>
+	                <result property="evalCateNm" column="EVAL_CATE_NM"/>
+	                <result property="evalCateCont" column="EVAL_CATE_CONT"/>
+	                <result property="evalCateScore" column="EVAL_CATE_SCORE"/>
+	                <result property="evalCateDel" column="EVAL_CATE_DEL"/>
+	                <association property="code" autoMapping="true" />
+	            </collection>
+	        </collection>
+	    </collection>
+	    
+	    <collection property="candidate" ofType="CandidateVO" autoMapping="true">
+	        <id property="candidateNo" column="CANDIDATE_NO"/>
+	        <result property="candidateSdt" column="CANDIDATE_SDT"/>
+	        <result property="candidateEdt" column="CANDIDATE_EDT"/>
+	        <result property="candidateScore" column="CANDIDATE_SCORE"/>
+	        <result property="candidateYn" column="CANDIDATE_YN"/>
+	        <result property="candidateCdt" column="CANDIDATE_CDT"/>
+	    </collection>
+	    
+	    <collection property="test" ofType="TestVO" autoMapping="true"/>
+	        
+	    
+    </resultMap>
+	
+	<!-- 특정 채용공고에 포함된 모집 분야 리스트 조회 -->
+    <select id="selectFieldListByEmployNo" resultType="FieldVO">
+        SELECT 
+            FILED_NO
+            , EMPLOY_NO
+            , FILED_NM
+            , FILED_REGION
+            , FILED_PERSONNEL
+        FROM FIELD
+        WHERE EMPLOY_NO = #{employNo}
+    </select>
+
+    <!-- 채용공고 리스트 조회 -->
+    <select id="selectEmployList" resultType="EmployVO">
+        SELECT 
+            EMPLOY_NO
+            , EMPLOY_TITLE
+        FROM EMPLOY
+        WHERE COMP_ID = #{compId}
+        AND EMPLOY_DEL = 'N'
+        ORDER BY EMPLOY_TITLE ASC
+    </select>
+    
+    <!-- 지원 상태 코드 목록 조회 -->
+    <select id="selectAppStatusList" resultType="ProcedureVO">
+        SELECT 
+            p.FILED_NO
+            , p.PROCEDURE_TURN
+            , p.PROCEDURE_CD
+            , c.CODE_CD
+            , c.CODE_NM
+            , f.FILED_NM
+        FROM 
+            PROCEDURE p
+        JOIN CODE c ON p.PROCEDURE_CD = c.CODE_CD
+        JOIN FIELD f ON p.FILED_NO = f.FILED_NO
+            WHERE p.FILED_NO = #{filedNo}
+        ORDER BY p.PROCEDURE_TURN ASC
+    </select>
+
+    <!-- 모집 분야 및 상태별 지원자 목록 조회 -->
+    <select id="selectApplicantsByField" resultMap="applyResultMap">
+	    SELECT 
+	        a.APPLY_NO
+		    , a.MEM_ID
+		    , m.MEM_NM
+		    , m.MEM_EMAIL
+		    , m.MEM_HP
+		    , a.APP_PROC_STATUS
+		    , a.APP_DATE
+		    , a.APP_PASS_YN
+		    , a.APP_PROC_CHANGE_DT
+		    , a.APP_CANCEL_YN
+		    , f.FILED_NO
+		    , f.FILED_NM
+		    , f.FILED_REGION
+		    , f.FILED_PERSONNEL
+		    , e.EMPLOY_NO
+		    , e.EMPLOY_TITLE
+		    , p.PROCEDURE_CD
+		    , p.PROCEDURE_TURN
+		    , c.CODE_CD
+		    , c.CODE_NM
+		    , i.INTV_NO
+	        , i.INTV_DT
+	        , i.INTV_YN
+	        , ca.CANDIDATE_NO
+			, ca.CANDIDATE_SDT
+			, ca.CANDIDATE_EDT
+			, ca.CANDIDATE_SCORE
+			, ca.CANDIDATE_YN
+			, ca.CANDIDATE_CDT
+			, t.TEST_NO
+			, t.TEST_NM
+			, t.TEST_TIME
+	    FROM 
+	        APPLY a
+	    LEFT JOIN MEMBER m ON a.MEM_ID = m.MEM_ID
+	    LEFT JOIN FIELD f ON a.FILED_NO = f.FILED_NO
+	    INNER JOIN EMPLOY e ON f.EMPLOY_NO = e.EMPLOY_NO
+	    INNER JOIN PROCEDURE p ON f.FILED_NO = p.FILED_NO
+	    INNER JOIN CODE c ON a.APP_PROC_STATUS = c.CODE_CD
+	    LEFT JOIN INTERVIEW i ON a.APPLY_NO = i.APPLY_NO
+	    LEFT JOIN CANDIDATE ca ON a.APPLY_NO = ca.APPLY_NO
+	    LEFT JOIN TEST t ON ca.TEST_NO = t.TEST_NO
+	    
+	    WHERE a.APP_DEL = 'N'
+	    <if test="filedNo != null">
+	        AND f.FILED_NO = #{filedNo}
+	    </if>
+	    <if test="status != null and status != ''">
+	        AND a.APP_PROC_STATUS = #{status}
+	    </if>
+	    ORDER BY e.EMPLOY_TITLE ASC, f.FILED_NO ASC, p.PROCEDURE_TURN ASC
+	</select>
+
+    <!-- 지원자 상태 업데이트 -->
+    <update id="updateApplicantStatus">
+        UPDATE APPLY
+        SET 
+            APP_PROC_STATUS = #{newStatus},
+            APP_PROC_CHANGE_DT = CURRENT_TIMESTAMP,
+            APP_PASS_YN = CASE WHEN #{newStatus} = 'AP08' THEN 'Y' ELSE '' END
+        WHERE 
+            APPLY_NO = #{applyNo}
+            AND APP_DEL = 'N'
+    </update>
+
+    <!-- 다수 지원자 불합격 처리 -->
+    <update id="updateRejectApplicantsBatch">
+        UPDATE APPLY
+        SET 
+            APP_PASS_YN = 'N'
+        WHERE 
+            (APPLY_NO, APP_PROC_STATUS) IN (
+                <foreach collection="applicants" item="applicant" open="" separator="," close="">
+                    (#{applicant.applyNo}, #{applicant.currentStatus})
+                </foreach>
+            )
+    </update>
+
+    <!-- 특정 지원자 상세 정보 조회 -->
+	<select id="selectApplicantDetail" resultMap="applyResultMap">
+	    SELECT /*selectDetail*/
+	        a.APPLY_NO
+	        , a.MEM_ID
+	        , m.MEM_NM
+	        , m.MEM_EMAIL
+	        , m.MEM_HP
+	        , f.FILED_NO
+	        , f.FILED_NM
+	        , e.EMPLOY_TITLE
+	        , a.APP_PROC_STATUS
+	        , c.CODE_NM
+	        , a.APP_DATE
+	        , a.APP_PASS_YN
+	        , a.APP_PROC_CHANGE_DT
+	        , a.APP_OPEN_YN
+	        , a.APP_CANCEL_YN
+	        , a.APP_CANCEL_DT
+	        , a.APP_DEL
+	        , a.ATCH_FILE_NO
+	        , s.STATUS_SMS
+	        , s.STATUS_EMAIL
+	        , i.INTV_DT
+	    FROM 
+	        APPLY a
+	    JOIN MEMBER m ON a.MEM_ID = m.MEM_ID
+	    LEFT JOIN FIELD f ON a.FILED_NO = f.FILED_NO
+	    LEFT JOIN EMPLOY e ON f.EMPLOY_NO = e.EMPLOY_NO
+	    LEFT JOIN CODE c ON a.APP_PROC_STATUS = c.CODE_CD
+	    LEFT JOIN STATUS s ON m.MEM_ID = s.MEM_ID
+	    LEFT JOIN INTERVIEW i ON a.APPLY_NO = i.APPLY_NO
+	    LEFT JOIN FILE_DETAIL fd ON fd.ATCH_FILE_NO = a.ATCH_FILE_NO
+	    WHERE 
+	        a.APPLY_NO = #{applyNo}
+	        AND a.APP_DEL = 'N'
+	</select>
+	
+    <!-- 지원자 상태 확인 -->
+    <select id="getApplicantStatus" resultType="string">
+        SELECT APP_PASS_YN
+        FROM APPLY
+        WHERE APPLY_NO = #{applyNo}
+    </select>
+    
+	<select id="selectApplicantsForEmail" resultMap="applyResultMap">
+	    SELECT 
+	        a.APPLY_NO
+	        , m.MEM_NM
+	        , m.MEM_EMAIL
+	        , COALESCE(s.STATUS_EMAIL, 'Y') AS STATUS_EMAIL
+	    FROM 
+	        APPLY a
+	    JOIN MEMBER m ON a.MEM_ID = m.MEM_ID
+	    LEFT JOIN STATUS s ON m.MEM_ID = s.MEM_ID
+	    WHERE 
+	        a.APPLY_NO IN 
+	        <foreach item="applyNo" collection="applyNos" open="(" separator="," close=")">
+	            #{applyNo}
+	        </foreach>
+	        AND a.APP_DEL = 'N'
+	</select>
+	
+	<insert id="insertInterview" parameterType="InterviewVO">
+	    <selectKey keyProperty="intvNo" resultType="string" order="BEFORE">
+	        SELECT INTERVIEW_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO INTERVIEW (
+	        INTV_NO
+	        , APPLY_NO
+	        , INTV_DT
+	    ) VALUES (
+	        #{intvNo,jdbcType=NUMERIC}
+			, #{applyNo,jdbcType=NUMERIC}
+			, #{intvDt,jdbcType=TIMESTAMP}
+	    )
+	</insert>
+	
+	<!-- 관리자 시험 조회 -->
+	<select id="selectAdminTests" resultType="TestVO">
+	    SELECT TEST_NO, TEST_CD, TEST_NM, TEST_TIME
+	    FROM TEST
+	    WHERE TEST_DEL = 'N' 
+	      AND COMP_ID = 'admin001' 
+	      AND TEST_CD = #{testType}
+	    ORDER BY TEST_NM ASC
+	</select>
+	
+	<!-- 회사 시험 조회 -->
+	<select id="selectCompanyTests" resultType="TestVO">
+	    SELECT TEST_NO, TEST_CD, TEST_NM, TEST_TIME
+	    FROM TEST
+	    WHERE TEST_DEL = 'N' 
+	      AND COMP_ID != 'admin001' 
+	      AND COMP_ID = #{compId} 
+	      AND TEST_CD = #{testType}
+	    ORDER BY TEST_NM ASC
+	</select>
+	
+	<!-- 지원자 시험 데이터 삽입 -->
+	<insert id="insertCandidate" parameterType="CandidateVO">
+	    <selectKey keyProperty="candidateNo" resultType="int" order="BEFORE">
+	        SELECT CANDIDATE_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO CANDIDATE (
+	        CANDIDATE_NO, TEST_NO, APPLY_NO, CANDIDATE_SDT, CANDIDATE_EDT
+	    ) VALUES (
+	        #{candidateNo}, #{testNo}, #{applyNo}, #{candidateSdt}, #{candidateEdt}
+	    )
+	</insert>
+	
+	<update id="updateAppOpenYn">
+	    UPDATE APPLY
+	    SET APP_OPEN_YN = #{appOpenYn}
+	    WHERE APPLY_NO = #{applyNo}
+	      AND APP_DEL = 'N'
+	</update>
+
+<!-- 지원자 테스트 정보 가져오기 -->
+	<select id="selectTestDetail" resultMap="applyResultMap">
+		SELECT 
+		    A.APPLY_NO
+		    , A.MEM_ID
+		    , A.FILED_NO
+		    , A.APP_PROC_STATUS
+		    , A.APP_PROC_CHANGE_DT
+		    , A.APP_DATE
+		    , A.APP_OPEN_YN
+		    , A.APP_CANCEL_YN
+		    , A.APP_CANCEL_DT
+		    , A.APP_DEL
+		    , A.ATCH_FILE_NO
+		    , A.APP_PASS_YN
+		      
+		    , B.TEST_NO
+		    , B.CANDIDATE_SCORE
+		    , B.CANDIDATE_YN
+		    , B.CANDIDATE_CDT
+		    , B.CANDIDATE_NO
+		    , B.CANDIDATE_SDT
+		    , B.CANDIDATE_EDT
+		      
+		    , C.TEST_CD
+		    , C.TEST_NM
+		    , C.TEST_NO
+		    , C.COMP_ID
+		    , C.TEST_TIME
+		    , C.TEST_DEL
+		    , D.CODE_CD
+		    , D.CODE_NM
+		    , D.CODE_PARENT
+		FROM 
+		    APPLY A
+		INNER JOIN
+		    CANDIDATE B
+		ON
+		    A.APPLY_NO = B.APPLY_NO
+		INNER JOIN
+		    TEST C
+		ON
+		    B.TEST_NO = C.TEST_NO
+		INNER JOIN
+		    CODE D
+		ON
+		    C.TEST_CD = D.CODE_CD
+		WHERE
+		    B.APPLY_NO = #{applyNo, jdbcType=NUMERIC}
+	</select>
+	
+	<select id="selectInterviewDetailList" resultMap="applyResultMap">
+		SELECT
+	        A.APP_PASS_YN
+	        ,A.APPLY_NO
+	        ,A.MEM_ID
+	        ,A.FILED_NO
+	        ,A.APP_PROC_STATUS
+	        ,A.APP_PROC_CHANGE_DT
+	        ,A.APP_DATE
+	        ,A.APP_OPEN_YN
+	        ,A.APP_CANCEL_YN
+	        ,A.APP_CANCEL_DT
+	        ,A.APP_DEL
+	        ,A.ATCH_FILE_NO
+	        
+	        ,B.INTV_NO
+	        ,B.INTV_DT
+	        ,B.INTV_YN
+	        
+	        
+	        ,C.EVAL_NO
+	        ,C.VCHAT_NO
+	        ,C.EVAL_DT
+	        ,C.EVAL_DEL
+	        
+	        ,D.EVALCATE_NO
+	        ,D.EVAL_CATE_NM
+	        ,D.EVAL_CATE_CONT
+	        ,D.EVAL_CATE_SCORE
+	        ,D.EVAL_CATE_DEL
+               
+            ,F.CODE_CD
+            ,F.CODE_NM
+            ,F.CODE_PARENT
+		FROM
+	        APPLY A
+		INNER JOIN
+	        INTERVIEW B
+		ON
+	        A.APPLY_NO = B.APPLY_NO
+		INNER JOIN
+	        EVAL C
+		ON
+	        B.INTV_NO = C.INTV_NO
+		INNER JOIN
+		        EVAL_CATE D
+		ON
+		        C.EVAL_NO = D.EVAL_NO
+        INNER JOIN 
+                CODE F
+        ON
+                D.EVAL_CATE_NM = F.CODE_CD
+       
+        WHERE A.APPLY_NO = #{applyNo}
+	
+	</select>
+	
+	<select id="memApplyCheck" resultType="ApplyVO">
+		SELECT  
+				APPLY_NO
+			  , MEM_ID
+			  , FILED_NO
+    	  FROM APPLY
+    	 WHERE MEM_ID = #{memId}
+    	   AND FILED_NO = #{fieldNo}
+	</select>
+	<!-- 공고 지원 등록 -->
+	<insert id="insertApply" parameterType="ApplyVO">
+		INSERT INTO APPLY (
+		      APPLY_NO
+		    , MEM_ID
+		    , FILED_NO
+		    , APP_PROC_STATUS
+		    , APP_CANCEL_DT
+		    , ATCH_FILE_NO
+		    , APP_PASS_YN
+		) VALUES (
+			  APPLY_SEQ.NEXTVAL
+			, #{memId, jdbcType=VARCHAR}
+			, #{filedNo, jdbcType=NUMERIC}
+			, #{appProcStatus, jdbcType=VARCHAR}
+			, #{appCancelDt, jdbcType=DATE}
+			, #{atchFileNo, jdbcType=NUMERIC}
+		    , #{appPassYn, jdbcType=VARCHAR}
+		)
+	</insert>
+	<!-- 필터 데이터 조회 -->
+	<select id="selectFilterList" resultType="FilterVO">
+	    SELECT 
+	    	  FILTER_NO
+	    	, FILED_NO
+	        , FILTER_TITLE_CD
+	        , FILTER_CONT_CD
+	    FROM 
+	        FILTER
+	    WHERE 
+	        FILED_NO = #{fieldNo}
+	</select>
+	<select id="filterPassYN" resultType="Integer">
+		SELECT 
+		    CASE 
+		        WHEN COUNT(DISTINCT f.FILTER_TITLE_CD) = 
+		             (SELECT COUNT(DISTINCT FILTER_TITLE_CD) 
+		              FROM FILTER 
+		              WHERE FILED_NO = #{fieldNo}) 
+		        THEN 1
+		        ELSE 0
+		    END AS IS_MATCH
+		FROM 
+		    FILTER f
+		WHERE 
+		    FILED_NO = #{fieldNo}
+		    AND EXISTS (
+		        SELECT 1 
+		        FROM MEMBER m
+		        WHERE m.MEM_ID = #{memId}
+		          AND (
+		              (f.FILTER_TITLE_CD = 'FILTER01' 
+		               AND EXISTS (
+		                   SELECT 1 
+		                   FROM CERT c 
+		                   WHERE c.MEM_ID = m.MEM_ID 
+		                     AND c.CERT_NM = f.FILTER_CONT_CD
+		               )
+		              )
+		              OR
+		              (f.FILTER_TITLE_CD = 'FILTER02' 
+		               AND EXISTS (
+		                   SELECT 1 
+		                   FROM UNI u 
+		                   WHERE u.MEM_ID = m.MEM_ID 
+		                     AND u.UNI_TYPE = f.FILTER_CONT_CD
+		               )
+		              )
+		              OR
+		              (f.FILTER_TITLE_CD = 'FILTER03' 
+		               AND EXISTS (
+		                   SELECT 1 
+		                   FROM UNI u 
+		                   WHERE u.MEM_ID = m.MEM_ID 
+		                     AND u.UNI_MAJOR_CATEGORY = f.FILTER_CONT_CD
+		               )
+		              )
+		              OR
+		              (f.FILTER_TITLE_CD = 'FILTER04' 
+		               AND EXISTS (
+		                   SELECT 1 
+		                   FROM LANGUAGE l 
+		                   WHERE l.MEM_ID = m.MEM_ID 
+		                     AND l.LANG_NM = f.FILTER_CONT_CD
+		               )
+		              )
+		              OR
+		              (f.FILTER_TITLE_CD = 'FILTER05' 
+		               AND EXISTS (
+		                   SELECT 1 
+		                   FROM EXPERIENCE e 
+		                   WHERE e.MEM_ID = m.MEM_ID 
+		                     AND e.EXP_COUNTRY = f.FILTER_CONT_CD
+		               )
+		              )
+		          )
+		    )
+		GROUP BY f.FILED_NO
+
+	</select>
+	<update id="deleteApply" parameterType="ApplyVO">
+		UPDATE APPLY
+	       SET APP_CANCEL_YN = 'Y'
+	         , APP_CANCEL_DT = SYSDATE
+	     WHERE APPLY_NO = #{applyNo}
+	       AND MEM_ID = #{memId}
+	</update>
+<!-- 	<select id="selectBlockedPhoneNumbers" resultType="string"> -->
+<!-- 	    SELECT m.MEM_HP -->
+<!-- 	    FROM MEMBER m -->
+<!-- 	    INNER JOIN STATUS s ON m.MEM_ID = s.MEM_ID -->
+<!-- 	    WHERE s.STATUS_SMS = 'N' -->
+<!-- 	    AND m.MEM_HP IN  -->
+<!-- 	    <foreach item="phoneNumber" collection="phoneNumbers" open="(" separator="," close=")"> -->
+<!-- 	        #{phoneNumber} -->
+<!-- 	    </foreach> -->
+<!-- 	</select> -->
+
+	<!-- 채용공고 및 모집분야 마감 처리 -->
+	<!-- <update id="closeEmployAndFiled">
+	    UPDATE EMPLOY
+	    SET EMPLOY_DEL = 'Y'
+	    WHERE EMPLOY_NO = #{employNo};
+	
+	    UPDATE FIELD
+	    SET FILED_END_YN = 'Y'
+	    WHERE EMPLOY_NO = #{employNo};
+	</update>
+	
+	최종합격자 제외 모든 지원자 불합격 처리
+	<update id="rejectRemainingApplicants">
+	    UPDATE APPLY
+	    SET APP_PASS_YN = 'N'
+	    WHERE FILED_NO IN (
+	        SELECT FILED_NO
+	        FROM FIELD
+	        WHERE EMPLOY_NO = #{employNo}
+	    )
+	    AND APP_PROC_STATUS != 'AP08'; 최종합격자 제외
+	</update> -->
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd" >
+<tiles-definitions>
+	<!-- 공통 -->
+	<definition name="userAbstractParent" template="/WEB-INF/views/themeLayout/userThemeLayout.jsp">
+		<put-attribute name="preScript" value="/WEB-INF/includee/preScript.jsp" />
+ 		<put-attribute name="postScript" value="/WEB-INF/includee/postScript.jsp" />
+	</definition>
+	<!-- 회원 메인페이지 -->
+	<definition name="mainAbstractParent" template="/WEB-INF/views/themeLayout/mainThemeLayout.jsp">
+		<put-attribute name="preScript" value="/WEB-INF/includee/preScript.jsp" />
+ 		<put-attribute name="postScript" value="/WEB-INF/includee/postScript.jsp" />
+		<put-attribute name="header"  value="/WEB-INF/includee/main/mainHeader.jsp" />
+ 		<put-attribute name="footer" value="/WEB-INF/includee/footer.jsp" />
+	</definition>
+	
+	<!-- 회원 마이페이지 -->
+	<definition name="memberAbstractParent" template="/WEB-INF/views/themeLayout/memberThemeLayout.jsp">
+		<put-attribute name="preScript" value="/WEB-INF/includee/preScript.jsp" />
+ 		<put-attribute name="postScript" value="/WEB-INF/includee/postScript.jsp" />
+		<put-attribute name="header"  value="/WEB-INF/includee/main/mainHeader.jsp" />
+ 		<put-attribute name="footer" value="/WEB-INF/includee/footer.jsp" />
+ 		<put-attribute name="sidebar" value="/WEB-INF/includee/member/memberSidebar.jsp" />
+	</definition>
+	
+	<!-- 기업 마이페이지 -->
+	<definition name="compAbstractParent" template="/WEB-INF/views/themeLayout/compThemeLayout.jsp">
+		<put-attribute name="preScript" value="/WEB-INF/includee/admCompPreScript.jsp" />
+ 		<put-attribute name="postScript" value="/WEB-INF/includee/admCompPostScript.jsp" />
+		<put-attribute name="header"  value="/WEB-INF/includee/company/compHeader.jsp" />
+ 		<put-attribute name="sidebar" value="/WEB-INF/includee/company/compSidebar.jsp" />
+	</definition>
+	<!-- 관리자 마이페이지 -->
+	<definition name="adminCompAbstractParent" template="/WEB-INF/views/themeLayout/adminThemeLayout.jsp">
+		<put-attribute name="preScript" value="/WEB-INF/includee/admCompPreScript.jsp" />
+ 		<put-attribute name="postScript" value="/WEB-INF/includee/admCompPostScript.jsp" />
+		<put-attribute name="header"  value="/WEB-INF/includee/admin/adminHeader.jsp" />
+ 		<put-attribute name="sidebar" value="/WEB-INF/includee/admin/adminSidebar.jsp" />
+	</definition>
+	
+	<!-- index Page -->
+ 	<definition name="index" extends="mainAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/index.jsp" />
+ 	</definition>
+	<!-- 	3 depth logical view name -->
+	<definition name="main/user/*" extends="userAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/main/user/{1}.jsp" />
+ 	</definition>
+	<definition name="main/*/*" extends="mainAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/main/{1}/{2}.jsp" />
+ 	</definition>
+	<definition name="main/*/*/*" extends="mainAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/main/{1}/{2}/{3}.jsp" />
+ 	</definition>
+ 	<definition name="member/*/*" extends="memberAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/member/{1}/{2}.jsp" />
+ 	</definition>
+ 	<definition name="company/*/*" extends="compAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/company/{1}/{2}.jsp" />
+ 	</definition>
+ 	<definition name="admin/*/*" extends="adminCompAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/admin/{1}/{2}.jsp" />
+ 	</definition>
+ 	<definition name="admin/*/*/*" extends="adminCompAbstractParent">
+ 		<put-attribute name="content" value="/WEB-INF/views/stackUp/admin/{1}/{2}/{3}.jsp" />
+ 	</definition>
+</tiles-definitions>
+
+

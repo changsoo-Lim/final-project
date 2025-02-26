@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prod.buy.dao.BuyMapper">
+
+	<resultMap id="buyResultMap" type="BuyVO">
+		<id property="buyNo" column="buy_no" />
+		<result property="productCd" column="product_cd" />
+		<result property="employNo" column="employ_no" />
+		<result property="compId" column="comp_id" />
+		<result property="buyAmount" column="buy_amount" />
+		<result property="buyMethod" column="buy_method" />
+		<result property="buyDate" column="buy_date" />
+		<result property="buyQty" column="buy_qty" />
+		<result property="buySdt" column="buy_sdt" />
+		<result property="buyEdt" column="buy_edt" />
+		<result property="atchFileNo" column="atch_file_no" />
+
+		<association property="prod" javaType="ProductVO">
+			<result property="productNm" column="product_nm" />
+		</association>
+
+		<association property="employ" javaType="EmployVO">
+			<result property="employTitle" column="employ_title" />
+		</association>
+
+		<association property="company" javaType="CompanyVO">
+			<result property="compNm" column="comp_nm" />
+		</association>
+	</resultMap>
+
+
+	<select id="selectBuyList" resultMap="buyResultMap">
+		SELECT
+		    b.buy_no,
+		    b.product_cd,
+		    b.employ_no,
+		    b.comp_id,
+		    b.buy_amount,
+		    b.buy_method,
+		    b.buy_date,
+		    b.buy_qty,
+		    b.buy_sdt,
+		    b.buy_edt,
+		    b.atch_file_no,
+		    p.product_nm,
+		    e.employ_title,
+		    c.comp_nm
+		FROM
+		    buy b
+		    LEFT OUTER JOIN product p ON p.product_cd = b.product_cd
+		    LEFT OUTER JOIN employ e ON e.employ_no = b.employ_no
+		    LEFT OUTER JOIN company c ON c.comp_id = b.comp_id
+		WHERE
+		    b.comp_id = #{compId,jdbcType=VARCHAR}
+
+	</select>
+
+	<select id="selectBuy" resultType="BuyVO">
+		SELECT
+			buy_no,
+			product_cd,
+			employ_no,
+			comp_id,
+			buy_amount,
+			buy_method,
+			buy_date,
+			buy_qty,
+			buy_sdt,
+			buy_edt,
+			atch_file_no
+		FROM
+			buy
+		WHERE
+			buy_no = #{buyNo,jdbcType=NUMERIC}
+	</select>
+
+	<insert id="insertBuy">
+		INSERT INTO buy (
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="buyNo">
+			SELECT BUY_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		buy_no,
+		product_cd,
+		employ_no,
+		comp_id,
+		buy_amount,
+		buy_method,
+		buy_date,
+		buy_qty,
+		buy_sdt,
+		buy_edt,
+		atch_file_no
+		) VALUES (
+		#{buyNo,jdbcType=NUMERIC}
+		, #{productCd,jdbcType=VARCHAR}
+		, #{employNo,jdbcType=NUMERIC}
+		, #{compId,jdbcType=VARCHAR}
+		, #{buyAmount,jdbcType=NUMERIC}
+		, #{buyMethod,jdbcType=VARCHAR}
+		, SYSDATE
+		, #{buyQty,jdbcType=NUMERIC}
+		, #{buySdt,jdbcType=VARCHAR}
+		, #{buyEdt,jdbcType=VARCHAR}
+		, #{atchFileNo,jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="empList" resultMap="kr.or.ddit.employ.employ.dao.EmployMapper.employMap">
+		SELECT
+		    a.employ_no,
+		    a.comp_id,
+		    a.employ_title,
+		    a.employ_sd,
+		    a.employ_ed
+		FROM
+		    employ a
+		    LEFT JOIN buy b ON a.employ_no = b.employ_no
+		WHERE
+		    a.comp_id = #{compId,jdbcType=VARCHAR}
+		    AND a.employ_del = 'N'
+		    AND TO_DATE(a.employ_ed) > SYSDATE
+		    AND b.employ_no IS NULL
+	</select>
+	
+</mapper>

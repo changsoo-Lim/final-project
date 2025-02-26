@@ -1,0 +1,25 @@
+@charset "UTF-8";
+.scrap-btn, .inter-btn {
+	display: inline-block;
+    border: 1px solid transparent;
+    border-radius: var(--cm-border-radius);
+    vertical-align: middle;
+    background-color: transparent;
+    font-family: var(--ms-family);
+    font-size: 21px;
+    line-height: 1.467;
+    font-weight: 500;
+    color: var(--bs-gray-300);
+    text-align: center;
+    text-decoration: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+
+
+.bi-heart-fill{
+	color: var(--bs-red);	
+}
+
+.bi-star-fill{
+	color: var(--bs-yellow);	
+}

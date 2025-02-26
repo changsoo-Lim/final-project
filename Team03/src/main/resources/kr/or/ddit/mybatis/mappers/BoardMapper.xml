@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.board.dao.BoardMapper">
+
+
+	
+
+	<insert id="insertBoard" parameterType="BoardVO">
+	<selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
+		SELECT BOARD_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+	
+		 INSERT INTO BOARD (
+				    BOARD_NO
+				    ,MEM_ID
+				    ,BOARD_TITLE
+				    ,BOARD_CONT
+				    ,ATCH_FILE_NO
+				) VALUES (
+				      #{boardNo,jdbcType=NUMERIC}
+					, #{memId, jdbcType=VARCHAR}
+					, #{boardTitle,jdbcType=VARCHAR}
+					, #{boardCont,jdbcType=CLOB}
+					, #{atchFileNo,jdbcType=NUMERIC}
+				) 
+		
+	</insert>
+
+
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+			<where>
+				<if test="simpleCondition neq null">
+					<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+						<choose>
+							<when test="simpleCondition.searchType eq 'boardTitle'">
+								INSTR(BOARD_TITLE, #{simpleCondition.searchWord}) > 0 
+							</when>
+							<when test="simpleCondition.searchType eq 'memId'">
+								INSTR(MEM_ID, #{simpleCondition.searchWord}) > 0 
+							</when>
+							<otherwise>
+									INSTR(BOARD_TITLE, #{simpleCondition.searchWord}) > 0
+									OR INSTR(MEM_ID, #{simpleCondition.searchWord}) > 0
+							</otherwise>
+						</choose>
+					</if>
+				</if>
+				AND BOARD_DEL = 'N'<!-- 삭제되지 않은 게시물만 조회 -->
+			</where>
+	</sql>
+
+
+
+
+	<resultMap type="BoardVO" id="boardMap" autoMapping="true">
+        <id property="boardNo" column="BOARD_NO"/>
+        <result property="memId" column="MEM_ID"/>
+        <result property="boardTitle" column="BOARD_TITLE"/>
+        <result property="boardCont" column="BOARD_CONT" jdbcType="CLOB"/>
+        <result property="boardDt" column="BOARD_DT"/>
+        <result property="atchFileNo" column="ATCH_FILE_NO"/> 
+        <association property="file" column="ATCH_FILE_NO" 
+        		select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />  
+    </resultMap>
+
+
+	<select id="selectBoard" resultMap="boardMap">
+		 SELECT 
+        BOARD_NO
+        , MEM_ID
+        , BOARD_TITLE
+        , BOARD_CONT
+        , BOARD_DT
+        , ATCH_FILE_NO
+  FROM  BOARD 
+  WHERE BOARD_NO = #{boardNo,jdbcType=NUMERIC} 
+  AND   BOARD_DEL = 'N'
+	</select>
+
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*) FROM BOARD
+	    <include refid="searchFrag" />
+	</select>
+
+	<select id="selectBoardList" resultType="BoardVO">
+		
+		SELECT B.*
+    FROM
+        (
+        SELECT  ROWNUM AS RNUM,
+        A.*
+        FROM
+            (
+            SELECT
+                BOARD_NO,
+                MEM_ID,
+                BOARD_TITLE,
+                BOARD_DT,
+                ATCH_FILE_NO
+            FROM BOARD
+            <include refid="searchFrag" /> <!-- searchFrag로 조건을 포함 -->
+             
+            ORDER BY BOARD_NO DESC
+            ) A
+        ) B
+    WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+		
+<!-- 	SELECT *  -->
+<!--         FROM ( -->
+<!--             SELECT  -->
+<!--                 BOARD_NO, -->
+<!--                 MEM_ID, -->
+<!--                 BOARD_TITLE, -->
+<!--                 BOARD_DT, -->
+<!--                 ATCH_FILE_NO, -->
+<!--                 (SELECT COUNT(*) FROM BOARD WHERE BOARD_DEL = 'N') - ROWNUM + 1 AS RNUM -->
+<!--             FROM ( -->
+<!--                 SELECT  -->
+<!--                     BOARD_NO, -->
+<!--                     MEM_ID, -->
+<!--                     BOARD_TITLE, -->
+<!--                     BOARD_DT, -->
+<!--                     ATCH_FILE_NO -->
+<!--                 FROM BOARD -->
+<!--                 <include refid="searchFrag" /> 검색 조건 포함 -->
+<!--                 ORDER BY BOARD_NO DESC -->
+<!--             ) -->
+            
+<!--             WHERE ROWNUM &lt;= #{endRow} -->
+<!--         ) -->
+<!--         WHERE RNUM >= #{startRow} -->
+<!--         ORDER BY RNUM DESC -->
+	</select>
+
+
+	<update id="updateBoard" parameterType="BoardVO">
+		
+		UPDATE BOARD
+		    SET
+			     BOARD_TITLE = #{boardTitle,jdbcType=VARCHAR}
+			    , BOARD_CONT = #{boardCont,jdbcType=CLOB}
+			    
+			    <if test="atchFileNo neq null">
+			    , ATCH_FILE_NO = #{atchFileNo,jdbcType=NUMERIC}
+			    </if>
+		WHERE   BOARD_NO = #{boardNo,jdbcType=NUMERIC}
+	</update>
+	
+	
+	
+	<update id="deleteBoard">
+	    UPDATE BOARD
+	    SET
+	        BOARD_DEL = 'Y'  <!-- 'Y'로 변경하여 삭제된 상태로 처리 -->
+	    WHERE BOARD_NO = #{boardNo}
+	</update>
+
+	<select id="getTotalCount" resultType="int">
+	    SELECT COUNT(*) FROM BOARD
+	     <include refid="searchFrag" />
+	</select>
+
+
+</mapper>

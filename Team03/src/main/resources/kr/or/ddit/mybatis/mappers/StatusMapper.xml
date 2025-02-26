@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.status.dao.StatusMapper">
+	
+	<select id="selectStatus" resultType="StatusVO">
+		SELECT
+		    mem_id,
+		    status_sms,
+		    status_email,
+		    status_rec,
+		    status_position,
+		    status_comment,
+		    status_resume
+		FROM
+		    status
+		WHERE
+			mem_id = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateStatus">
+	    UPDATE STATUS
+	    <choose>
+	        <when test="type == 'statusSms'">
+	            SET STATUS_SMS = #{state}
+	        </when>
+	        <when test="type == 'statusEmail'">
+	            SET STATUS_EMAIL = #{state}
+	        </when>
+	        <when test="type == 'statusRec'">
+	            SET STATUS_REC = #{state}
+	        </when>
+	        <when test="type == 'statusPosition'">
+	            SET STATUS_POSITION = #{state}
+	        </when>
+	        <when test="type == 'statusComment'">
+	            SET STATUS_COMMENT = #{state}
+	        </when>
+	        <when test="type == 'statusResume'">
+	            SET STATUS_RESUME = #{state}
+	        </when>
+	    </choose>
+	    WHERE MEM_ID = #{memId,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,293 @@
+@charset "UTF-8";
+.fixed-box {
+    position: fixed;
+    top: 120px;
+    right: 6px;
+    width: 170px;
+    padding: 20px;
+}
+
+.fixed-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.fixed-box li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #8b3dff;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #8b3dff;
+    transition: all 0.3s ease; /* 부드러운 전환 */
+}
+
+.fixed-box li,
+.fixed-box button {
+    width: 100%; 
+    margin-bottom: 10px; 
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
+.fixed-box li.active {
+    background-color: #8b3dff; /* 활성화된 상태 배경색 */
+    color: #fff;
+    border-color: #0056b3;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* 자격증 검색 */
+.autocomplete-list {
+    display: none;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-list .cert-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.autocomplete-list .cert-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* 자격증 입력 필드 */
+#certInput {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* 부모 요소의 위치 조정 */
+.position-relative {
+    position: relative;
+}
+
+
+/* 대학테이블 */
+.uni-name {
+    width: 25%;
+    text-align: left;
+}
+
+.uni-major {
+    width: 20%;
+    text-align: left;
+}
+
+.date-column {
+    width: 15%;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.graduation-status {
+    width: 10%;
+    text-align: center;
+}
+.del-status {
+    width: 7%;
+    text-align: center;
+}
+
+/* 경력테이블 */
+.career-name {
+    width: 20%;
+    text-align: left;
+}
+
+.career-position {
+    width: 15%;
+    text-align: center;
+}
+
+.career-Title {
+    width: 15%;
+    text-align: left;
+}
+.career-date {
+    width: 10%;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.career-status {
+    width: 10%;
+    text-align: center;
+}
+
+/* 자격증테이블 */
+.cert-name {
+    width: 20%;
+    text-align: left;
+}
+
+.cert-issuer {
+    width: 15%;
+    text-align: left;
+}
+
+.cert-date {
+    width: 15%;
+    text-align: right;
+}
+
+.cert-PassCd {
+    width: 10%;
+    text-align: center;
+}
+
+/* 컴활테이블 */
+.comp-compSkillField {
+    width: 20%;
+    text-align: left;
+}
+
+.comp-compSkillDetail {
+    width: 15%;
+    text-align: left;
+}
+
+.comp-compSkillLevel {
+    width: 15%;
+    text-align: center;
+}
+/* 취업우대 및 특이사항 */
+.pref-prefMilitary {
+    width: 10%;
+    text-align: center;
+}
+
+.pref-prefPatriot {
+    width: 10%;
+    text-align: center;
+}
+
+.pref-prefDisability {
+    width: 10%;
+    text-align: center;
+}
+.pref-prefEmploySupport {
+    width: 10%;
+    text-align: center;
+}
+
+.pref-prefHobbies {
+    width: 20%;
+    text-align: left;
+}
+
+.pref-prefSkills {
+    width: 20%;
+    text-align: left;
+}
+/* 수상경력 */
+.award-awardTitle {
+    width: 15%;
+    text-align: left;
+}
+
+.award-awardIssuer {
+    width: 20%;
+    text-align: left;
+}
+
+.award-awardDate {
+    width: 10%;
+    text-align: right;
+}
+/* 교육 수료 사항 */
+.edu-eduTitle {
+    width: 15%;
+    text-align: left;
+}
+.edu-eduInstitution {
+    width: 15%;
+    text-align: left;
+}
+
+.edu-eduSdt {
+    width: 10%;
+    text-align: right;
+}
+
+.edu-eduEdt {
+    width: 10%;
+    text-align: right;
+}
+/* 어학능력 */
+.lang-langTitle {
+    width: 20%;
+    text-align: left;
+}
+.lang-langInstitution {
+    width: 20%;
+    text-align: left;
+}
+
+.lang-langReadingLevel {
+    width: 20%;
+    text-align: left;
+}
+
+.lang-langWritingLevel {
+    width: 20%;
+    text-align: left;
+}
+/* 어학시험 */
+.langTest-langTestName {
+    width: 10%;
+    text-align: left;
+}
+
+.langTest-langTestLevel {
+    width: 10%;
+    text-align: center;
+}
+
+.langTest-langTestDate {
+    width: 10%;
+    text-align: right;
+}
+/* 해외경험 */
+.exp-expCountry {
+    width: 10%;
+    text-align: left;
+}
+
+.exp-expdt {
+    width: 10%;
+    text-align: right;
+    padding-right: 10px;
+}
+/* 봉사활동 */
+.act-activityOrganization {
+    width: 10%;
+    text-align: left;
+}
+
+.act-actdt {
+    width: 10%;
+    text-align: right;
+    padding-right: 10px;
+}
+

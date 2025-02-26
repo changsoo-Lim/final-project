@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.benefit.dao.BenefitMapper">
+	<select id="selectBenefitList"
+		resultType="kr.or.ddit.vo.Cmp_BftVO">
+		select cmpbft_no,
+		cmpbft_tile,
+		comp_id
+		from code
+		inner join
+		cmp_bft on code_cd = cmpbft_tile
+		where code_parent = #{category}
+		and
+		comp_id = #{compId}
+		and cmpbft_del = 'N'
+	</select>
+
+	<select id="getCode" resultType="kr.or.ddit.vo.CodeVO">
+		SELECT
+		code_cd,
+		code_nm,
+		code_parent
+		FROM
+		code
+		WHERE code_parent = #{code}
+	</select>
+
+
+	<select id="selectBenefit" resultType="kr.or.ddit.vo.Cmp_BftVO">
+		SELECT
+		cmpbft_no,
+		cmpbft_tile,
+		comp_id
+		FROM
+		cmp_bft
+		WHERE cmpbft_no = #{bftNO}
+	</select>
+
+	<update id="deleteBenfit">
+		UPDATE cmp_bft
+		SET
+		cmpbft_del = 'Y'
+		WHERE
+		cmpbft_no IN
+		<foreach collection="list" item="cmpbftNo" open="("
+			separator="," close=")">
+			#{cmpbftNo}
+		</foreach>
+	</update>
+
+	<insert id="insertBenefit">
+		INSERT INTO CMP_BFT (cmpbft_no, comp_id, cmpbft_tile, cmpbft_del)
+		VALUES (CMP_BFT_SEQ.NEXTVAL, #{compId}, #{cmpbftTile}, 'N')
+	</insert>
+	
+	<select id="compBftList" resultType="kr.or.ddit.vo.Cmp_BftVO">
+		SELECT
+			cmpbft_no,
+			cmpbft_tile,
+			comp_id
+		FROM
+			cmp_bft
+		WHERE comp_id = #{compId}
+		AND cmpbft_del = 'N'
+	</select>
+	
+	<select id="selectCompBftList" resultType="kr.or.ddit.vo.Cmp_BftVO">
+		SELECT
+            a.cmpbft_no,
+            a.cmpbft_tile,
+			b.code_nm, 
+			a.comp_id
+		FROM
+			cmp_bft a
+        INNER JOIN code b ON b.code_cd = a.cmpbft_tile
+		WHERE comp_id = #{compId}
+		AND cmpbft_del = 'N'
+	</select>
+	
+	
+</mapper>

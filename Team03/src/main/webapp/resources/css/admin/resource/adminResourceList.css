@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+.Title{
+	margin-top: 20px;
+}
+
+.gy-3{
+	 display: flex;
+    flex-wrap: wrap;
+}
+
+.card-lift {
+    height: 300px;
+    background-size: cover;
+    border: 1px solid #757575;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.col-lg-3 {
+    text-align: center; /* 부모 요소에서 텍스트 가운데 정렬 */
+    
+}
+
+/* 이미지 확대 효과 */
+.card-lift img {
+    transition: transform 0.3s ease; /* 부드럽게 확대 효과 */
+}
+
+.card-lift img:hover {
+    transform: scale(1.1); /* 10% 확대 */
+}
+
+.resource-title {
+    font-size: 20px; /* 원하는 크기로 설정 */
+    color: black;     /* 기본 검정색 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: bold;  /* font: bold; 대신 사용 */
+    white-space: nowrap;  /* 텍스트가 줄바꿈되지 않게 */
+    overflow: hidden;     /* 텍스트가 넘칠 때 숨김 처리 */
+    text-overflow: ellipsis;  /* ...으로 표시 */
+    max-width: 100%;       /* 컨테이너의 최대 너비 설정 */
+    display: inline-block; /* 텍스트를 컨테이너의 가로폭에 맞게 */
+}
+.custom-image-style{
+	display: block;
+    margin: 0 auto;
+    max-width: 200px;
+    height: auto;
+}
+
+/* 마우스를 올렸을 때 스타일 변경 */
+.resource-title:hover {
+    color: #556ffd;      /* 파란색으로 변경 */
+}
+
+.best-highlight {
+    padding: 2px;
+    position: relative;
+    max-width: calc(25% - 15px); /* 가로 크기 줄이기 */
+    flex-basis: calc(25% - 15px); /* 가로 크기 줄이기 */
+    margin-left: 15px;
+}
+
+.best-badge {
+    position: absolute;
+    top: -10px; /* 부모 요소 위로 살짝 이동 */
+    left: 15px;  /* 부모 요소의 왼쪽에서 약간 떨어지게 설정 */
+    background-color: gold;
+    color: black;
+    font-weight: bold;
+    padding: 3px 3px; /* 패딩을 약간 조정하여 일관성 유지 */
+/*     border-radius: 5px; */
+}
+
+    .modal-xl {
+        --bs-modal-width: 715px;
+    }

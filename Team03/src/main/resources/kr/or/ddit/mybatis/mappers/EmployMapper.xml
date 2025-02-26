@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.employ.employ.dao.EmployMapper">
+
+	<!-- 채용공고 resultMap -->
+	<resultMap type="EmployVO" id="employMap" autoMapping="true">
+		<id property="employNo" column="EMPLOY_NO" />
+		<result property="compNm" column="COMP_NM"/>
+		<result property="empscrapDel" column="EMPSCRAP_DEL"/>
+		<result property="interCompDel" column="INTER_COMP_DEL"/>
+		<result property="cmpbftTitle" column="CMPBFT_TITLE"/>
+		<association property="code" javaType="CodeVO" autoMapping="true"/>
+		<association property="company" javaType="CompanyVO" autoMapping="true"/>
+		<collection property="fieldList" ofType="FieldVO" select="selectFieldList" column="EMPLOY_NO"/>
+	</resultMap>
+	<!-- 모집분야 resultMap -->
+	<resultMap type="FieldVO" id="fieldMap" autoMapping="true">
+		<id property="filedNo" column="FILED_NO" />
+		<association property="code" javaType="CodeVO" autoMapping="true"/>
+		<collection property="procedure" ofType="ProcedureVO" select="selectProcedureList" column="FILED_NO"/>
+		<collection property="filterList" ofType="FilterVO" select="selectFilterList" column="FILED_NO"/>
+	</resultMap>
+	
+	<!-- 목록 수 조회 -->
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*)
+	    FROM 
+		    EMPLOY e
+		    INNER JOIN COMPANY c on c.COMP_ID = e.COMP_ID
+		    LEFT JOIN v_cmp_bft v ON v.COMP_ID = e.COMP_ID
+			<include refid="searchFrag"/>
+		  	AND TO_DATE(e.employ_ed, 'YYYY-MM-DD') &gt;= TO_DATE(SYSDATE, 'YYYY-MM-DD')
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(companyId)">
+			AND e.COMP_ID = #{companyId}
+		</if>
+			<include refid="sortFrag"/>
+	</select>
+	<sql id="searchFrag">
+		<where>
+	        <if test="paging.simpleCondition.searchMap != null and !paging.simpleCondition.searchMap.isEmpty()">
+				<foreach collection="paging.simpleCondition.searchMap" item="value" index="key" separator="and">
+	                <choose>
+	                    <!-- 직무 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'job') and value != null and value.size()">
+	                        <foreach collection="value" item="value" separator="or">
+	                            <if test="value != null">
+	                                c.COMP_JOB_DETAIL LIKE '%' || #{value} || '%'
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                    <!-- 지역 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'region') and value != null and value.size()">
+    e.EMPLOY_NO IN (
+        SELECT F.EMPLOY_NO
+        FROM FIELD F
+        WHERE
+            <!-- 여러 코드를 OR로 묶어서 조건 만족 시 포함 -->
+            <trim prefix="(" suffix=")" suffixOverrides="OR">
+                <foreach collection="value" item="regionCode" separator="OR">
+                    <choose>
+                        <!-- 1) -00로 끝나는 전지역 코드면 => parent를 구해서 서브쿼리로 자식 코드들 검색 -->
+                        <when test="regionCode.endsWith('-00')">
+                            F.FILED_REGION_GUNGU IN (
+                                SELECT c.code_cd
+                                FROM CODE c
+                                <!-- DB마다 SUBSTR, SUBSTRING 함수 차이 주의 -->
+                                WHERE c.code_parent = SUBSTR(#{regionCode}, 1, LENGTH(#{regionCode}) - 3)
+                            )
+                        </when>
+                        <!-- 2) 일반 코드면 => 단순 '=' 비교 -->
+                        <otherwise>
+                            F.FILED_REGION_GUNGU = #{regionCode}
+                        </otherwise>
+                    </choose>
+                </foreach>
+            </trim>
+    )
+</when>
+	                    <!-- 복리 후생 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'bft') and value != null and value.size()">
+	                        <foreach collection="value" item="value" separator="or">
+	                            <if test="value != null">
+	                            	v.CMPBFT_TILE LIKE '%' || #{value} || '%'
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                    <!-- 근무형태 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'workType') and value != null and value.size()">
+	                        <foreach collection="value" item="value" separator="or">
+	                            <if test="value != null">
+	                                EMPLOY_TYPE LIKE '%' || #{value} || '%'
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                    <!-- 학력 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'edu') and value != null and value.size()">
+	                        EMPLOY_EDUCATION IN
+	                        <foreach collection="value" item="value" open="(" separator="," close=")">
+	                            <if test="value != null">
+	                                #{value}
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                    <!-- 연봉 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'sal') and value != null and value.size()">
+	                        EMPLOY_SALARY IN
+	                        <foreach collection="value" item="value" open="(" separator="," close=")">
+	                            <if test="value != null">
+	                                #{value}
+	                            </if>
+	                        </foreach>
+	                    </when>
+	                    <!-- 연봉 협의 조건 -->
+	                    <when test="@java.util.Objects@equals(key, 'sal2') and value != null and value.size()">
+	                    	EMPLOY_SALARY_YN = 'Y'
+	                    </when>
+	                </choose>
+	            </foreach>
+	            AND EMPLOY_DEL = 'N'
+	        </if>
+	        <if test="paging == null or paging.simpleCondition == null or paging.simpleCondition.searchMap == null or paging.simpleCondition.searchMap.isEmpty()">
+	        	EMPLOY_DEL = 'N'
+	        </if>
+	    </where>
+	</sql>
+	<sql id="sortFrag">
+        <choose>
+            <when test="paging.simpleCondition.sortBy eq 'viewCnt'">
+                ORDER BY EMPLOY_HIT DESC
+            </when>
+            <when test="paging.simpleCondition.sortBy eq 'recent'">
+                ORDER BY EMPLOY_SD DESC
+            </when>
+            <when test="paging.simpleCondition.sortBy eq 'deadline'">
+                ORDER BY EMPLOY_ED ASC
+            </when>
+            <otherwise></otherwise>
+        </choose>
+    </sql>
+	<!-- 채용공고 목록 조회 -->
+	<select id="selectEmployList" resultMap="employMap">
+		<if test="paging.currentPage != 0">
+			<include refid="CommonsMapper.pageHeader"/>
+		</if>
+		SELECT 
+		   e.EMPLOY_NO
+	        , e.COMP_ID
+	        , c.COMP_NM
+	        , c.COMP_JOB_DETAIL
+	        , e.EMPLOY_TITLE
+	        , e.EMPLOY_TYPE
+	        , TO_CHAR(TO_DATE(e.EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM-DD') AS EMPLOY_SD
+	        , TO_CHAR(TO_DATE(e.EMPLOY_ED, 'YYYYMMDD'), 'YYYY-MM-DD') AS EMPLOY_ED
+	        , e.EMPLOY_URL
+	        , e.EMPLOY_HIT
+	        , e.EMPLOY_SALARY
+	        , e.EMPLOY_SALARY_YN
+	        , e.EMPLOY_APPLICATION
+	        , e.EMPLOY_EXPERIENCE
+	        , e.EMPLOY_EDUCATION
+	        , TO_CHAR(CEIL(TO_DATE(e.EMPLOY_ED, 'YYYY-MM-DD') - SYSDATE)) AS EMPLOY_DDAY
+    		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(memId)">
+	    		, (SELECT es.EMPSCRAP_DEL FROM EMPLOYSCRAP es WHERE es.MEM_ID = #{memId} AND es.EMPLOY_NO = e.EMPLOY_NO) AS EMPSCRAP_DEL
+	    		, (SELECT ic.INTER_COMP_DEL FROM INTER_COMP ic WHERE ic.MEM_ID = #{memId} AND ic.COMP_ID = e.COMP_ID) AS INTER_COMP_DEL
+            </if>
+		    , (
+		        SELECT LISTAGG(code_nm, ',') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(e.EMPLOY_TYPE, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(e.EMPLOY_TYPE, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS EMPLOY_TYPE_NM
+		    , (
+		        SELECT LISTAGG(code_nm, ',') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(e.EMPLOY_EXPERIENCE, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(e.EMPLOY_EXPERIENCE, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS EMPLOY_EXPERIENCE_NM
+		    
+		    , (SELECT code_nm FROM code WHERE code_cd = e.EMPLOY_EDUCATION) AS EMPLOY_EDUCATION_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = e.EMPLOY_SALARY) AS EMPLOY_SALARY_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = e.EMPLOY_APPLICATION) AS EMPLOY_APPLICATION_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = e.EMPLOY_WORKDAY) AS EMPLOY_WORKDAY_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = e.EMPLOY_SWH) AS EMPLOY_SWH_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = e.EMPLOY_EWH) AS EMPLOY_EWH_NM
+		    , v.CMPBFT_TILE
+		FROM 
+		    EMPLOY e
+		    INNER JOIN COMPANY c on c.COMP_ID = e.COMP_ID
+		    LEFT JOIN v_cmp_bft v ON v.COMP_ID = e.COMP_ID
+			<include refid="searchFrag"/>
+		  	AND TO_DATE(e.employ_ed, 'YYYY-MM-DD') &gt;= TO_DATE(SYSDATE, 'YYYY-MM-DD')
+		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(companyId)">
+			AND e.COMP_ID = #{companyId}
+		</if>
+		<include refid="sortFrag"/>
+		<if test="paging.currentPage != 0">
+			<include refid="CommonsMapper.pageFooterParam"/>
+		</if>
+	</select>
+	
+	<!-- 모집분야 데이터 조회 -->
+	<select id="selectFieldList" resultMap="fieldMap">
+	    SELECT 
+	    	  FILED_NO
+		    , EMPLOY_NO
+		    , FILED_NM
+		    , FILED_REGION
+		    , FILED_PERSONNEL
+		    , FILED_JOBS
+		    , FILED_PREFERENCE
+		    , FILED_REGION_GUNGU
+		    , FILED_END_YN
+		    , (SELECT code_nm FROM code c WHERE code_cd = FILED_REGION) AS FILED_REGION_NM
+		    , (SELECT code_nm FROM code c WHERE code_cd = FILED_REGION_GUNGU) AS FILED_REGION_GUNGU_NM
+	    FROM 
+	        FIELD
+	    WHERE 
+	        EMPLOY_NO = #{employNo}
+	</select>
+	
+	<!-- 필터 데이터 조회 -->
+	<select id="selectFilterList" resultType="FilterVO">
+	    SELECT 
+	    	  FILTER_NO
+	    	, FILED_NO
+	        , FILTER_TITLE_CD
+	        , FILTER_CONT_CD
+	        , (SELECT code_nm FROM code c WHERE code_cd = FILTER_TITLE_CD) AS FILTER_TITLE_CD_NM
+	   		, (SELECT code_nm FROM code c WHERE code_cd = FILTER_CONT_CD) AS FILTER_CONT_CD_NM
+	    FROM 
+	        FILTER
+	    WHERE 
+	        FILED_NO = #{filedNo}
+	</select>
+	
+	<!-- 채용절차 데이터 조회 -->
+	<select id="selectProcedureList" resultType="ProcedureVO">
+	    SELECT 
+	    	  FILED_NO
+	        , PROCEDURE_CD
+	        , PROCEDURE_TURN
+	        , (SELECT code_nm FROM code c WHERE c.code_cd = PROCEDURE_CD) AS PROCEDURE_CD_NM
+	    FROM 
+	        PROCEDURE
+	    WHERE 
+	        FILED_NO = #{filedNo}
+	</select>
+	
+	<!-- 채용공고 상세 -->
+	<select id="selectEmploy" resultMap="employMap">
+		SELECT 
+		      e.EMPLOY_NO
+		    , e.COMP_ID
+		    , c.COMP_NM
+		    , c.COMP_JOB_DETAIL
+		    , EMPLOY_TITLE
+		    , EMPLOY_TYPE
+		    , TO_CHAR(TO_DATE(EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM-DD') AS EMPLOY_SD
+    		, TO_CHAR(TO_DATE(EMPLOY_ED, 'YYYYMMDD'), 'YYYY-MM-DD') AS EMPLOY_ED
+    		, EMPLOY_URL
+    		, EMPLOY_HIT
+    		, EMPLOY_SALARY
+    		, EMPLOY_SALARY_YN
+    		, EMPLOY_APPLICATION
+    		, EMPLOY_EXPERIENCE
+    		, EMPLOY_EDUCATION
+    		, TO_CHAR(CEIL(TO_DATE(employ_ed, 'YYYY-MM-DD') - SYSDATE)) employ_dday
+    		<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(memId)">
+	    		, (SELECT es.EMPSCRAP_DEL FROM EMPLOYSCRAP es WHERE es.MEM_ID = #{memId} AND es.EMPLOY_NO = e.EMPLOY_NO) AS EMPSCRAP_DEL
+	    		, (SELECT ic.INTER_COMP_DEL FROM INTER_COMP ic WHERE ic.MEM_ID = #{memId} AND ic.COMP_ID = e.COMP_ID) AS INTER_COMP_DEL
+            </if>
+		    , (
+		        SELECT LISTAGG(code_nm, ',') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(EMPLOY_TYPE, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(EMPLOY_TYPE, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS EMPLOY_TYPE_NM
+		    , (
+		        SELECT LISTAGG(code_nm, ',') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(EMPLOY_EXPERIENCE, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(EMPLOY_EXPERIENCE, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS EMPLOY_EXPERIENCE_NM
+		    
+		    , (SELECT code_nm FROM code WHERE code_cd = EMPLOY_EDUCATION) AS EMPLOY_EDUCATION_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = EMPLOY_SALARY) AS EMPLOY_SALARY_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = EMPLOY_APPLICATION) AS EMPLOY_APPLICATION_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = EMPLOY_WORKDAY) AS EMPLOY_WORKDAY_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = EMPLOY_SWH) AS EMPLOY_SWH_NM
+		
+		    , (SELECT code_nm FROM code WHERE code_cd = EMPLOY_EWH) AS EMPLOY_EWH_NM
+		FROM 
+		    EMPLOY e
+		    INNER JOIN COMPANY c on c.COMP_ID = e.COMP_ID
+		WHERE EMPLOY_NO = #{employNo}
+	</select>
+	
+	<!-- 채용공고 등록 -->
+	<insert id="insertEmploy" parameterType="EmployVO">
+		<selectKey keyProperty="employNo" order="BEFORE" resultType="int">
+	        SELECT EMPLOY_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+		INSERT INTO EMPLOY (
+						  employ_no
+						, comp_id
+						, employ_title
+						, employ_type
+						, employ_experience
+						, employ_education
+						, employ_salary
+						, employ_salary_yn
+						, employ_sd
+						, employ_ed
+						, employ_application
+						, employ_url
+						, employ_workday
+						, employ_swh
+						, employ_ewh
+					) VALUES (
+						  #{employNo}
+						, #{compId, jdbcType=VARCHAR}
+						, #{employTitle, jdbcType=VARCHAR}
+						, #{employType, jdbcType=VARCHAR}
+						, #{employExperience, jdbcType=VARCHAR}
+						, #{employEducation, jdbcType=VARCHAR}
+						, #{employSalary, jdbcType=VARCHAR}
+						, #{employSalaryYn, jdbcType=VARCHAR}
+						, TO_CHAR(SYSDATE, 'YYYYMMDD')
+						, TO_CHAR(TO_DATE(#{employEd, jdbcType=VARCHAR}, 'YYYY-MM-DD'), 'YYYYMMDD')
+						, #{employApplication, jdbcType=VARCHAR}
+						, #{employUrl, jdbcType=VARCHAR}
+						, #{employWorkday, jdbcType=VARCHAR}
+						, #{employSwh, jdbcType=VARCHAR}
+						, #{employEwh, jdbcType=VARCHAR}
+					)
+	</insert>
+	<!-- 모집분야 등록 -->
+	<insert id="insertField" parameterType="FieldVO">
+		<selectKey keyProperty="filedNo" order="BEFORE" resultType="int">
+	        SELECT FIELD_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+		INSERT INTO FIELD (
+						  filed_no
+						, employ_no
+						, filed_nm
+						, filed_region
+						, filed_region_gungu
+						, filed_personnel
+						, filed_jobs
+						, filed_preference
+					) VALUES (
+						  #{filedNo}
+						, #{employNo, jdbcType=NUMERIC}
+						, #{filedNm, jdbcType=VARCHAR}
+						, #{filedRegion, jdbcType=VARCHAR}
+						, #{filedRegionGungu, jdbcType=VARCHAR}
+						, #{filedPersonnel, jdbcType=NUMERIC}
+						, #{filedJobs, jdbcType=VARCHAR}
+						, #{filedPreference, jdbcType=VARCHAR}
+					)
+	</insert>
+	<!-- 채용절차 등록 -->
+	<insert id="insertProcedure" parameterType="ProcedureVO">
+		INSERT INTO PROCEDURE (
+					      procedure_cd
+					    , filed_no
+					    , procedure_turn
+					) VALUES (
+					      #{procedureCd, jdbcType=VARCHAR}
+						, #{filedNo, jdbcType=NUMERIC}
+						, #{procedureTurn, jdbcType=NUMERIC}
+					)
+	</insert>
+	<!-- 필수조건 등록 -->
+	<insert id="insertFilter" parameterType="FilterVO">
+		INSERT INTO FILTER (
+					      filter_no
+					    , filed_no
+					    , filter_title_cd
+					    , filter_cont_cd
+					) VALUES (
+					      FILTER_SEQ.NEXTVAL
+					    , #{filedNo, jdbcType=NUMERIC}
+					    , #{filterTitleCd, jdbcType=VARCHAR}
+					    , #{filterContCd, jdbcType=VARCHAR}
+					)
+	</insert>
+	
+	<!-- 채용공고 수정 -->
+	<update id="updateEmploy" parameterType="EmployVO">
+		UPDATE EMPLOY
+		    SET
+				, EMPLOY_TITLE = #{employTitle, jdbcType=VARCHAR}
+				, EMPLOY_TYPE = #{employType, jdbcType=VARCHAR}
+				, EMPLOY_EXPERIENCE = #{employExperience, jdbcType=VARCHAR}
+				, EMPLOY_EDUCATION = #{employEducation, jdbcType=VARCHAR}
+				, EMPLOY_SALARY = #{employSalary, jdbcType=VARCHAR}
+				, EMPLOY_SALARY_YN = #{employSalaryYn, jdbcType=VARCHAR}
+				, EMPLOY_ED = TO_CHAR(TO_DATE(#{employEd, jdbcType=VARCHAR}, 'YYYY-MM-DD'), 'YYYYMMDD')
+				, EMPLOY_SWH = #{employSwh, jdbcType=VARCHAR}
+				, EMPLOY_EWH = #{employEwh, jdbcType=VARCHAR}
+		        , EMPLOY_WORKDAY = #{employWorkday, jdbcType=VARCHAR}
+				, EMPLOY_APPLICATION = #{employApplication, jdbcType=VARCHAR}
+				, EMPLOY_URL = #{employUrl, jdbcType=VARCHAR}
+		WHERE
+		    employ_no = #{employNo}
+	</update>
+	
+	<!-- 채용공고 삭제 -->
+	<update id="deleteEmploy">
+		UPDATE EMPLOY 
+		SET 
+			EMPLOY_DEL = 'Y'
+		WHERE employ_no = #{employNo}
+	</update>
+	<!-- 모집분야 삭제 -->
+	<update id="deleteField">
+		DELETE FROM FIELD
+		WHERE
+		    employ_no = #{employNo}
+	</update>
+	<!-- 필수조건 삭제 -->
+	<update id="deleteFilter">
+		DELETE FROM FILTER
+		WHERE
+		    filed_no = #{filedNo}
+	</update>
+	<!-- 채용절차 삭제 -->
+	<update id="deleteProcedure">
+		DELETE FROM PROCEDURE
+		WHERE
+		    filed_no = #{filedNo}
+	</update>
+	
+	<!-- 채용공고 조회수 증가 -->
+	<update id="incrementHit">
+		UPDATE EMPLOY 
+		SET 
+			EMPLOY_HIT = EMPLOY_HIT + 1 
+		WHERE EMPLOY_NO = #{employNo}
+	</update>
+	
+	<!-- ==================공통코드 조회================== -->
+	<!-- 필수조건 타이틀 리스트 -->
+	<select id="selectFilterTitleList" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList"/>
+		WHERE code_parent = 'FILTER'
+	</select>
+	<!-- 필수조건 내용 리스트 -->
+	<select id="selectFilterContList" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList"/>
+		WHERE CODE_PARENT IN ('lang'
+							, 'univ-type'
+							, 'univ-major'
+							, 'country')
+		   OR CODE_PARENT like 'cer_____'
+	</select>
+	
+	
+	<select id="selelctEmpApplyCnt" resultType="int">
+		SELECT
+		    COUNT(*) AS applyCnt
+		FROM
+		    field a
+		INNER JOIN
+		    apply b ON a.filed_no = b.filed_no
+		WHERE
+		    a.employ_no = #{employNo}
+	</select>
+	
+</mapper>

@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+img#logo{
+    width: 200px;
+}
+
+.navforget {
+	--bs-nav-link-padding-x: 9.7rem;
+	--bs-nav-link-padding-y: 1rem;
+}
+
+/* 탭 메뉴 전체 너비로 분할 */
+.nav-tabs {
+    display: flex;
+    justify-content: center; /* 탭 메뉴 가운데 정렬 */
+    --bs-nav-tabs-border-color: var(--bs-body-bg);
+}
+
+.nav-tabs .nav-item {
+    flex: 1; /* 각 탭을 동일한 너비로 분할 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.nav-tabs .nav-link {
+    font-weight: bold; /* 글자 강조 */
+    color: #495057; /* 기본 글자 색상 */
+    background-color: #f8f9fa; /* 기본 배경색 */
+    border: 1px solid #dee2e6; /* 테두리 설정 */
+    margin-right: -1px; /* 경계선 겹침 방지 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.nav-tabs .nav-link.active {
+    color: #8B3DFF; /* 활성화된 탭 글자 색상 */
+    background-color: #ffffff; /* 활성화된 탭 배경색 */
+    border-bottom: 3px solid #8B3DFF; /* 하단 강조선 */
+    border-top-left-radius: 5px; /* 모서리 둥글게 */
+    border-top-right-radius: 5px;
+    font-weight: bold; /* 더 강조 */
+}
+
+/* 비활성화된 탭 hover 효과 */
+.nav-tabs .nav-link:hover {
+    background-color: #e9ecef; /* 비활성화 탭 hover 시 배경색 */
+    color: #6c757d; /* 글자 색상 변경 */
+}

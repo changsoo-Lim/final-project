@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+.page-title{
+	margin-top: 30px;
+}
+
+/* 폼 컨테이너 스타일 */
+.board-detail-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* 제목 필드 스타일 */
+.title-container {
+    margin-bottom: 15px;
+}
+
+.title-container label {
+    font-weight: bold;
+}
+
+.title-container .form-control {
+    width: 100%;
+}
+
+/* 내용 필드 스타일 */
+.content-container {
+    margin-bottom: 15px;
+}
+
+.content-container label {
+    font-weight: bold;
+}
+
+.content-container .form-control {
+    width: 100%;
+}
+
+/* 파일 업로드 필드 스타일 */
+.file-container {
+    margin-bottom: 15px;
+}
+
+/* 버튼들을 동일 라인에 배치, 목록 버튼 오른쪽 정렬 */
+.button-container {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center;
+}
+
+.button-container button,
+.button-container a {
+    margin-right: 10px; /* 버튼 간격 */
+}
+
+/* 목록 버튼을 오른쪽 정렬 */
+.button-container .btn-primary:last-child {
+    margin-left: auto;
+}
+.ck-editor__editable {
+    height: 300px; /* 초기 높이 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}
+
+/* 입력 시 크기 자동 조정 */
+.ck-editor__editable {
+    height: auto; /* 텍스트 입력에 따라 자동으로 조정 */
+    min-height: 300px; /* 최소 높이 설정 */
+    max-height: 500px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}

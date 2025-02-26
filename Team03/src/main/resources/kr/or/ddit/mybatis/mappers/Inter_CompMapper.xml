@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.inter_comp.dao.Inter_CompMapper">
+	<resultMap type="Inter_CompVO" id="empScrapMap" autoMapping="true">
+		<id property="memId" column="MEM_ID" />
+		<id property="compId" column="COMP_ID" />
+		<association property="employ" javaType="EmployVO" column="EMPLOY_NO" select="kr.or.ddit.employ.employ.dao.EmployMapper.selectEmploy" />
+	</resultMap>
+	
+	<resultMap id="memberMap" type="kr.or.ddit.vo.Inter_CompVO" autoMapping="true">
+	    <id property="memId" column="MEM_ID" />
+	    <id property="compId" column="COMP_ID" />
+	    <association property="member" javaType="kr.or.ddit.vo.MemberVO" column="MEM_ID"  select="memList" >
+	    </association>
+	</resultMap>
+
+
+	
+	<select id="memList" resultType="kr.or.ddit.vo.MemberVO">
+		SELECT
+		    mem_id,
+		    mem_nm,
+		    mem_gen,
+		    mem_regno,
+		    mem_zip,
+		    mem_addr1,
+		    mem_addr2,
+		    mem_email,
+		    mem_hp,
+		    mem_classify,
+		    mem_status,
+		    mem_url,
+		    mem_freelancer,
+		    atch_file_no,
+		    mem_date_type
+		FROM
+		    member
+		WHERE mem_id = #{memId}
+	</select>
+	
+	<select  id="workCondList" resultType="kr.or.ddit.vo.Work_CondVO" >
+		SELECT
+		    work_cond_no,
+		    work_cond_remote,
+		    (
+		        SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(work_cond_type, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(work_cond_type, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS work_cond_type,
+		    
+		    work_cond_job_type,
+		    work_cond_salary,
+		    work_cond_salary_visible,
+		    mem_id
+		FROM
+		    work_cond
+		WHERE mem_id = #{memId} 
+	</select>
+	
+	<select id="workCityList" resultType="kr.or.ddit.vo.Work_CityVO">
+		SELECT
+		    work_city_no,
+		    work_cond_no,
+		    
+		    (
+		        SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(sido_cd, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(sido_cd, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS sido_cd,
+		    (
+		        SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_nm)
+		        FROM code
+		        WHERE code_cd IN (
+		            SELECT TRIM(REGEXP_SUBSTR(gugun_cd, '[^,]+', 1, LEVEL))
+		            FROM dual
+		            CONNECT BY REGEXP_SUBSTR(gugun_cd, '[^,]+', 1, LEVEL) IS NOT NULL
+		        )
+		    ) AS gugun_cd,
+		    work_city_yn
+		FROM
+		    work_city
+		WHERE work_cond_no = #{work_cond_no} 
+	</select>
+		
+	<!-- 회원의 기업 스크랩 정보 -->
+	<select id="selectInterComp" resultMap="memberMap">
+		SELECT
+			   MEM_ID
+			 , COMP_ID
+			 , TO_CHAR(TO_DATE(INTER_COMP_DT, 'YYYYMMDD'), 'YYYY-MM-DD') AS INTER_COMP_DT
+			 , INTER_COMP_DEL
+		  FROM INTER_COMP
+		 WHERE INTER_COMP_DEL = 'N'
+		   AND MEM_ID = #{memId}
+	</select>
+	<!-- 회원의 스크랩 정보 유무 확인 -->
+	<select id="selectInterCompCheck" resultType="int">
+		SELECT COUNT(*)
+		  FROM INTER_COMP
+		 WHERE MEM_ID = #{memId}
+		   AND COMP_ID = #{compId}
+	</select>
+	<!-- 기업 스크랩 등록 수 -->
+	<select id="totalInterComp" resultType="int">
+		SELECT COUNT(*)
+		  FROM INTER_COMP
+		 WHERE COMP_ID = #{compId}
+	</select>
+	<!-- 회원의 기업 스크랩 등록 -->
+	<insert id="insertInterComp">
+		INSERT INTO INTER_COMP (
+			  MEM_ID
+			, COMP_ID
+			, INTER_COMP_DT
+		) VALUES (
+			  #{memId, jdbcType=VARCHAR}
+			, #{compId, jdbcType=VARCHAR}
+			, TO_CHAR(SYSDATE, 'YYYYMMDD')
+		)
+	</insert>
+	<!-- 회원의 기업 스크랩 상태 수정 -->
+	<update id="updateScrapStatus">
+		UPDATE INTER_COMP
+		   SET INTER_COMP_DEL = #{interCompDel, jdbcType=VARCHAR}
+		 WHERE MEM_ID = #{memId}
+		   AND COMP_ID = #{compId}
+	</update>
+	
+	<select id="selectMemList" resultMap="memberMap">
+		SELECT B.*
+    FROM
+        (
+        SELECT A.*, ROWNUM RNUM
+        FROM
+            (
+		SELECT
+		    mem_id,
+		    comp_id,
+		    TO_CHAR(TO_DATE(inter_comp_dt, 'YYYYMMDD'), 'YYYY-MM-DD') AS inter_comp_dt
+		FROM
+		    inter_comp 
+		WHERE inter_comp_del = 'N'
+		AND comp_id = #{compId}
+		ORDER BY inter_comp_dt DESC
+		) A 
+			) B
+			<![CDATA[
+				WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+			]]>  
+	</select>
+		
+	
+	
+	<select id="selectTotalRecorde" resultType="int">
+		SELECT
+	    	COUNT(*)
+		FROM inter_comp a
+		WHERE a.inter_comp_del = 'N'
+		AND a.comp_id = #{compId}
+	</select>
+	
+</mapper>

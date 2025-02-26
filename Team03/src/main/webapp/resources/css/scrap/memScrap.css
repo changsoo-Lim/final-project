@@ -1,0 +1,116 @@
+@charset "UTF-8";
+.tab-top {
+	margin-top: 20px;
+}
+.tab-body {
+	min-height: 400px;
+}
+
+/* 채용공고 리스트 */
+.view-ul{
+	padding-left: 0;
+	list-style: none;
+}
+
+.view-ul .view-li{
+	display: flex;
+    position: relative;
+}
+
+.view-ul .view-li-none{	
+	text-align: center;
+    display: block;
+    border-width: 0;
+    height: auto;
+    border-bottom-width: 1px;
+}
+
+.view-ul .view-li-none strong{	
+	display: block;
+    font-weight: var(--fWN);
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--cm-dark);
+    letter-spacing: -0.38px;
+    padding-bottom: 0px;
+}
+
+.view-ul .view-li-none span{
+	display: block;
+    font-weight: var(--fWN);
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--cm-dark);
+    letter-spacing: -0.38px;
+    padding-bottom: 8px;
+}
+
+.view-ul .view-li-none a{
+	display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--fWN);
+    font-size: 15px;
+    letter-spacing: -0.38px;
+    height: 38px;
+    padding: 0 23px;
+    margin-top: 10px;
+}
+
+
+.view-ul .view-li div .tab-company{
+	display: flex;
+    align-items: center;
+    color: var(--bs-black);
+    font-size: 1rem;
+}
+.view-ul .view-li .view-first {
+    width: 25%;
+}
+
+.view-ul .view-li .view-mid {
+    width: 70%;
+}
+
+.view-ul .view-li .view-last {
+    width: 15%;
+}
+
+.view-ul .view-li div .tab-subject{
+	display: flex;
+    align-items: center;
+    color: var(--bs-black);
+    font-weight: bold;
+	font-size: 1.17rem;
+}
+
+.view-ul .view-li div .tab-jobs{
+	display: flex;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.view-ul .view-li div .tab-jobs em{
+	font-style: normal;
+    font-size: 14px;
+    color: var(--cm-gray-700);
+    letter-spacing: -0.35px;
+    vertical-align: middle;
+}
+
+.view-ul .view-li .view-last span{
+	text-align: center;
+    display: block;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 21px;
+    letter-spacing: -0.38px;
+    color: var(--bs-black);
+}
+
+.view-ul .view-li .view-last button{
+	width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 9px;
+}

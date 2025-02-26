@@ -1,0 +1,725 @@
+/* 기본 색상 정의 */
+:root {
+  --main-color: #6C9EFF; /* 메인 색상 */
+  --main-color-hover: #5177D8; /* 메인 색상 hover */
+  --text-color: #333;
+  --subtext-color: #666; /* 서브 텍스트 */
+  --bg-color: #f7f9fc;
+  --white-color: #fff;
+  --border-color: #ddd;
+}
+
+/* 전체 레이아웃 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+header {
+  background-color: var(--main-color);
+  padding: 1rem 2rem;
+  color: var(--white-color);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+header h1::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url('icon.png') no-repeat center center;
+  background-size: contain;
+  margin-right: 0.5rem;
+}
+
+/* 메인 컨테이너 */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* 기업 기본 정보 섹션 */
+.company-info {
+  background-color: var(--white-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.company-info h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.company-info .company-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--main-color);
+}
+
+.company-info .company-detail p {
+  margin: 0.2rem 0;
+  color: var(--subtext-color);
+}
+
+.btn-group button {
+  background-color: var(--main-color);
+  color: var(--white-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-group button:hover {
+  background-color: var(--main-color-hover);
+}
+
+/* 채용 공고/지원자 현황 카드 */
+.stats-section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stats-card {
+  flex: 1;
+  background-color: var(--white-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.stats-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-color); /* 강조 색상에서 기본 색상으로 변경 */
+}
+
+.stats-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.stats-box .number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--main-color); /* 숫자는 여전히 강조 */
+}
+
+.stats-box .label {
+  font-size: 1rem;
+  color: var(--subtext-color); /* 서브 텍스트 색상으로 조정 */
+}
+
+.stats-box a {
+  font-size: 0.9rem;
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+.stats-box a:hover {
+  text-decoration: underline;
+}
+
+/* 추가 정보 테이블 */
+.additional-info {
+  background-color: var(--white-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.additional-info h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-color); /* 강조 색상에서 기본 색상으로 변경 */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.8rem;
+  text-align: left;
+}
+
+th {
+  background-color: var(--bg-color);
+  font-weight: normal;
+  color: var(--text-color);
+}
+
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: var(--bg-color);
+  margin-top: 2rem;
+  color: var(--subtext-color); /* 서브 텍스트 색상으로 조정 */
+}
+
+/* 링크 색상 */
+a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 기업 정보 섹션 레이아웃 */
+.company-header {
+  display: flex;
+  align-items: center; /* 로고와 텍스트를 수직 정렬 */
+  gap: 1rem; /* 로고와 텍스트 사이 간격 */
+}
+
+/* 로고 이미지 스타일 */
+.company-logo {
+  width: 150px; /* 로고 이미지 너비 */
+  height: 150px; /* 비율 유지 */
+  border-radius: 8px; /* 이미지 둥글게 */
+  object-fit: cover; /* 이미지 비율에 맞게 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+/* 버튼 그룹 */
+.btn-group {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem; /* 버튼 간 간격 */
+}
+
+/* 기업 기본 정보 스타일 */
+.company-info {
+  background-color: var(--white-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* 로고와 기업 정보 정렬 */
+.company-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* 로고와 텍스트 사이 간격 */
+}
+
+
+/* 추가 정보 테이블 스타일 */
+.additional-info table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.additional-info th,
+.additional-info td {
+  text-align: left;
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.additional-info th {
+  background-color: var(--bg-color);
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.additional-info td {
+  color: var(--subtext-color);
+}
+
+/* 버튼 그룹 스타일 */
+.btn-group {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+/* 로고 스타일 */
+.company-logo {
+  width: 120px; /* 고정 크기 */
+  height: auto; /* 비율 유지 */
+  border-radius: 8px; /* 둥근 모서리 */
+  object-fit: cover; /* 비율에 맞게 이미지 채우기 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  background-color: #f8f9fa; /* 로고 없는 경우의 배경색 */
+}
+
+/* 로고 컨테이너 */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 전체 컨테이너 스타일 */
+.company-profile {
+  background-color: var(--white-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+/* 로고와 기본 정보 정렬 */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* 로고 스타일 */
+.company-logo {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 기본 정보 텍스트 */
+.profile-details h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.profile-details p {
+  margin: 0.3rem 0;
+  color: var(--subtext-color);
+}
+
+.profile-details a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+.profile-details a:hover {
+  text-decoration: underline;
+}
+
+/* 추가 정보 테이블 */
+.additional-info table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.additional-info th,
+.additional-info td {
+  text-align: left;
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.additional-info th {
+  background-color: var(--bg-color);
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.additional-info td {
+  color: var(--subtext-color);
+}
+
+/* 버튼 그룹 */
+.btn-group {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+/* 통합 테이블 스타일 */
+.company-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--white-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.company-info-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.company-info-table td.company-logo-cell {
+  width: 150px;
+  text-align: center;
+}
+
+.company-info-table td.company-label {
+  width: 150px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.company-logo {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 그룹 스타일 */
+.btn-group {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+/* 전체 레이아웃 */
+.company-profile {
+  background-color: var(--white-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex; /* 로고와 정보를 한 줄에 배치 */
+  gap: 2rem; /* 로고와 정보 간 간격 */
+  align-items: flex-start; /* 로고와 테이블 위쪽 정렬 */
+}
+
+/* 로고 스타일 */
+.company-logo {
+  width: 120px; /* 고정 크기 */
+  height: auto; /* 비율 유지 */
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 테이블 스타일 */
+.company-info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.company-info-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.company-info-table td.company-label {
+  width: 150px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* 전체 레이아웃 */
+.company-profile {
+  background-color: var(--white-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 로고와 정보를 1:2 비율로 배치 */
+  gap: 2rem; /* 로고와 정보 사이 간격 */
+  align-items: flex-start;
+}
+
+/* 로고 스타일 */
+.company-logo {
+  width: 100%;
+  max-width: 150px; /* 로고 최대 너비 */
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 테이블 스타일 */
+.company-info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.company-info-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.company-info-table td.company-label {
+  width: 150px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* 전체 레이아웃 */
+.company-profile {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem; /* 로고와 정보 간 간격 */
+  background-color: var(--white-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* 로고 스타일 */
+.logo-container {
+  flex: 0 0 auto; /* 로고 크기 고정 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-logo {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 정보 테이블 */
+.info-container {
+  flex: 1; /* 정보 영역 확장 */
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.info-table td {
+  padding: 1rem;
+  vertical-align: top;
+}
+
+.info-table td.company-label {
+  font-weight: bold;
+  color: var(--text-color);
+  width: 150px; /* 라벨 셀 크기 고정 */
+}
+
+.info-table td:not(.company-label) {
+  color: var(--subtext-color);
+}
+
+
+/* 전체 레이아웃 */
+.company-profile {
+  display: grid;
+  grid-template-columns: 150px auto; /* 로고와 정보 영역 비율 */
+  gap: 2rem; /* 로고와 정보 간 간격 */
+  background-color: var(--white-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* 로고 스타일 */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-logo {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 정보 테이블 */
+.info-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.info-table td {
+  padding: 1rem;
+  vertical-align: top;
+}
+
+.info-table td.company-label {
+  font-weight: bold;
+  color: var(--text-color);
+  width: 150px; /* 고정 너비 */
+}
+
+.info-table td:not(.company-label) {
+  color: var(--subtext-color);
+}
+/* 전체 섹션 레이아웃 */
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 첫 줄 레이아웃 */
+.top-row {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between; /* 카드 간 균형 맞춤 */
+}
+
+/* 공통 카드 스타일 */
+.stats-card {
+  flex: 1;
+  background-color: var(--white-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eaeaea; /* 카드 테두리 */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* 내부 요소 간 간격 */
+  justify-content: space-between;
+}
+
+/* 카드 제목 */
+.stats-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  text-align: center;
+  border-bottom: 2px solid var(--main-color);
+  padding-bottom: 0.5rem;
+}
+
+/* 하단 카드 레이아웃 */
+.full-width-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 드롭다운 스타일 */
+.stats-card select {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+/* 지원자 수 텍스트 */
+.stats-card h4 {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* 버튼 스타일 */
+.stats-box a {
+  font-size: 0.85rem;
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.stats-box a:hover {
+  background-color: var(--main-color);
+  color: var(--white-color);
+}
+
+
+/* 제목 스타일 */
+.stats-card h3 {
+  margin: 0;
+  font-size: 2rem; /* 제목 크기를 더 키움 */
+  color: var(--main-color); /* 파란색 강조 */
+  text-align: center; /* 중앙 정렬 */
+  font-weight: bold; /* 굵게 */
+  border-bottom: 3px solid var(--main-color); /* 하단 파란색 선 */
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* 지원자 현황 텍스트 */
+.stats-card h4 {
+  font-size: 1.6rem; /* 크기를 약간 키움 */
+  color: var(--text-color); /* 기본 텍스트 색상 */
+  font-weight: bold; /* 굵게 */
+  text-align: center; /* 중앙 정렬 */
+  margin-top: 1rem;
+}
+
+/* 라벨과 선택 상자 */
+.stats-card label {
+  font-size: 1.2rem; /* 라벨 크기 증가 */
+  color: var(--text-color); /* 기본 텍스트 색상 */
+  font-weight: bold; /* 굵게 */
+}
+
+.stats-card select {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem; /* 선택 상자 텍스트 크기 */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+/* 강조 텍스트 */
+.stats-card p strong {
+  font-size: 1.4rem; /* 숫자 강조 */
+  color: var(--main-color); /* 파란색 강조 */
+}
+
+/* 버튼 스타일 */
+.stats-card .btn {
+  font-size: 1rem; /* 버튼 텍스트 크기 */
+  padding: 0.5rem 1rem;
+  color: var(--main-color);
+  border: 2px solid var(--main-color);
+  border-radius: 4px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.stats-card .btn:hover {
+  background-color: var(--main-color);
+  color: var(--white-color); /* 버튼 hover 시 색상 반전 */
+}
+
+

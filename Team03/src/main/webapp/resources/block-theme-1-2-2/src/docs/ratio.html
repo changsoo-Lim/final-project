@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      @@include("../partials/head/meta.html")
+      <link href="@@webRoot/node_modules/prismjs/themes/prism-okaidia.min.css" rel="stylesheet" />
+      @@include("../partials/head/head-links.html") @@include("../partials/head/analytics.html")
+
+      <title>Ratio - Responsive Website Template | Block</title>
+   </head>
+
+   <body>
+      <!-- Main wrapper start-->
+      <main class="docs-main-wrapper">
+         @@include("../partials/docs-navbar.html")
+         <!-- left sidebar -->
+         @@include("../partials/docs-sidenav.html")
+         <!-- Wrapper start-->
+         <div class="docs-wrapper">
+            <div class="docs-content">
+               <!-- Content start-->
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="mb-5" id="intro">
+                           <h1>Ratios</h1>
+                           <p class="mb-0">Use generated pseudo elements to make an element maintain the aspect ratio of your choosing.</p>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Aspect ratio start-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Aspect ratios</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-ratio-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-ratio-preview"
+                                    role="tab"
+                                    aria-controls="pills-ratio-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="pills-ratio-code-tab" data-bs-toggle="pill" href="#pills-ratio-code" role="tab" aria-controls="pills-ratio-code" aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-ratio-preview" role="tabpanel" aria-labelledby="pills-ratio-preview-tab">
+                                 <!--ratio-->
+                                 <div class="ratio ratio-1x1">
+                                    <div class="d-flex align-items-center justify-content-center">1x1</div>
+                                 </div>
+                                 <div class="ratio ratio-4x3">
+                                    <div class="d-flex align-items-center justify-content-center">4x3</div>
+                                 </div>
+                                 <div class="ratio ratio-16x9">
+                                    <div class="d-flex align-items-center justify-content-center">16x9</div>
+                                 </div>
+                                 <div class="ratio ratio-21x9">
+                                    <div class="d-flex align-items-center justify-content-center">21x9</div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-ratio-code" role="tabpanel" aria-labelledby="pills-ratio-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--ratio--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-1x1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>1x1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-4x3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>4x3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-16x9<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>16x9<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-21x9<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>21x9<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Aspect ratio end-->
+                  <!--Custom ratio start-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Custom ratios</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-custom-ratio-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-custom-ratio-preview"
+                                    role="tab"
+                                    aria-controls="pills-custom-ratio-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    id="pills-custom-ratio-code-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-custom-ratio-code"
+                                    role="tab"
+                                    aria-controls="pills-custom-ratio-code"
+                                    aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-custom-ratio-preview" role="tabpanel" aria-labelledby="pills-custom-ratio-preview-tab">
+                                 <!-- customratio-->
+                                 <div class="ratio" style="--bs-aspect-ratio: 50%">
+                                    <div class="d-flex align-items-center justify-content-center">2x1</div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-custom-ratio-code" role="tabpanel" aria-labelledby="pills-custom-ratio-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--ratio--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-1x1<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>1x1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-4x3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>4x3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-16x9<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>16x9<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ratio ratio-21x9<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>21x9<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Custom ratio end-->
+               </div>
+               <!-- Content end-->
+            </div>
+            @@include("../partials/docs-footer.html")
+         </div>
+         <!-- Wrapper end-->
+      </main>
+      <!-- Main wrapper end-->
+      <!-- Scripts -->
+
+      @@include("../partials/scripts.html")
+
+      <script src="@@webRoot/node_modules/prismjs/prism.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/components/prism-scss.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/sidebar-menu.js"></script>
+      <script src="@@webRoot/assets/js/vendors/search.js"></script>
+   </body>
+</html>

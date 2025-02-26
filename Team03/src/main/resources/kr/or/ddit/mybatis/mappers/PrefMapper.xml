@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.pref.dao.PrefMapper">
+	<insert id="insertPref">
+		<selectKey order="BEFORE" resultType="int" keyProperty="prefNo">
+		    SELECT PREF_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO pref (
+		    pref_no,
+		    pref_military,
+		    pref_patriot,
+		    pref_disability,
+		    pref_employ_support,
+		    pref_hobbies,
+		    pref_skills,
+		    mem_id
+		) VALUES (
+		      #{prefNo,jdbcType=NUMERIC}
+		    , #{prefMilitary,jdbcType=VARCHAR}
+		    , #{prefPatriot,jdbcType=VARCHAR}
+		    , #{prefDisability,jdbcType=VARCHAR}
+		    , #{prefEmploySupport,jdbcType=VARCHAR}
+		    , #{prefHobbies,jdbcType=VARCHAR}
+		    , #{prefSkills,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectPref" resultType="PrefVO">
+		SELECT
+		    pref_no,
+		    pref_military,
+		    pref_patriot,
+		    pref_disability,
+		    pref_employ_support,
+		    pref_hobbies,
+		    pref_skills,
+		    mem_id
+		FROM
+		    pref
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updatePref">
+		UPDATE pref
+		SET
+		    PREF_NO = #{prefNo,jdbcType=NUMERIC}
+		    ,PREF_MILITARY = #{prefMilitary,jdbcType=VARCHAR}
+		    ,PREF_PATRIOT = #{prefPatriot,jdbcType=VARCHAR}
+		    ,PREF_DISABILITY = #{prefDisability,jdbcType=VARCHAR}
+		    ,PREF_EMPLOY_SUPPORT = #{prefEmploySupport,jdbcType=VARCHAR}
+		    ,PREF_HOBBIES = #{prefHobbies,jdbcType=VARCHAR}
+		    ,PREF_SKILLS = #{prefSkills,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    PREF_NO = #{prefNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deletePref">
+		DELETE FROM PREF
+		WHERE
+			PREF_NO = #{prefNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectPrefDetail" resultType="PrefVO">
+		SELECT
+		    pref_no,
+		    pref_military,
+		    pref_patriot,
+		    pref_disability,
+		    pref_employ_support,
+		    pref_hobbies,
+		    pref_skills,
+		    mem_id
+		FROM
+		    pref
+		WHERE
+			PREF_NO = #{prefNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

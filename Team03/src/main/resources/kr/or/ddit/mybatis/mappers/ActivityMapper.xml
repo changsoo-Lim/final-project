@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.activity.dao.ActivityMapper">
+
+	<insert id="insertActivity">
+		<selectKey order="BEFORE" resultType="int" keyProperty="activityNo">
+		    SELECT ACTIVITY_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO activity (
+			activity_no,
+			activity_organization,
+			activity_desc,
+			activity_sdt,
+			activity_edt,
+		mem_id
+		) VALUES (
+			#{activityNo,jdbcType=NUMERIC}
+			, #{activityOrganization,jdbcType=VARCHAR}
+			, #{activityDesc,jdbcType=VARCHAR}
+			, #{activitySdt,jdbcType=VARCHAR}
+			, #{activityEdt,jdbcType=VARCHAR}
+			, #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectActivityList" resultType="ActivityVO">
+		SELECT
+		    activity_no,
+		    activity_organization,
+		    activity_desc,
+		    activity_sdt,
+		    activity_edt,
+		    mem_id
+		FROM
+		    activity
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY activity_edt DESC
+		
+	</select>
+	
+	<update id="updateActivity">
+		UPDATE activity
+		SET
+		    ACTIVITY_NO = #{activityNo,jdbcType=NUMERIC}
+		    ,ACTIVITY_ORGANIZATION = #{activityOrganization,jdbcType=VARCHAR}
+		    ,ACTIVITY_DESC = #{activityDesc,jdbcType=VARCHAR}
+		    ,ACTIVITY_SDT = #{activitySdt,jdbcType=VARCHAR}
+		    ,ACTIVITY_EDT = #{activityEdt,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    ACTIVITY_NO = #{activityNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteActivity">
+		DELETE FROM	ACTIVITY
+		WHERE
+		    ACTIVITY_NO = #{activityNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectActivity" resultType="ActivityVO">
+		SELECT
+		    activity_no,
+		    activity_organization,
+		    activity_desc,
+		    activity_sdt,
+		    activity_edt,
+		    mem_id
+		FROM
+		    activity
+	    WHERE
+		    ACTIVITY_NO = #{activityNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

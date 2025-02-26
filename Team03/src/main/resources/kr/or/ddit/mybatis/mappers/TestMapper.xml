@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.test.test.dao.TestMapper">
+	<select id="selectTestCode" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT = 'TEST'
+	</select>
+
+	<insert id="insertTest">
+		<selectKey order="BEFORE" resultType="int" keyProperty="testNo">
+				 SELECT TEST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST (
+		      TEST_NO	/* 시험번호 */
+		    , COMP_ID	/* 기업회원ID */
+		    , TEST_CD	/* 시험코드 */	
+		    , TEST_NM	/* 시험명 */
+		    , TEST_TIME	/* 시험시간 */
+		) VALUES (
+		      #{testNo, jdbcType=NUMERIC}
+		    , #{compId  , jdbcType=VARCHAR}
+		    , #{testCd  , jdbcType=VARCHAR}
+		    , #{testNm  , jdbcType=VARCHAR}
+		    , #{testTime, jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="selectTestList" resultType="TestVO">
+		SELECT 
+		      TEST_NO	/* 시험번호 */
+		    , COMP_ID	/* 기업회원ID */
+		    , TEST_CD	/* 시험코드 */	
+		    , TEST_NM	/* 시험명 */
+		    , TEST_TIME	/* 시험시간 */
+		    , TEST_DEL	/* 삭제여부 */
+		FROM TEST
+		WHERE TEST_DEL = 'N' AND TEST_CD = #{testCd  , jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectTest" resultType="TestVO">
+		SELECT 
+		      TEST_NO	/* 시험번호 */
+		    , COMP_ID	/* 시험시간 */
+		    , TEST_CD	/* 시험코드 */
+		    , TEST_NM	/* 시험명 */
+		    , TEST_TIME	/* 시험시간 */
+		    , TEST_DEL	/* 삭제여부 */
+		FROM TEST
+		WHERE TEST_NO = #{testNo, jdbcType=NUMERIC}
+	</select>
+	
+	<update id="updateTest">
+		UPDATE TEST
+		SET 
+		      TEST_CD = #{testCd, jdbcType=VARCHAR}		/* 시험코드 */
+		    , TEST_NM = #{testNm, jdbcType=VARCHAR}		/* 시험명 */
+		    , TEST_TIME = #{testTime, jdbcType=NUMERIC}	/* 시험시간 */
+		    , TEST_DEL = #{testDel, jdbcType=VARCHAR}	/* 삭제여부 */
+		WHERE TEST_NO = #{testNo, jdbcType=NUMERIC}		/* 시험번호 */
+	</update>
+	
+	<update id="deleteTest">
+		UPDATE TEST
+		SET 
+		    TEST_DEL = 'Y'
+		WHERE TEST_NO = #{testNo, jdbcType=NUMERIC}	/* 시험번호 */
+	</update>
+</mapper>

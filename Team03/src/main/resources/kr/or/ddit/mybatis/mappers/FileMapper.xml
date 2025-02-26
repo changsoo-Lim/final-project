@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.file.dao.FileMapper">
+	<sql id="atchFileDetailColumns">
+		ATCH_FILE_NO
+		, FILE_SN
+		, FILE_STRE_COURS
+		, STRE_FILE_NM
+		, ORIGNL_FILE_NM
+		, FILE_EXTSN
+		, FILE_CN
+		, FILE_SIZE
+		, FILE_MIME
+		, FILE_FANCYSIZE
+		, FILE_DWNCNT
+	</sql>
+	<insert id="insertFile">
+		<selectKey order="BEFORE" resultType="int" keyProperty="atchFileNo">
+			SELECT FILE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT ALL
+			INTO "FILE" (ATCH_FILE_NO, CREAT_DT, USE_AT)
+		VALUES (#{atchFileNo}, SYSDATE, 'Y')
+		<if test="fileDetails neq null">
+			<foreach collection="fileDetails" item="detail" index="idx">
+				INTO FILE_DETAIL(
+					<include refid="atchFileDetailColumns" />
+				) VALUES(
+					#{atchFileNo, jdbcType=NUMERIC}
+					, #{idx}+1
+					, #{detail.fileStreCours, jdbcType=VARCHAR}
+					, #{detail.streFileNm, jdbcType=VARCHAR}
+					, #{detail.orignlFileNm, jdbcType=VARCHAR}
+					, #{detail.fileExtsn, jdbcType=VARCHAR}
+					, #{detail.fileCn, jdbcType=VARCHAR}
+					, #{detail.fileSize, jdbcType=NUMERIC}
+					, #{detail.fileMime, jdbcType=VARCHAR}
+					, #{detail.fileFancysize, jdbcType=VARCHAR}
+					, 0
+				)
+			</foreach>
+		</if>
+		SELECT * FROM DUAL
+	</insert>
+
+	<resultMap type="FileVO" id="atchFileMap" autoMapping="true">
+		<id property="atchFileNo" column="ATCH_FILE_NO" />
+		<collection property="fileDetails" ofType="File_DetailVO" autoMapping="true" />
+	</resultMap>
+
+	<select id="selectFileEnable" resultMap="atchFileMap">
+		SELECT CREAT_DT, USE_AT
+		,  <include refid="atchFileDetailColumns" />
+		FROM "FILE" NATURAL JOIN FILE_DETAIL
+		WHERE ATCH_FILE_NO = #{atchFileNo} AND USE_AT IS NOT NULL
+	</select>
+	<select id="selectFile" resultMap="atchFileMap">
+		SELECT CREAT_DT, USE_AT
+		, <include refid="atchFileDetailColumns" />
+		FROM "FILE" NATURAL JOIN FILE_DETAIL
+		WHERE ATCH_FILE_NO = #{atchFileNo}
+		<if test="enable">
+			AND USE_AT IS NOT NULL
+		</if>
+		<if test="not enable">
+			AND USE_AT IS NULL
+		</if>
+	</select>
+
+	<select id="selectFileDetail" resultType="File_DetailVO">
+		SELECT
+			<include refid="atchFileDetailColumns" />
+		FROM FILE_DETAIL NATURAL JOIN "FILE"
+		WHERE ATCH_FILE_NO = #{atchFileNo} AND FILE_SN = #{fileSn} 
+				AND USE_AT IS NOT NULL
+	</select>
+
+	<update id="incrementDowncount">
+		UPDATE FILE_DETAIL
+		SET
+		FILE_DWNCNT = FILE_DWNCNT+1
+		WHERE ATCH_FILE_NO = #{atchFileNo} AND FILE_SN = #{fileSn}
+	</update>
+
+	<update id="disableFile">
+		UPDATE "FILE"
+		SET USE_AT = 'N'
+		WHERE ATCH_FILE_NO = #{atchFileNo}
+	</update>
+
+	<delete id="deleteFileDetail">
+		DELETE FROM FILE_DETAIL
+		WHERE ATCH_FILE_NO = #{atchFileNo} AND FILE_SN = #{fileSn}
+	</delete>
+
+	<delete id="deleteDisabledFile">
+		DELETE FROM "FILE"
+		WHERE ATCH_FILE_NO = #{atchFileNo} AND USE_AT IS NULL
+	</delete>
+
+	<delete id="deleteDisabledFileDetails">
+		DELETE FROM FILE_DETAIL
+		WHERE ATCH_FILE_NO IN (
+			SELECT ATCH_FILE_NO
+			FROM "FILE"
+			WHERE ATCH_FILE_NO = #{atchFileNo} AND USE_AT IS NULL
+		)
+	</delete>
+</mapper>

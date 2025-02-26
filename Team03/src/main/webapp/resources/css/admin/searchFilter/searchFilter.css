@@ -1,0 +1,181 @@
+
+
+.autocomplete-suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.autocomplete-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background-color: #f1f1f1;
+}
+
+.mt-2 {
+     margin-top: 1px!important; 
+}
+
+/* 기존 CSS 스타일링 */
+
+.modal-dialog {
+    max-width: 600px;
+}
+
+.modal-header {
+    background-color: #f0f8ff; /* 약간의 파스텔 색상 추가 */
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* .btn-primary { */
+/*     background-color: #5D87FF; */
+/*     border-color: #007bff; */
+/* } */
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-right: 1px solid #ccc;
+}
+
+.input-group input.form-control {
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+
+.childFields .form-select {
+    margin-top: 10px;
+}
+
+.autocomplete-container {
+    position: absolute; /* 부모 요소와 상대적으로 위치를 설정 */
+    z-index: 1000; /* 다른 요소 위에 나타나도록 설정 */
+    background-color: white; /* 배경색 지정 */
+    max-height: 200px; /* 최대 높이 제한 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+    width: 100%; /* 입력 필드와 동일한 너비 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+}
+
+.autocomplete-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.autocomplete-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* 추가 버튼 */
+#showFormButton {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#inputFieldsContainer > div {
+    margin-bottom: 20px;
+}
+
+/* 스크롤바 스타일 추가 */
+.modal-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-group {
+    flex: 1;  /* 각 input 요소가 동일한 크기를 갖게 만듭니다. */
+    margin-right: 20px;
+}
+
+.form-control {
+    width: 100%;  /* 각 input 요소가 공간을 최대한 활용하게 만듭니다. */
+}
+.form-select{
+	margin-bottom: 20px;
+	width: 250px; /* 원하는 너비 설정 */
+}
+
+.modal-dialog {
+    max-width: 35%; /* 모달 최대 너비를 화면의 80%로 설정 */
+    width: 35%; /* 기본 너비를 80%로 설정 */
+}
+.modal-content {
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+     min-height: 500px; /* 최소 높이를 설정 (필요시) */
+}
+
+.modal-header {
+    border-bottom: 2px solid #007bff; /* 하단 테두리 강조 */
+    font-style: italic;
+    font: bold;
+}
+
+.modal-body {
+    padding: 50px; /* 내부 여백 추가 */
+    overflow-y: visible; /* 스크롤바 제거 */
+}
+
+#saveChangesButton {
+    background: linear-gradient(90deg, #007bff, #0056b3); /* 버튼 그라데이션 */
+    border: none;
+    font-weight: bold;
+}
+
+#saveChangesButton:hover {
+    background: linear-gradient(90deg, #0056b3, #007bff); /* 호버 시 색상 전환 */
+}

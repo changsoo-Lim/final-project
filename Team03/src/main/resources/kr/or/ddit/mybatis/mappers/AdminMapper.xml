@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.admin.dao.AdminMapper">
+
+
+<!-- 	<sql id="searchFrag">
+		<where>
+			1차 필터 (업종)
+			<if
+				test="detailCondition.compInd != null and detailCondition.compInd != ''">
+				AND comp_ind = #{detailCondition.compInd}
+			</if>
+			2차 필터
+			<if
+				test="detailCondition.compJob != null and detailCondition.compJob != ''">
+				AND comp_job = #{detailCondition.compJob}
+			</if>
+			3차 필터
+			<if
+				test="detailCondition.compJobDetail != null and detailCondition.compJobDetail != ''">
+				AND comp_job_detail = #{detailCondition.compJobDetail}
+			</if>
+			회사명 검색
+			<if
+				test="detailCondition.compNm != null and detailCondition.compNm != ''">
+				AND comp_nm LIKE CONCAT('%', #{detailCondition.compNm}, '%')
+			</if>
+			대표자명 검색
+			<if
+				test="detailCondition.compRepresentative != null and detailCondition.compRepresentative != ''">
+				AND comp_representative LIKE CONCAT('%',
+				#{detailCondition.compRepresentative}, '%')
+			</if>
+		</where>
+	</sql> -->
+	
+	
+	
+	<sql id="searchFrag">
+    <where>
+        <if test="simpleCondition.searchType != null and simpleCondition.searchType != ''">
+            <choose>
+                <when test="simpleCondition.searchType == 'compNm'">
+                    AND comp_nm LIKE '%' || #{simpleCondition.searchWord} || '%'
+                </when>
+                <when test="simpleCondition.searchType == 'compId'">
+                    AND comp_id LIKE '%' || #{simpleCondition.searchWord} || '%'
+                </when>
+                <when test="simpleCondition.searchType == 'compNum'">
+                    AND comp_num LIKE '%' || #{simpleCondition.searchWord} || '%'
+                </when>
+            </choose>
+        </if>
+    </where>
+</sql>
+
+
+<select id="selectCompanyList" resultType="kr.or.ddit.vo.CompanyVO">
+    SELECT B.*
+    FROM (
+        SELECT A.*, ROWNUM AS RNUM
+        FROM (
+            SELECT
+                comp_id,
+                comp_num,
+                comp_nm,
+                comp_representative,
+                comp_type,
+                comp_ind,
+                comp_job,
+                comp_job_detail,
+                comp_zip,
+                comp_addr1,
+                comp_addr2,
+                comp_phone,
+                comp_email,
+                comp_mobile,
+                comp_cont,
+                comp_status,
+                atch_file_no
+            FROM company
+            <include refid="searchFrag" />
+            ORDER BY comp_num DESC
+        ) A
+    ) B
+    WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+</select>
+
+	<select id="selecteCompany" resultType="kr.or.ddit.vo.CompanyVO">
+		SELECT
+		comp_id,
+		comp_num,
+		comp_nm,
+		comp_representative,
+		comp_type,
+		comp_ind,
+		comp_job
+		comp_job_detail,
+		comp_zip,
+		comp_addr1,
+		comp_addr2,
+		comp_phone,
+		comp_email,
+		comp_mobile,
+		comp_cont,
+		comp_status,
+		atch_file_no
+		FROM
+		company
+		WHERE comp_id = #{compId}
+	</select>
+
+	<select id="selectTotalRecord" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		company
+		<include refid="searchFrag" />
+	</select>
+
+	<select id="monthUserList" resultType="Map">
+		SELECT 
+		    TO_CHAR(TO_DATE(USER_JOINDT, 'YYYYMMDD'), 'YYYY-MM') AS YEARMONTH,
+		    COUNT(*) AS TOTALUSER,
+		    SUM(CASE WHEN USER_CD = 'ROLE02' THEN 1 ELSE 0 END) AS MEMBER,
+		    SUM(CASE WHEN USER_CD = 'ROLE03' THEN 1 ELSE 0 END) AS COMPANY
+		FROM 
+		    USERS
+		WHERE
+		    USER_CD IN ('ROLE02', 'ROLE03')
+		GROUP BY 
+		    TO_CHAR(TO_DATE(USER_JOINDT, 'YYYYMMDD'), 'YYYY-MM')
+		ORDER BY 
+		    TO_CHAR(TO_DATE(USER_JOINDT, 'YYYYMMDD'), 'YYYY-MM')
+	</select>
+
+	<select id="monthEmployList" resultType="Map">
+		SELECT 
+		    TO_CHAR(TO_DATE(EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM') AS YEARMONTH,
+		    COUNT(*) AS TOTALEMPLOY,
+		    SUM(CASE WHEN EMPLOY_DEL = 'Y' THEN 1 ELSE 0 END) AS ENDEMPLOY,
+		    SUM(CASE WHEN EMPLOY_DEL = 'N' THEN 1 ELSE 0 END) AS INGEMPLOY
+		FROM 
+		    EMPLOY
+		GROUP BY 
+		    TO_CHAR(TO_DATE(EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM')
+		ORDER BY 
+		    TO_CHAR(TO_DATE(EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM')
+	</select>
+	
+	<select id="sidoList" resultType="Map">
+		SELECT
+		    TO_CHAR(TO_DATE(e.EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM') AS YEARMONTH,
+		    (SELECT CODE_NM FROM CODE c WHERE c.code_cd = f.FILED_REGION ) AS REGION,
+		    COUNT(DISTINCT e.EMPLOY_NO) AS EMPLOY,
+		    COUNT(DISTINCT es.MEM_ID) AS MEMBER
+		FROM 
+		    EMPLOY e
+		JOIN 
+		    FIELD f ON e.EMPLOY_NO = f.EMPLOY_NO
+		LEFT JOIN 
+		    EMPLOYSCRAP es ON e.EMPLOY_NO = es.EMPLOY_NO
+		GROUP BY 
+		    TO_CHAR(TO_DATE(e.EMPLOY_SD, 'YYYYMMDD'), 'YYYY-MM'),
+		    f.FILED_REGION
+		ORDER BY 
+		    YEARMONTH, EMPLOY DESC
+	</select>
+	
+	<select id="reportList" resultType="Map">
+		SELECT 
+    		COUNT(*) AS REPORTCOUNT
+		FROM 
+		    REPORT r
+		    INNER JOIN MEMBER m ON r.REPORTED_MEM_ID = m.MEM_ID
+		WHERE 
+		    m.MEM_STATUS = 'N'
+	</select>
+	
+	<select id="reviewList" resultType="Map">
+		SELECT
+    		COUNT(*) AS REVIEWCOUNT
+		FROM
+		    REVIEW
+		WHERE
+		    REVIEW_STATUS = 'N'
+	</select>
+	
+	<select id="noticeList" resultType="Map">
+		SELECT
+		    COUNT(*) AS NOTICECOUNT
+		FROM
+		    notice
+		WHERE
+		    notice_type = 'NT05'
+		    AND
+		    NOTICE_INQUIRIES_YN = 'N'
+	</select>
+	
+	<select id="mountAmountList" resultType="Map">
+		SELECT
+		    BUY_METHOD AS BUYMETHOD,
+		    COUNT(*) AS BUYCOUNT
+		FROM
+		    BUY
+		GROUP BY
+		    BUY_METHOD
+		ORDER BY
+		    BUYCOUNT DESC
+	</select>
+	
+	<select id="prodAmountList" resultType="Map">
+		SELECT
+		    TO_CHAR(BUY_DATE, 'YYYY-MM') AS YEARMONTH,
+		    SUM(BUY_AMOUNT) AS TOTAL_AMOUNT
+		FROM
+		    BUY
+		GROUP BY
+		    TO_CHAR(BUY_DATE, 'YYYY-MM')
+		ORDER BY
+		    YEARMONTH
+	</select>
+	
+	<select id="totalList" resultType="Map">
+
+	</select>
+	
+</mapper>

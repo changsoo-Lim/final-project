@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prod.product.dao.ProdMapper">
+
+	<resultMap type="ProductVO" id="productMap" autoMapping="true">
+		<result property="atchFileNo" column="ATCH_FILE_NO" />
+		<association property="file" column="ATCH_FILE_NO" 
+        		select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />  
+	</resultMap>
+
+	<select id="selectProdList" resultMap="productMap">
+		SELECT
+		    product_cd,
+		    product_nm,
+		    product_period,
+		    product_price,
+		    product_type,
+		    atch_file_no,
+		    product_del
+		FROM
+		    product
+		WHERE
+		    product_del = 'N'
+		ORDER BY product_price DESC
+	</select>
+
+	<select id="selectProd" resultMap="productMap">
+		SELECT
+		    product_cd,
+		    product_nm,
+		    product_period,
+		    product_price,
+		    product_type,
+		    atch_file_no,
+		    product_del
+		FROM
+		    product p
+		WHERE
+		    product_del = 'N' AND PRODUCT_CD = #{productCd,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertProd">
+		<selectKey order="BEFORE" resultType="string" keyProperty="productCd">
+			SELECT 'prod' || TO_CHAR(SYSDATE, 'YYYYMMDD') || LPAD(PRODUCT_SEQ.NEXTVAL, 6, '0') FROM DUAL
+
+		</selectKey>
+		INSERT INTO product (
+		    product_cd,
+		    product_nm,
+		    product_period,
+		    product_price,
+		    product_type,
+		    atch_file_no,
+		    product_del
+		) VALUES (
+		      #{productCd,jdbcType=VARCHAR}
+		    , #{productNm,jdbcType=VARCHAR}
+		    , #{productPeriod,jdbcType=VARCHAR}
+		    , #{productPrice,jdbcType=NUMERIC}
+		    , #{productType,jdbcType=VARCHAR}
+		    , #{atchFileNo,jdbcType=NUMERIC}
+		    , 'N'
+		)
+	</insert>
+	
+	<update id="updateProd">
+		UPDATE product
+		SET
+		     PRODUCT_NM = #{productNm,jdbcType=VARCHAR}
+		    ,PRODUCT_PERIOD = #{productPeriod,jdbcType=VARCHAR}
+		    ,PRODUCT_PRICE = #{productPrice,jdbcType=NUMERIC}
+		    ,PRODUCT_TYPE = #{productType,jdbcType=VARCHAR}
+		    ,ATCH_FILE_NO = #{atchFileNo,jdbcType=NUMERIC}
+		    ,PRODUCT_DEL = 'N'
+		WHERE
+		    PRODUCT_CD = #{productCd,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="deleteProd">
+		UPDATE product
+		SET
+		    PRODUCT_DEL = 'Y'
+		WHERE
+			PRODUCT_CD = #{productCd,jdbcType=VARCHAR}
+	</delete>
+</mapper>

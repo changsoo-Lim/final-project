@@ -1,0 +1,182 @@
+@charset "UTF-8";
+body {
+	background-color: rgb(247, 248, 250);
+}
+.Section_freelancer {
+    max-width: 700px;
+    width: 700;
+    max-width: 1080px;
+    margin: 0px auto;
+    position: relative;
+    padding: 90px 20px;
+}
+.freelancer-container {
+	display: flex;
+    flex-direction: row;
+    gap: 16px;
+    column-gap: 20px;
+}
+.freeDetail-article {
+	padding: 40px;
+	background-color: white;
+}
+.freeDetail-body {
+	min-width: 600px;
+	padding: 0px;
+}
+.freeDetail-profile {
+	display: flex;
+    gap: 20px;
+}
+.freeDetail-img {
+	width: 80px;
+    height: 80px;
+}
+img {
+	width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+hr {
+	margin: 30px 0;
+}
+p {
+	font-size: 14px;
+	margin-top: 10px;
+	margin-bottom: 40px;
+}
+.p-text {
+	font-size: 14px;
+}
+label {
+	margin-bottom: 15px;
+	font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.0145em;
+    color: rgb(51, 51, 51);
+}
+.freeDetail-content {
+	display: flex;
+	flex-direction: column;
+	column-gap: 30px;
+    row-gap: 20px;
+    width: 100%;
+}
+ul {
+	letter-spacing: 0.0192em;
+    color: rgb(118, 118, 118);
+    padding-left: 0rem;
+    list-style: none;
+}
+ul li {
+    font-size: 15px;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+.freeDetail-li::before {
+    content: "•";
+    margin-right: 5px;
+    font-size: 15px;
+}
+.freeDetail-freeStyle {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 16px;
+    height: 28px;
+    margin-left: 12px;
+    background-color: #e8d8ff;
+    color: #8b3dff;
+}
+.freeDetail-freeskills {
+    text-align: left;
+    display: inline-block;
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 15px;
+    background-color: rgb(242, 244, 247);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    color: rgb(118, 118, 118);
+}
+.freeDetail-freefiles {
+    text-align: left;
+    display: inline-block;
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background-color: rgb(242, 244, 247);
+}
+.freeDetail-freefiles a {
+	font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    align-items: center;
+	color: rgb(51, 51, 51);
+}
+.download-img {
+	width: 16px; /* 다운로드 아이콘 크기 */
+    height: 16px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.freeDetail-offer {
+    position: relative;
+    min-width: 340px;
+    max-width: 340px;
+    height: max-content;
+    padding: 30px 24px;
+    border-radius: 5px;
+    background-color: white;
+}
+.form-select:disabled {
+    background-color: rgb(242, 244, 247);
+    cursor: not-allowed;
+}
+.text-center {
+	text-align: center;
+	margin-top: 20px;
+}
+#goTo-freelancerList {
+	margin-top: 30px;
+	--bs-btn-padding-y: .25rem;
+	--bs-btn-padding-x: .5rem; 
+	--bs-btn-font-size: .75rem;
+}
+/* 블러 컨테이너 */
+.blur-container {
+    position: relative;
+    min-height: 250px;
+}
+.blur {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
+}
+/* 블러 오버레이 */
+.blur-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 10; /* 블러된 콘텐츠 위에 표시 */
+    width: 300px; /* 적당한 너비 설정 */
+}
+
+/* 오버레이 텍스트 */
+.blur-overlay p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+.notBlur-container {
+	min-height: 250px;
+}

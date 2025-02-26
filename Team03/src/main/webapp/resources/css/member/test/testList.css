@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+.btn[disabled] {
+    pointer-events: none; /* 클릭 불가 */
+    opacity: 0.65; /* 반투명 */
+}

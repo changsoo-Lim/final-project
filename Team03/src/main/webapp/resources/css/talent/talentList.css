@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+/* 기본 설정 */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 부드러운 애니메이션 */
+    cursor: pointer; /* 마우스 커서 변경 */
+}
+
+/* 호버 상태 */
+.card:hover {
+    transform: scale(1.05); /* 약간 확대 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    z-index: 1; /* 다른 요소보다 위로 올라오게 설정 */
+    background-color: #f8f9fa;
+}

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.resume.dao.ResumeMapper">
+
+	<select id="selectGraduationList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'graduation'
+	</select>
+
+	<select id="selectHighMajorList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'high-major'
+	</select>
+
+	<select id="selectAdmissionList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'admission'
+	</select>
+
+	<select id="selectUnivTypeList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'univ-type'
+	</select>
+
+	<select id="selectUnivMajorList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'univ-major'
+	</select>
+
+	<select id="selectUnivDegreeList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'univ-degree'
+	</select>
+
+	<select id="selectIndustryList" resultType="CodeVO">
+		SELECT
+		CODE_CD
+		,CODE_NM
+		,CODE_PARENT
+		FROM
+		CODE
+		WHERE CODE_PARENT = 'industry'
+	</select>
+
+	<select id="selectIndustryDetailList" resultType="CodeVO">
+		SELECT
+		CODE_CD,
+		CODE_NM,
+		CODE_PARENT
+		FROM
+		CODE
+		WHERE
+		CODE_PARENT LIKE 'in__'
+	</select>
+
+	<select id="selectCompanySizeList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'company-size'
+	</select>
+
+	<select id="selectCompanyTypeList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'company-type'
+	</select>
+
+	<select id="selectCompanyListingList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'company-listing'
+	</select>
+
+	<select id="selectCityList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_cd like 'city%' and code_parent = 'city'
+	</select>
+
+	<select id="selectCityDetailList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent like 'city%'
+	</select>
+
+	<select id="selectWorkTypeList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'work-type'
+	</select>
+
+	<select id="selectResignReasonList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'resign-reason'
+	</select>
+
+	<select id="selectCretList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'cret'
+	</select>
+
+	<select id="selectComList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_cd like 'com%' and code_parent is null
+	</select>
+
+	<select id="selectComDetailList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent like 'com__'
+	</select>
+
+	<select id="selectComLVList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'comLV'
+	</select>
+
+	<select id="selectLangList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'lang'
+	</select>
+
+	<select id="selectSpeakList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'speaking'
+	</select>
+
+	<select id="selectReadList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'reading'
+	</select>
+
+	<select id="selectWriteList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'writing'
+	</select>
+
+	<select id="selectLangTestList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'langTest'
+	</select>
+
+	<select id="selectCountryList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'country'
+	</select>
+	
+	<select id="selectSalaryList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'salary-range'
+	</select>
+	
+	<select id="selectURLList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'document'
+	</select>
+	
+	<select id="selectCertList" resultType="CodeVO">
+		SELECT
+		    code_cd,
+		    code_nm,
+		    code_parent
+		FROM
+		    code
+		WHERE
+		    code_parent like 'cer_____'
+	</select>
+	
+	<update id="updateMemberImage">
+		UPDATE MEMBER
+		SET
+			ATCH_FILE_NO = #{atchFileNo,jdbcType=NUMERIC}
+		WHERE
+			MEM_ID = #{memId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

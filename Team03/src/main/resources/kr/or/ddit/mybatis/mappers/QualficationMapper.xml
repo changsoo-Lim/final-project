@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.qualfication.dao.QualficationMapper">
+	<insert id="insertQualfication">
+		<selectKey order="BEFORE" resultType="int" keyProperty="qualificationNo">
+		    SELECT QUALIFICATION_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO qualification (
+		    qualification_no,
+		    qualification_dt,
+		    mem_id
+		) VALUES (
+		      #{qualificationNo,jdbcType=NUMERIC}
+		    , #{qualificationDt,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectQualificationList" resultType="QualificationVO">
+		SELECT
+		    qualification_no,
+		    qualification_dt,
+		    mem_id
+		FROM
+		    qualification
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateQualfication">
+		UPDATE qualification
+		SET
+		    QUALIFICATION_NO = #{qualificationNo,jdbcType=NUMERIC}
+		    ,QUALIFICATION_DT = #{qualificationDt,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    QUALIFICATION_NO = #{qualificationNo,jdbcType=NUMERIC}
+	</update>
+</mapper>

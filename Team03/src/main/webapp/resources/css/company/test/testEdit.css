@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+.card-header-test{
+	font-size: large;
+    font-weight: 900;
+}
+
+/* 기본 스타일 */
+.btn-link {
+    color: #007bff; 		/* 기본 텍스트 색상 */
+    text-decoration: none; 	/* 링크 기본 밑줄 제거 */
+    font-weight: bold; 		/* 텍스트 두껍게 */
+    font-size: 1rem; 		/* 글자 크기 */
+    padding: 5px 10px; 		/* 여백 */
+    border-radius: 5px; 	/* 모서리 둥글게 */
+}
+
+/* 호버 효과 */
+.btn-link:hover {
+    color: #0056b3; 				/* 호버 시 텍스트 색상 변경 */
+    text-decoration: underline; 	/* 호버 시 밑줄 추가 */
+    background-color: #e9ecef; 		/* 배경 색상 추가 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 클릭 시 효과 */
+.btn-link:active {
+    color: #004085; 			/* 클릭 시 색상 변경 */
+    background-color: #c6d2e1; 	/* 클릭 시 배경색 */
+}
+
+.test-nav-btn {
+	border: 2px solid #5D87FF !important;
+    border-radius: 10px !important;
+}
+
+.test-nav-btn.active {
+    font-weight: bold;
+    color: #FFFFFF;
+    background: #5D87FF;
+}
+
+.answerCheckbox{
+	border-radius: 0.25em !important;
+}
+.test-item{
+	width: 12% !important;
+}

@@ -1,0 +1,41 @@
+/* 테이블 셀 높이와 패딩 줄이기 */
+.custom-table th, .custom-table td {
+	padding: 0.2rem; /* 기본 셀 패딩을 줄임 */
+	line-height: 0.5; /* 줄 간격 최소화 */
+	vertical-align: middle; /* 내용 수직 정렬 */
+	width: 50px;
+}
+
+/* 열 너비 조정 */
+.custom-table .col-seq {
+	width: 5%; /* 순번 열 */
+}
+
+.custom-table .col-company {
+	width: 50%; /* 기업명 열 */
+	white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+	overflow: hidden; /* 넘치는 텍스트 숨김 */
+	text-overflow: ellipsis; /* 말줄임표 표시 */
+}
+
+.custom-table .col-group {
+	width: 15%; /* 그룹 열 */
+}
+
+.custom-table .col-id {
+	width: 20%; /* 아이디 열 */
+}
+
+.custom-table .col-action {
+	width: 10%; /* 관리 열 */
+}
+
+/* 버튼 크기 조정 */
+.btn-sm {
+	padding: 0.2rem 0.5rem; /* 버튼 높이를 줄이기 위한 패딩 */
+	font-size: 0.8rem; /* 버튼 텍스트 크기 조정 */
+}
+
+.mt-5 {
+	margin-top: 0rem !important;
+}

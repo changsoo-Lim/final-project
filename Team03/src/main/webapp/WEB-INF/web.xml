@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>Team03</display-name>
+	<welcome-file-list>
+		<welcome-file>index.do</welcome-file>
+	</welcome-file-list>
+
+	<!-- 상위 컨테이너를 형성하기 위한 빈 메타 데이터 등록 파일의 위치 설정 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:kr/or/ddit/spring/*.xml</param-value>
+	</context-param>
+
+	<!-- ServlaeContext가 초기화되는 시점에 발생하는 이벤트를 처리하는 핸들러(리스너) 등록 : root web application 
+		context형성 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- request body의 charset설정 -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<async-supported>true</async-supported> <!-- 비동기 지원 활성화 -->
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- PUT / DELETE 요청의 경우, WAS 가 해당 요청을 파싱하지 않도록 설정되어 있음. -->
+	<!-- WAS 를 대신하여 요청을 파싱하기 위한 필터. -->
+	<filter>
+		<filter-name>FormContentFilter</filter-name>
+		<filter-class>org.springframework.web.filter.FormContentFilter</filter-class>
+		<async-supported>true</async-supported> <!-- 비동기 지원 활성화 -->
+	</filter>
+	<filter-mapping>
+		<filter-name>FormContentFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 	_method 파라미터에 설정된 값으로 요청의 메소드를 변경하기 위한 Filter(wrapper request 로 변경함) -->
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+		<async-supported>true</async-supported> <!-- 비동기 지원 활성화 -->
+	</filter>
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- multipart request 를 wrapper request 로 변경. -->
+	<filter>
+		<filter-name>MultipartFilter</filter-name>
+		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+		<async-supported>true</async-supported> <!-- 비동기 지원 활성화 -->
+	</filter>
+	<filter-mapping>
+		<filter-name>MultipartFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter> <!-- 맨 마지막으로 -->
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<async-supported>true</async-supported>  <!-- 비동기 지원 활성화 -->
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--Front Controller Patturn 에 따라 모든 요청(정적 자원 포함)에 대한 사전 처리를 담당함. -->
+	<servlet>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 하위 컨테이너를 생성하기 위한 설정 파일의 위치 정보를 파라미터로 전달함. -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/springmvc/*.xml</param-value>
+		</init-param>
+		<init-param>
+	        <param-name>throwExceptionIfNoHandlerFound</param-name>
+	        <param-value>true</param-value>
+	    </init-param>
+	    
+		<load-on-startup>1</load-on-startup>
+	    <async-supported>true</async-supported> <!-- 비동기 지원 활성화 -->
+		<multipart-config></multipart-config>
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+		<url-pattern>/index.do</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_400.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_404.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>405</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_405.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>415</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_415.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_500.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>503</error-code>
+		<location>/WEB-INF/views/stackUp/error/error_503.jsp</location>
+	</error-page>
+	
+</web-app>

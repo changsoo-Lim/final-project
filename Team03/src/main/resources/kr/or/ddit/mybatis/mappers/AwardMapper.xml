@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.award.dao.AwardMapper">
+
+	<insert id="insertAward">
+		<selectKey order="BEFORE" resultType="int" keyProperty="awardNo">
+		    SELECT AWARD_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO award (
+		    award_no,
+		    award_title,
+		    award_issuer,
+		    award_date,
+		    mem_id
+		) VALUES (
+			  #{awardNo,jdbcType=NUMERIC}
+			, #{awardTitle,jdbcType=VARCHAR}
+			, #{awardIssuer,jdbcType=VARCHAR}
+			, #{awardDate,jdbcType=VARCHAR}
+			, #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectAwardList" resultType="AwardVO">
+		SELECT
+		    award_no,
+		    award_title,
+		    award_issuer,
+		    award_date,
+		    mem_id
+		FROM
+		    award
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY 
+			award_date DESC
+	</select>
+	
+	<update id="updateAward">
+		UPDATE award
+		SET
+		    AWARD_NO = #{awardNo,jdbcType=NUMERIC}
+		    ,AWARD_TITLE = #{awardTitle,jdbcType=VARCHAR}
+		    ,AWARD_ISSUER = #{awardIssuer,jdbcType=VARCHAR}
+		    ,AWARD_DATE = #{awardDate,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    AWARD_NO = #{awardNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteAward">
+		DELETE FROM AWARD
+		WHERE
+			AWARD_NO = #{awardNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectAward" resultType="AwardVO">
+		SELECT
+		    award_no,
+		    award_title,
+		    award_issuer,
+		    award_date,
+		    mem_id
+		FROM
+		    award 
+		WHERE
+			AWARD_NO = #{awardNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

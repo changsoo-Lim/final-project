@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommonsMapper">
+	<sql id="pageHeader">
+		SELECT *
+		FROM (
+		    SELECT 
+		        ROWNUM AS RNUM,
+		        COUNT(*) OVER() AS TOTAL_CNT,
+		        A.*
+		    FROM (
+	</sql>
+	
+	<sql id="pageFooter">
+			) A 
+		) B
+		<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow}
+		]]>
+	</sql>
+	<sql id="pageFooterParam">
+			) A 
+		) B
+		<![CDATA[
+			WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+		]]>
+	</sql>
+	
+	<sql id="codeList">
+		SELECT
+			CODE_CD
+			, CODE_NM
+			, CODE_PARENT
+		FROM CODE
+	</sql>
+	<select id="selectCode">
+		SELECT CODE_CD
+			, CODE_NM
+			, CODE_PARENT
+		FROM CODE
+		WHERE CODE_CD = #{codeCd}
+	
+	</select>
+	
+</mapper>

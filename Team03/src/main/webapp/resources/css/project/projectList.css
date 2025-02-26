@@ -1,0 +1,128 @@
+/* 컨테이너: 전체 카드들을 감싸는 영역 */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    justify-content: flex-start;
+    padding: 20px 40px; /* 컨테이너 여백 추가 */
+}
+
+/* 카드 레이아웃 스타일 */
+.card {
+    width: 100%;
+    max-width: 900px; /* 카드 최대 너비 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+}
+
+/* 메인 컨테이너: 왼쪽(프로젝트 정보) + 오른쪽(수정/삭제 버튼) */
+.main-container {
+    display: flex;
+    justify-content: space-between; /* 좌우 배치 */
+    align-items: flex-start; /* 상단 정렬 */
+    gap: 20px;
+}
+
+/* 왼쪽 콘텐츠: 제목 + info/status 컨테이너 */
+.left-content {
+    flex: 1; /* 왼쪽 영역이 더 넓게 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 제목 스타일 */
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* info와 status를 나란히 배치 */
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-item {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #5A6A85;
+}
+
+/* info 섹션 */
+.info-section1,
+.info-section2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 상태 섹션 */
+.status-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 오른쪽 버튼 영역 */
+.right-buttons {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center; /* 세로 중앙 정렬 */
+    gap: 10px; /* 버튼 간 간격 */
+    margin-top: 15px;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+}
+
+/* 프로젝트 등록 버튼 래퍼 */
+.register-button {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 끝으로 정렬 */
+    margin-bottom: 10px; /* 카드와 등록 버튼 사이 여백 */
+    width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+    padding-right: 85px; /* 카드의 패딩과 동일하게 설정 */
+}
+
+/* 프로젝트 등록 버튼 */
+.register-button a {
+    padding: 10px 20px; /* 버튼 크기 */
+    font-size: 14px;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #28a745; /* 녹색 버튼 */
+    border: none;
+}
+
+
+
+/* 프로젝트가 없을 때 */
+.no-projects {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+}

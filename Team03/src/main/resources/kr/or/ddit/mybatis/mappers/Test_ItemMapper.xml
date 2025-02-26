@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.test.test_item.dao.Test_ItemMapper">
+	<select id="selectQustionTypeCode" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT = 'QUESTION_TYPE'
+	</select>
+
+	<insert id="insertTestItem">
+		<selectKey order="BEFORE" resultType="int" keyProperty="itemNo">
+				 SELECT TEST_ITEM_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST_ITEM (
+		      ITEM_NO           /* 지문번호 */
+		    , ITEM_CONT         /* 지문내용 */
+		    , ITEM_SCORE        /* 지문별점수 */
+		    , ITEM_YN           /* 객관식정답여부 */
+		    , QUE_TYPE          /* 문제타입 */
+		    , QUE_NO            /* 문제번호 */
+		    , ATCH_FILE_NO      /* 지문파일그룹번호 */
+		) VALUES (
+		      #{itemNo, jdbcType=NUMERIC}
+		    , #{itemCont, jdbcType=VARCHAR}
+		    , #{itemScore, jdbcType=NUMERIC}
+		    , #{itemYn, jdbcType=VARCHAR}
+		    , #{queType, jdbcType=VARCHAR}
+		    , #{queNo, jdbcType=NUMERIC}
+		    , #{atchFileNo, jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="selectTestItemList" resultType="TestItemVO">
+		SELECT 
+		      ITEM_NO		/* 지문번호 */
+		    , ITEM_CONT		/* 지문내용 */
+		    , ITEM_SCORE	/* 지문별점수 */
+		    , ITEM_YN		/* 객관식정답여부 */
+		    , QUE_TYPE		/* 문제타입 */
+		    , QUE_NO		/* 문제번호 */
+		    , ATCH_FILE_NO	/* 지문파일그룹번호 */
+		    , ITEM_DEL		/* 삭제여부 */
+		FROM TEST_ITEM		
+		WHERE ITEM_DEL = 'N' AND QUE_NO = #{queNo, jdbcType=NUMERIC}
+		ORDER BY ITEM_NO
+	</select>
+	
+	<select id="selectTestItem" resultType="TestItemVO">
+		SELECT 
+            ITEM_NO		/* 지문번호 */
+		    , ITEM_CONT		/* 지문내용 */
+		    , ITEM_SCORE	/* 지문별점수 */
+		    , ITEM_YN		/* 객관식정답여부 */
+		    , QUE_TYPE		/* 문제타입 */
+		    , QUE_NO		/* 문제번호 */
+		    , ATCH_FILE_NO	/* 지문파일그룹번호 */
+		    , ITEM_DEL		/* 삭제여부 */
+        FROM TEST_ITEM
+        WHERE ITEM_DEL = 'N' AND ITEM_NO = #{itemNo, jdbcType=NUMERIC}
+	</select>
+	
+	<update id="updateTestItem">
+		UPDATE TEST_ITEM
+		SET 
+		      ITEM_CONT = #{itemCont, jdbcType=VARCHAR}			/* 지문내용 */
+		    , ITEM_SCORE = #{itemScore, jdbcType=NUMERIC}		/* 지문별점수 */
+		    , ITEM_YN = #{itemYn, jdbcType=VARCHAR}				/* 객관식정답여부 */
+		    , QUE_TYPE = #{queType, jdbcType=VARCHAR}			/* 문제타입 */
+		    , QUE_NO = #{queNo, jdbcType=NUMERIC}				/* 문제번호 */
+		    <if test="atchFileNo neq null">
+				, ATCH_FILE_NO = #{atchFileNo, jdbcType=NUMERIC}	/* 지문파일그룹번호 */
+			</if>
+		    
+		WHERE ITEM_NO = #{itemNo, jdbcType=NUMERIC}				/* 지문번호 */
+	</update>
+	
+	<update id="deleteTestItem">
+		UPDATE TEST_ITEM
+		SET 
+		    ITEM_DEL = 'Y'
+		WHERE ITEM_NO = #{itemNo, jdbcType=NUMERIC}				/* 지문번호 */
+	</update>
+	
+</mapper>

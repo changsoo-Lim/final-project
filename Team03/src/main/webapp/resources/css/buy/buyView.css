@@ -1,0 +1,7 @@
+@charset "UTF-8";
+div.clickable.selected {
+    border: 1px solid #007bff !important;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5) !important;
+    transition: all 0.3s ease-in-out !important;
+}
+

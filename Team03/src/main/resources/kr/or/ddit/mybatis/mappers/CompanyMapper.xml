@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.company.company.dao.CompanyMapper">
+
+	<resultMap type="kr.or.ddit.vo.CompanyVO" id="companyMap"
+		autoMapping="true">
+		<id property="compId" column="COMP_ID" />
+		<association property="file" column="ATCH_FILE_NO"
+			select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+		<collection property="bftList"
+			ofType="kr.or.ddit.vo.Cmp_BftVO" autoMapping="true">
+			<id property="cmpbftNo" column="CMPBFT_NO" />
+			<result property="cmpbftTile" column="CMPBFT_TILE" />
+			<result property="cmpbftDel" column="CMPBFT_DEL" />
+		</collection>
+		<collection property="reviewList"
+			ofType="kr.or.ddit.vo.ReviewVO" autoMapping="true">
+			<id property="reviewNo" column="REVIEW_NO" />
+			<result property="reviewTitle" column="REVIEW_TITLE" />
+			<result property="reviewCont" column="REVIEW_CONT" />
+			<result property="reviewRating" column="REVIEW_RATING" />
+			<result property="reviewDt" column="REVIEW_DT" />
+			<result property="memId" column="MEM_ID" />
+		</collection>
+
+		<collection property="buyList" ofType="kr.or.ddit.vo.BuyVO"
+			autoMapping="true">
+			<id property="buyNo" column="BUY_NO" />
+			<result property="buyNo" column="BUY_NO" />
+			<result property="productCd" column="PRODUCT_CD" />
+			<result property="employNo" column="EMPLOY_NO" />
+			<result property="buyAmount" column="BUY_AMOUNT" />
+			<result property="buyMethod" column="BUY_METHOD" />
+			<result property="buyDate" column="BUY_DATE" />
+			<result property="buyQty" column="BUY_QTY" />
+			<result property="buySdt" column="BUY_SDT" />
+			<result property="buyEdt" column="BUY_EDT" />
+		</collection>
+
+		<collection property="employList"
+			ofType="kr.or.ddit.vo.EmployVO" autoMapping="true">
+			<id property="employNo" column="EMPLOY_NO" />
+
+			<collection property="fieldList"
+				ofType="kr.or.ddit.vo.FieldVO" autoMapping="true">
+				<id property="filedNo" column="FILED_NO" />
+
+				<collection property="filterList"
+					ofType="kr.or.ddit.vo.FilterVO" autoMapping="true">
+					<id property="filterNo" column="FILTER_NO" />
+				</collection>
+			</collection>
+		</collection>
+	</resultMap>
+
+
+	<resultMap type="kr.or.ddit.vo.EmployVO" id="empMap"
+		autoMapping="true">
+		<id property="employNo" column="EMPLOY_NO" />
+		<collection property="fieldList" autoMapping="true"
+			ofType="kr.or.ddit.vo.FieldVO">
+			<id property="filedNo" column="FILED_NO" />
+			<collection property="applyList" autoMapping="true" ofType="kr.or.ddit.vo.ApplyVO">
+				<id property="applyNo" column="APPLY_NO"/>
+			</collection>
+		</collection>
+	</resultMap>
+
+
+	<select id="selectCompany" resultMap="companyMap">
+		SELECT
+		c.COMP_ID,
+		c.COMP_NUM,
+		c.COMP_NM,
+		c.COMP_REPRESENTATIVE,
+		(SELECT code_nm FROM CODE WHERE code_cd = c.COMP_TYPE) AS COMP_TYPE,
+		(SELECT code_nm FROM CODE WHERE code_cd = c.COMP_IND) AS COMP_IND,
+		(SELECT code_nm FROM CODE WHERE code_cd = c.COMP_JOB) AS COMP_JOB,
+		c.COMP_ZIP,
+		c.COMP_ADDR1,
+		c.COMP_ADDR2,
+		c.COMP_PHONE,
+		c.COMP_EMAIL,
+		c.COMP_MOBILE,
+		c.COMP_CONT,
+		c.ATCH_FILE_NO,
+		(SELECT code_nm FROM CODE WHERE code_cd = c.COMP_JOB_DETAIL) AS
+		COMP_JOB_DETAIL,
+
+		b.CMPBFT_NO,
+		b.CMPBFT_TILE,
+		b.CMPBFT_DEL,
+
+		r.REVIEW_NO,
+		r.REVIEW_TITLE,
+		r.REVIEW_CONT,
+		r.REVIEW_RATING,
+		r.REVIEW_DT,
+		r.MEM_ID,
+
+		d.BUY_NO,
+		d.EMPLOY_NO,
+		d.BUY_AMOUNT,
+		d.BUY_METHOD,
+		d.BUY_DATE,
+		d.BUY_QTY,
+		TO_CHAR(TO_DATE(d.BUY_SDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS BUY_SDT,
+		TO_CHAR(TO_DATE(d.BUY_EDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS BUY_EDT,
+		d.ATCH_FILE_NO,
+		(SELECT p.PRODUCT_NM
+		FROM PRODUCT p
+		WHERE p.PRODUCT_CD = d.PRODUCT_CD) AS PRODUCT_CD
+
+		FROM
+		COMPANY c
+		LEFT JOIN
+		CMP_BFT b ON c.COMP_ID = b.COMP_ID AND b.CMPBFT_DEL = 'N'
+		LEFT JOIN
+		REVIEW r ON c.COMP_ID = r.COMP_ID AND r.REVIEW_STATUS = 'Y' AND r.REVIEW_DEL
+		= 'N'
+		LEFT JOIN
+		BUY d ON c.COMP_ID = d.COMP_ID
+		WHERE
+		c.COMP_ID = #{compId}
+		AND c.COMP_STATUS = 'N'
+	</select>
+
+	<update id="updateCompContent">
+		UPDATE company
+		SET
+		comp_cont = #{compCont}
+		WHERE
+		comp_id
+		= #{compId}
+	</update>
+
+	<select id="selecteCode" resultType="kr.or.ddit.vo.CodeVO">
+		SELECT
+		code_cd,
+		code_nm,
+		code_parent
+		FROM
+		code
+		WHERE
+		code_cd LIKE 'bf%'
+	</select>
+
+	<select id="selectCompMobile" resultType="CompanyVO">
+		SELECT
+		COMP_ID /* 기업 아이디
+		*/
+		FROM COMPANY
+		WHERE COMP_MOBILE = #{compMobile,
+		jdbcType=VARCHAR}
+	</select>
+
+	<update id="updateInfo">
+		UPDATE company
+		SET
+		comp_phone = #{compPhone}
+		, comp_email = #{compEmail}
+		, comp_mobile = #{compMobile}
+		WHERE comp_id = #{compId}
+	</update>
+
+	<update id="updateCompanyImage">
+		UPDATE company
+		SET
+		ATCH_FILE_NO = #{atchFileNo,jdbcType=NUMERIC}
+		WHERE
+		comp_id = #{compId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectRecommendList" resultMap="companyMap">
+		SELECT
+		a.comp_id,
+		a.comp_nm,
+		a.comp_ind,
+		b.employ_no,
+		b.employ_title,
+		b.employ_type,
+		b.employ_experience,
+		b.employ_education,
+		b.employ_salary,
+		b.employ_sd,
+		b.employ_ed,
+		b.employ_application,
+		b.employ_url,
+		b.employ_hit,
+		b.employ_del,
+		b.employ_workday,
+		b.employ_swh,
+		b.employ_salary_yn,
+		b.employ_ewh,
+		c.filed_no,
+		c.filed_nm,
+		c.filed_region,
+		c.filed_personnel,
+		c.filed_jobs,
+		c.filed_preference,
+		c.filed_region_gungu,
+		c.filed_end_yn,
+		d.filter_no,
+		d.filed_no,
+		d.filter_title_cd,
+		d.filter_cont_cd
+		FROM
+		company a
+		INNER JOIN employ b ON a.comp_id = b.comp_id
+		INNER JOIN field c ON b.employ_no = c.employ_no
+		INNER JOIN filter d ON c.filed_no = d.filed_no
+		WHERE
+		a.comp_status = 'N'
+		AND TO_DATE(b.employ_ed, 'YYYY-MM-DD') >= TO_DATE(SYSDATE,
+		'YYYY-MM-DD')
+	</select>
+
+	<select id="selectCompanyList" resultType="CompanyVO">
+		SELECT
+		comp_id,
+		comp_nm
+		FROM
+		company
+	</select>
+
+	<select id="selectCompEmpList" resultMap="empMap">
+		SELECT
+		    e.employ_no,
+		    e.comp_id,
+		    e.employ_title,
+		    e.employ_type,
+		    e.employ_experience,
+		    (SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+				     FROM code
+				     WHERE code_cd IN (
+				         SELECT REGEXP_SUBSTR(e.employ_education, '[^,]+', 1, LEVEL)
+				         FROM DUAL
+				         CONNECT BY LEVEL &lt;= LENGTH(e.employ_education) -
+				         LENGTH(REPLACE(e.employ_education, ',', '')) + 1))
+				     AS employ_education,
+		    e.employ_salary,
+		    TO_CHAR(TO_DATE(e.employ_sd, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_sd,
+		    TO_CHAR(TO_DATE(e.employ_ed, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_ed,
+		    TO_CHAR(CEIL(TO_DATE(e.employ_ed, 'YYYY-MM-DD') - SYSDATE)) AS employ_dday,
+		    e.employ_application,
+		    e.employ_url,
+		    e.employ_hit,
+		    e.employ_del,
+		    e.employ_workday,
+		    e.employ_swh,
+		    e.employ_salary_yn,
+		    e.employ_ewh,
+		
+		    f.filed_no,
+		    f.filed_nm,
+		    (SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+				     FROM code
+				     WHERE code_cd IN (
+				         SELECT REGEXP_SUBSTR(f.filed_region, '[^,]+', 1, LEVEL)
+				         FROM DUAL
+				         CONNECT BY LEVEL &lt;= LENGTH(f.filed_region) -
+				         LENGTH(REPLACE(f.filed_region, ',', '')) + 1))
+				     AS filed_region,
+		    f.filed_personnel,
+		    f.filed_jobs,
+		    f.filed_preference,
+		    (SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+				     FROM code
+				     WHERE code_cd IN (
+				         SELECT REGEXP_SUBSTR(f.filed_region_gungu, '[^,]+', 1, LEVEL)
+				         FROM DUAL
+				         CONNECT BY LEVEL &lt;= LENGTH(f.filed_region_gungu) -
+				         LENGTH(REPLACE(f.filed_region_gungu, ',', '')) + 1))
+				     AS filed_region_gungu,
+		    f.filed_end_yn,
+		
+		    (SELECT COUNT(*) 
+		     FROM apply a 
+		     WHERE a.filed_no = f.filed_no) AS apply_count
+		
+		FROM employ e
+		INNER JOIN field f 
+		  ON e.employ_no = f.employ_no
+		WHERE e.comp_id = #{compId}
+		AND   e.employ_del = 'N'
+
+	</select>
+
+</mapper>

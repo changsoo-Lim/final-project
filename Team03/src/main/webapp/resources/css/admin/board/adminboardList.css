@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+
+
+
+/* 테이블 헤더 스타일 */
+th {
+    font-weight: 900; /* 굵기를 최대화 */
+    font-size: 1.1em; /* 글자 크기 키우기 */
+    color: #333; /* 텍스트 색상을 어두운 색으로 지정 (예: #333) */
+    
+}
+
+
+/* 검색창 스타일 */
+.search-area {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.search-btn {
+    padding: 5px 10px;
+}
+
+.paperclip-icon {
+    display: inline-block;
+    margin-left: 2px;
+}
+
+.paperclip-icon svg {
+    width: 20px;  /* 아이콘의 너비 */
+    height: 20px;  /* 아이콘의 높이 */
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* 헤더의 게시물 번호 칸을 가운데 정렬 */
+table.table-hover th:nth-child(2) {  /* 2번째 열, 게시물 번호 */
+    text-align: center;  /* 가운데 정렬 */
+}
+
+/* 헤더의 게시물 제목 칸의 너비를 늘리고, 텍스트 가운데 정렬 */
+table.table-hover th:nth-child(3) {  /* 3번째 열, 게시물 제목 */
+   text-align: center;  /* 가운데 정렬 */
+    width: 50%;  /* 원하는 너비로 설정 (50%로 예시) */
+}
+
+/* 헤더의 회원 아이디 칸을 가운데 정렬 */
+table.table-hover th:nth-child(4) {  /* 4번째 열, 회원 아이디 */
+    text-align: center;  /* 가운데 정렬 */
+}
+
+/* 헤더의 게시물 작성일시 칸을 오른쪽 정렬 */
+table.table-hover th:nth-child(5) {  /* 5번째 열, 게시물 작성일시 */
+    text-align: center;  /* 오른쪽 정렬 */
+}
+
+/* 데이터 행의 게시물 번호 칸을 가운데 정렬 */
+table.table-hover td:nth-child(2) {  /* 2번째 열, 게시물 번호 */
+    text-align: center;  /* 가운데 정렬 */
+}
+
+/* 데이터 행의 게시물 제목 칸의 넓이를 늘리고, 텍스트 가운데 정렬 */
+table.table-hover  td:nth-child(3) {  
+   max-width: 150px;  /* 제목의 최대 너비를 150px로 설정 (15자 정도) */
+    white-space: nowrap;  /* 줄 바꿈 방지 */
+    overflow: hidden;  /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis;  /* 텍스트가 넘칠 경우 '...' 표시 */
+}
+
+/* 데이터 행의 회원 아이디 칸을 가운데 정렬 */
+table.table-hover td:nth-child(4) {  /* 4번째 열, 회원 아이디 */
+    text-align: center;  /* 가운데 정렬 */
+}
+
+/* 데이터 행의 게시물 작성일시 칸을 오른쪽 정렬 */
+table.table-hover td:nth-child(5) {  /* 5번째 열, 게시물 작성일시 */
+    text-align: center;  /* 오른쪽 정렬 */
+}
+.text-right{
+	text-align : right;
+	
+}
+btn btn-danger{
+	text-align : right;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+/* 테이블 간격 조정 */
+    .table th, .table td {
+        padding: 13px; /* 셀 안의 패딩 조정 */
+    }

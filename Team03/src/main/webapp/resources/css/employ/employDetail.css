@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+.section-employ {
+	max-width: 1080px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 36px 0 160px;
+	width: 1080px;
+	margin: 0 auto;
+}
+
+.job-container {
+	border: 1px solid #ddd;
+	padding: 60px;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	position: relative;
+}
+
+.comp-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.comp-header-left-top {
+	display: flex;
+	align-items: center;
+}
+
+.comp-name {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.job-title {
+	margin: 10px 0;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.job-meta {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	margin: 10px 0;
+}
+
+.meta-left, .meta-right {
+	flex: 1;
+}
+
+.meta-left {
+	padding-right: 20px;
+}
+
+.meta-right {
+	padding-left: 20px;
+}
+
+.meta-item {
+	font-size: 14px;
+	color: #555;
+	margin-bottom: 8px;
+}
+
+.meta-item span {
+	font-weight: bold;
+	color: #000;
+}
+.detail-img {
+	margin-top: 30px;
+}
+.field-header {
+	display: flex;
+	align-items: center;
+	margin: 60px 0 20px 0;
+}
+
+.field-header h4 {
+	margin: 0 10px;
+}
+
+.field-header-img {
+	width: 30px;
+	height: 30px;
+	border-radius: 30%;
+}
+.field-body-table {
+	display: flex; /* 테이블을 가운데 정렬하기 위해 flexbox 사용 */
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+.field-table {
+	width: 1000px;
+}
+.th1 {
+	width: 160px;
+}
+.th2 {
+	width: 350px;
+}
+.th3 {
+	width: 350px;
+}
+.th4 {
+	width: 80px;
+}
+
+#countdown {
+	font-size: 16px;
+	padding: 10px;
+	background-color: #f5f5f5;
+	border-radius: 5px;
+	width: 250px;
+	display: flex;
+	justify-content: center;
+}
+.apply-btn-area {
+	padding: 20px 0;
+	border-top: 1px dotted #ddd;
+	border-bottom: 1px solid #ddd;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+.apply-area {
+	display: flex;
+	margin-bottom: 20px;
+}
+.apply-area-left {
+	width: 300px;
+	border-right: 1px solid #ddd;
+}
+.apply-area-right {
+	padding-left: 20px;
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.info.dao.MemberInfoMapper">
+
+	<select id="selectMemberInfoCode" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT = 'date_type'
+		   OR CODE_PARENT = 'gender'
+	</select>
+	
+	<select id="selectMemberCertStatus" resultType="Cert_StatusVO">
+		SELECT 
+		      MEM_ID	/* 회원아이디 */
+		    , EMAIL_YN	/* 이메일 인증여부 */
+		    , HP_YN		/* 휴대폰번호 인증여부 */
+		FROM CERT_STATUS
+		WHERE MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	
+	<resultMap type="MemberVO" id="memberMap" autoMapping="true">
+		<id property="memId" column="MEMBER_MEM_ID" />
+		<result property="memNm" column="MEM_NM" />
+		<result property="memGen" column="MEM_GEN" />
+		<result property="memRegno" column="MEM_REGNO" />
+		<result property="memZip" column="MEM_ZIP" />
+		<result property="memAddr1" column="MEM_ADDR1" />
+		<result property="memAddr2" column="MEM_ADDR2" />
+		<result property="memEmail" column="MEM_EMAIL" />
+		<result property="memHp" column="MEM_HP" />
+		<result property="memUrl" column="MEM_URL" />
+		<result property="memFreelancer" column="MEM_FREELANCER" />
+		<result property="memDateType" column="MEM_DATE_TYPE" />
+		<result property="atchFileNo" column="ATCH_FILE_NO" />
+		<association property="certStatus" javaType="Cert_StatusVO">
+	        <id property="memId" column="CERT_MEM_ID" />
+	        <result property="emailYn" column="EMAIL_YN" />
+	        <result property="hpYn" column="HP_YN" />
+    	</association>
+        <association property="file" column="ATCH_FILE_NO" 
+        		select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />  
+	</resultMap>
+	
+	<select id="selectMemberInfo" resultMap="memberMap">
+		SELECT 
+			  M.MEM_ID MEMBER_MEM_ID	/* 회원아이디 */
+		    , M.MEM_NM            		/* 회원이름 */
+		    , M.MEM_GEN           		/* 회원성별 */
+		    , M.MEM_REGNO         		/* 회원생년월일 */
+		    , M.MEM_ZIP           		/* 회원우편번호 */
+		    , M.MEM_ADDR1         		/* 회원기본주소 */
+		    , M.MEM_ADDR2         		/* 회원상세주소 */
+		    , M.MEM_EMAIL         		/* 회원이메일 */
+		    , M.MEM_HP            		/* 회원휴대폰번호 */
+		    , M.MEM_URL           		/* 회원홈페이지/URL */
+		    , M.MEM_FREELANCER    		/* 회원프리랜서여부 */
+		    , M.MEM_DATE_TYPE     		/* 회원생년월일타입 */
+		    , M.ATCH_FILE_NO     		/* 증명사진파일그룹번호 */
+		    , C.MEM_ID CERT_MEM_ID 		/* 회원아이디 */
+		    , C.EMAIL_YN          		/* 회원이메일인증여부 */
+		    , C.HP_YN             		/* 회원휴대폰번호인증여부 */
+		FROM MEMBER M
+		LEFT OUTER JOIN CERT_STATUS C ON (M.MEM_ID = C.MEM_ID)
+		WHERE M.MEM_ID = #{memId, jdbcType=VARCHAR}
+		  AND M.MEM_STATUS = 'N'
+	</select>
+	
+	<select id="selectMemberEmailCheck" resultType="int" >
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEM_EMAIL = #{memEmail, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectMemberPhoneCheck" resultType="int" >
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEM_HP = #{memHp, jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateMemberInfo" >
+		UPDATE MEMBER
+		SET             
+		      MEM_NM        = #{memNm,       jdbcType=VARCHAR}   /* 회원이름 */
+		    , MEM_GEN       = #{memGen,      jdbcType=VARCHAR}   /* 회원성별 */
+		    , MEM_REGNO     = #{memRegno,    jdbcType=VARCHAR}   /* 회원생년월일 */
+		    , MEM_ZIP       = #{memZip,      jdbcType=VARCHAR}   /* 회원우편번호 */
+		    , MEM_ADDR1     = #{memAddr1,    jdbcType=VARCHAR}   /* 회원기본주소 */
+		    , MEM_ADDR2     = #{memAddr2,    jdbcType=VARCHAR}   /* 회원상세주소 */
+		    , MEM_EMAIL     = #{memEmail,    jdbcType=VARCHAR}   /* 회원이메일 */
+		    , MEM_HP        = #{memHp,       jdbcType=VARCHAR}   /* 회원휴대폰번호 */
+		    , MEM_URL       = #{memUrl,      jdbcType=VARCHAR}   /* 회원홈페이지/URL */
+		    , MEM_DATE_TYPE = #{memDateType, jdbcType=VARCHAR}   /* 회원생년월일타입 */  
+		WHERE MEM_ID        = #{memId,       jdbcType=VARCHAR}   /* 회원아이디 */
+	</update>
+	
+	<update id="updateMemberCertstat">
+		UPDATE CERT_STATUS
+		SET 
+		      EMAIL_YN = #{certStatus.emailYn, jdbcType=VARCHAR} /* 이메일 수신 여부 */
+		    , HP_YN    = #{certStatus.hpYn,    jdbcType=VARCHAR} /* SMS 수신 여부 */
+		WHERE MEM_ID = #{memId, jdbcType=VARCHAR}
+	</update>
+</mapper>

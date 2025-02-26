@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.cret.dao.CretMapper">
+	<insert id="insertCert">
+		<selectKey order="BEFORE" resultType="int" keyProperty="certNo">
+		    SELECT CERT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO cert (
+		    cert_no,
+		    cert_nm,
+		    cert_issuer,
+		    cert_date,
+		    cert_pass_cd,
+		    mem_id
+		) VALUES (
+		      #{certNo,jdbcType=NUMERIC}
+		    , #{certNm,jdbcType=VARCHAR}
+		    , #{certIssuer,jdbcType=VARCHAR}
+		    , #{certDate,jdbcType=VARCHAR}
+		    , #{certPassCd,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectCertList" resultType="CertVO">
+		SELECT
+		    cert_no,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = a.cert_nm) as cert_nm,
+		    cert_issuer,
+		    cert_date,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = a.cert_pass_cd) as cert_pass_cd,
+		    mem_id
+		FROM
+		    cert a
+		WHERE
+		   MEM_ID = #{memId,jdbcType=VARCHAR}
+		 ORDER BY cert_date DESC
+	</select>
+	
+	<update id="updateCert">
+		UPDATE cert
+		SET
+		    CERT_NO = #{certNo,jdbcType=NUMERIC}
+		    ,CERT_NM = #{certNm,jdbcType=VARCHAR}
+		    ,CERT_ISSUER = #{certIssuer,jdbcType=VARCHAR}
+		    ,CERT_DATE = #{certDate,jdbcType=VARCHAR}
+		    ,CERT_PASS_CD = #{certPassCd,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    CERT_NO = #{certNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteCert">
+		DELETE FROM cert
+		WHERE
+			CERT_NO = #{certNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectCert" resultType="CertVO">
+		SELECT
+		    cert_no,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = a.cert_nm) as cert_code,
+		    cert_nm,
+		    cert_issuer,
+		    cert_date,
+		    cert_pass_cd,
+		    mem_id
+		FROM
+		    cert a
+		WHERE
+			CERT_NO = #{certNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

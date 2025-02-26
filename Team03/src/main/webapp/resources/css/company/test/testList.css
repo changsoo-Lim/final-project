@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.ul li button.active{
+	border-width: medium;
+	font-weight: bold;
+}
+
+.nav-tabs .nav-link.active {
+	font-weight: bold;
+}
+
+.nav-tabs {
+	border-width: medium;
+}
+
+.table-responsiveNo {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 540.53px;
+    margin-bottom: 20px;
+}
+
+.table thead tr {
+    vertical-align: middle;
+}
+
+.table thead tr th {
+    padding-bottom: 0.8rem !important;
+    padding-top: 0.8rem !important;
+}
+
+.table tbody tr td {
+    padding-bottom: 0.8rem !important;
+    padding-top: 0.8rem !important;
+}

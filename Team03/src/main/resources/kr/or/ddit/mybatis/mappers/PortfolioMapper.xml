@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.portfolio.dao.PortfolioMapper">
+	<insert id="insertPortfolio">
+		<selectKey order="BEFORE" resultType="int" keyProperty="portNo">
+		    SELECT PORTFOLIO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO portfolio (
+		    port_no,
+		    port_nm,
+		    port_url,
+		    mem_id
+		) VALUES (
+		      #{portNo,jdbcType=NUMERIC}
+		    , #{portNm,jdbcType=VARCHAR}
+		    , #{portUrl,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectPortfolioList" resultType="PortfolioVO">
+		SELECT
+		    port_no,
+		    (SELECT code_nm FROM CODE C WHERE c.code_cd = p.port_nm) as port_nm,
+		    port_url,
+		    mem_id
+		FROM
+		    portfolio p
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY port_no
+	</select>
+	
+	<delete id="deletePortfolio">
+		DELETE FROM PORTFOLIO
+		WHERE
+			PORT_NO = #{portNo,jdbcType=NUMERIC}
+	</delete>
+</mapper>

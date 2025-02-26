@@ -1,0 +1,310 @@
+@charset "UTF-8";
+
+.section-employ {
+	max-width: 1300px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 36px 0 160px;
+	width: 1300px;
+	margin: 0 auto;
+}
+.employ-tab {
+	width: 300px;
+}
+.tab-content {
+	height: 230px;
+	border-left: 1px solid var(--bs-gray-300);
+	border-right: 1px solid var(--bs-gray-300);
+}
+.tab-pane {
+	height: 100%;
+}
+.tab-cont {
+	display: flex;
+	height: 100%;
+}
+/* 업종별 검색 관련 */
+.job1-box, .job2-box, .detail1-box, .detail2-box{
+	width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+}
+/* 지역별 검색 관련 */
+.region-box {
+    width: 600px;
+    min-width: 600px;
+}
+.gungu-box, .job3-box, .detail3-box, .detail4-box {
+    flex-grow: 1;
+}
+.select-cell {
+    overflow-y: auto;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    z-index: 1000;
+    padding: 0;
+    list-style: none;
+}
+.region-cell {
+	width: 100%;
+	min-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 두 개의 열로 설정 */
+}
+.gungu-cell {
+	width: 100%;
+}
+.items-css {
+	width: 25%;
+	height: 45px;
+	float: left;
+}
+/* 항목들을 세로로 배치 */
+.detail4-item-container {
+  display: flex;
+  flex-direction: column; /* 세로로 정렬 */
+  gap: 10px; /* 항목 간 간격 */
+}
+.items {
+    padding: 8px 0 8px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #333;
+}
+.items:hover {
+    background-color: #e8d8ff5c;
+}
+.selected {
+    background-color: #e8d8ff5c !important;
+    color: #5106c1 !important;
+}
+.checked {
+    color: #5106c1 !important;
+}
+.search-bot {
+	border: 1px solid var(--bs-gray-300);
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem;
+}
+
+/* 선택한 검색조건 박스 */
+.selected-box {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f2f4f7;
+    color: #333;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: default;
+}
+.remove-btn {
+	margin-left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #938888;
+    font-weight: bold;
+}
+
+/* 채용공고 리스트 */
+.view-ul{
+	margin-top: 12px;
+	padding-left: 0;
+	list-style: none;
+}
+
+.view-ul .view-li{
+	display: flex;
+    position: relative;
+    border: 1px solid var(--bs-gray-300);
+    border-radius: 10px;
+    padding: 25px 15px 25px 25px;
+}
+
+.view-ul .view-li-none{	
+	text-align: center;
+    display: block;
+    border-width: 0;
+    height: auto;
+    border-bottom-width: 1px;
+}
+
+.view-ul .view-li-none strong{	
+	display: block;
+    font-weight: var(--fWN);
+    font-size: 15px;
+    line-height: 18px;
+    color: var(--cm-dark);
+    letter-spacing: -0.38px;
+    padding-bottom: 0px;
+}
+
+.view-ul .view-li-none span{
+	display: block;
+    font-weight: var(--fWN);
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--cm-dark);
+    letter-spacing: -0.38px;
+    padding-bottom: 8px;
+}
+
+.view-ul .view-li-none a{
+	display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--fWN);
+    font-size: 15px;
+    letter-spacing: -0.38px;
+    height: 38px;
+    padding: 0 23px;
+    margin-top: 10px;
+}
+
+
+.view-ul .view-li div .tab-company{
+	display: flex;
+    align-items: center;
+    color: var(--bs-black);
+    font-size: 1rem;
+}
+.view-ul .view-li .view-first {
+    width: 25%;
+}
+
+.view-ul .view-li .view-mid {
+    width: 70%;
+}
+
+.view-ul .view-li .view-last {
+    width: 15%;
+}
+
+.view-ul .view-li div .tab-subject{
+	display: flex;
+    align-items: center;
+    color: var(--bs-black);
+    font-weight: bold;
+	font-size: 1.17rem;
+}
+
+.view-ul .view-li div .tab-jobs{
+	display: flex;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.view-ul .view-li div .tab-jobs em{
+	font-style: normal;
+    font-size: 14px;
+    color: var(--cm-gray-700);
+    letter-spacing: -0.35px;
+    vertical-align: middle;
+}
+
+.view-ul .view-li .view-last span{
+	text-align: center;
+    display: block;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 21px;
+    letter-spacing: -0.38px;
+    color: var(--bs-black);
+}
+
+.view-ul .view-li .view-last button{
+	width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 9px;
+}
+
+/* 정렬하기 */
+.sort-box {
+	position:relative;
+	display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.sort-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 180px;
+  color: #333;
+}
+
+.sort-btn .arrow {
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+.sort-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  padding: 0;
+  margin: 4px 0 0;
+  list-style: none;
+}
+.sort-item {
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #333;
+}
+
+.sort-item:hover {
+  background-color: #e8d8ff5c;
+}
+
+.sort-item.active {
+  color: #007bff;
+  font-weight: bold;
+}
+/* 검색조건 초기화 버튼 */
+.reset-btn {
+    text-align: left;
+    height: 30px;
+    margin-right: 20px;
+    padding: 0 0 0 25px;
+    border: 0;
+    background: url(/ui/static/image/job/termSave_new_icon.svg) 0% 50% no-repeat;
+    width: auto;
+    white-space: nowrap;
+}
+.reset-btn span {
+    font-weight: var(--fWN);
+    font-size: 14px;
+    line-height: 30px;
+    color: #747474;
+    text-decoration: none;
+}
+.search-actions {
+    display: flex;
+    align-items: center; /* 버튼들을 세로로 중앙 정렬 */
+    position: relative; /* 위치 조정을 위해 relative 사용 */
+    gap: 10px; /* 버튼 간의 간격 */
+    min-width: 230px;
+}

@@ -1,0 +1,140 @@
+/* 이력서 컨테이너 */
+.resume-wrapper {
+    max-width: 850px; /* 너비를 줄여서 왼쪽으로 붙입니다 */
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* 왼쪽 여백 설정 */
+}
+
+/* 고정 버튼 */
+.fixed-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+}
+
+.fixed-button .btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fixed-button .btn:hover {
+    background-color: #0056b3;
+}
+.timeline-navigation {
+    position: fixed;
+    top: 15%; /* 화면 상단에서 15% 내려온 위치 */
+    right: 80px; /* 화면 오른쪽에서 80px 떨어진 위치 */
+    width: 200px; /* 네비게이션 박스 너비 */
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    z-index: 1000; /* 다른 요소 위로 표시 */
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+    position: relative;
+}
+
+.timeline-item .circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #999;
+    margin-right: 10px; /* 텍스트와 간격 추가 */
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-item.active {
+    color: #007bff; /* 활성화된 항목 색상 */
+    font-weight: bold;
+}
+
+.timeline-item.active .circle {
+    background: #007bff; /* 활성화된 항목 원 색상 */
+}
+
+.proposal-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+
+.top {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    cursor: pointer;
+    color: #999; /* 기본 텍스트 색상 */
+    font-size: 14px;
+    position: relative;
+    transition: color 0.3s ease; /* 색상 변경 시 애니메이션 효과 */
+}
+
+.timeline-item .circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #999; /* 기본 원 색상 */
+    margin-right: 10px;
+    position: relative;
+    transition: background 0.3s ease; /* 색상 변경 시 애니메이션 효과 */
+}
+
+.timeline-item.selected {
+    color: #007bff; /* 클릭된 상태의 텍스트 색상 */
+    font-weight: bold; /* 강조 */
+}
+
+.timeline-item.selected .circle {
+    background: #007bff; /* 클릭된 상태의 원 색상 */
+}
+
+label {
+    writing-mode: horizontal-tb; /* 세로 쓰기 방식을 가로로 변경 */
+    text-align: left; /* 텍스트 정렬 */
+    display: inline-block; /* 기본 라벨 스타일 */
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+}

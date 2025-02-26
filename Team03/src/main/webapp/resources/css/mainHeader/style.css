@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+.redComma {
+	width: 7px;
+    display: block;
+    height: 7px;
+    background-color: red;
+    border-radius: 50%;
+    position: relative;
+    top: -23px;
+    left: 12px;
+}
+
+.dropdown-overflow-comma {
+  display: inline-block !important;
+  width: 300px !important;
+  white-space: nowrap !important; 
+  overflow: hidden !important; 
+  text-overflow: ellipsis !important; 
+  vertical-align: middle;
+  color : black;
+}
+
+.dropdown-overflow-comma:hover {
+  color : #8b3dff;
+}
+
+
+.notification-time{
+	color : var(--bs-dropdown-link-color);
+	width : 22%;	
+}

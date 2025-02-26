@@ -1,0 +1,15 @@
+@charset "UTF-8";
+.certDiv{
+	display : none;
+}
+
+.validateId{
+	display : none;
+}
+img#logo{
+    width: 200px;
+}
+
+.m-19{
+	margin-top: 1.9rem !important;
+}

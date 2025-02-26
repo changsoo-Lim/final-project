@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.highschool.dao.HighSchoolMapper">
+	<insert id="insertHighschool">
+		<selectKey order="BEFORE" resultType="int" keyProperty="highschoolNo">
+		    SELECT HIGHSCHOOL_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO highschool (
+		    highschool_no,
+		    highschool_nm,
+		    highschool_location,
+		    highschool_period,
+		    highschool_status,
+		    highschool_major,
+		    mem_id
+		) VALUES (
+		      #{highschoolNo,jdbcType=NUMERIC}
+		    , #{highschoolNm,jdbcType=VARCHAR}
+		    , #{highschoolLocation,jdbcType=VARCHAR}
+		    , #{highschoolPeriod,jdbcType=VARCHAR}
+		    , #{highschoolStatus,jdbcType=VARCHAR}
+		    , #{highschoolMajor,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectHighshcool" resultType="HighSchoolVO">
+		SELECT
+		    highschool_no,
+		    highschool_nm,
+		    highschool_location,
+		    highschool_period,
+		    highschool_status,
+		    highschool_major,
+		    mem_id
+		FROM
+		    highschool h
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateHighSchool">
+		UPDATE highschool
+		SET
+		     HIGHSCHOOL_NO = #{highschoolNo,jdbcType=NUMERIC}
+		    ,HIGHSCHOOL_NM = #{highschoolNm,jdbcType=VARCHAR}
+		    ,HIGHSCHOOL_LOCATION = #{highschoolLocation,jdbcType=VARCHAR}
+		    ,HIGHSCHOOL_PERIOD = #{highschoolPeriod,jdbcType=VARCHAR}
+		    ,HIGHSCHOOL_STATUS = #{highschoolStatus,jdbcType=VARCHAR}
+		    ,HIGHSCHOOL_MAJOR = #{highschoolMajor,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    HIGHSCHOOL_NO = #{highschoolNo,jdbcType=NUMERIC}
+	</update>
+</mapper>

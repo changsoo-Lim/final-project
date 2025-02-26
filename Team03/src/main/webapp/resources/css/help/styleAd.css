@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+.table-responsive {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 620px;
+    margin-bottom: 20px;
+}
+
+.table-responsiveNo {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 690px;
+    margin-bottom: 20px;
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    margin-bottom: 0; /* 아래쪽 마진 제거 */
+}
+
+/* .table-title {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} */
+.text-truncate {
+    max-width: 150px; /* 열의 최대 너비 설정 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 넘치는 부분을 ... 처리 */
+/*     display: block; inline 요소에서도 동작하도록 block 설정 */
+}
+
+/* td.text-truncate a {
+    display: inline-block; 인라인 블록
+    max-width: 100%; 부모 요소 너비에 맞춤
+} */

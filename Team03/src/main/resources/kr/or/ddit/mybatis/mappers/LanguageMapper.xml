@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.language.dao.LanguageMapper">
+	<insert id="insertLanguage">
+		<selectKey order="BEFORE" resultType="int" keyProperty="langNo">
+		    SELECT LANGUAGE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO language (
+		    lang_no,
+		    lang_nm,
+		    lang_speaking_level,
+		    lang_reading_level,
+		    lang_writing_level,
+		    mem_id
+		) VALUES (
+		      #{langNo,jdbcType=NUMERIC}
+		    , #{langNm,jdbcType=VARCHAR}
+		    , #{langSpeakingLevel,jdbcType=VARCHAR}
+		    , #{langReadingLevel,jdbcType=VARCHAR}
+		    , #{langWritingLevel,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectLanguageList" resultType="LanguageVO">
+		SELECT
+		    lang_no,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = l.lang_nm) as lang_nm,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = l.lang_speaking_level) as lang_speaking_level,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = l.lang_reading_level) as lang_reading_level,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = l.lang_writing_level) as lang_writing_level,
+		    mem_id
+		FROM
+		    language l
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateLanguage">
+		UPDATE language
+		SET
+		    LANG_NO = #{langNo,jdbcType=NUMERIC}
+		    ,LANG_NM = #{langNm,jdbcType=VARCHAR}
+		    ,LANG_SPEAKING_LEVEL = #{langSpeakingLevel,jdbcType=VARCHAR}
+		    ,LANG_READING_LEVEL = #{langReadingLevel,jdbcType=VARCHAR}
+		    ,LANG_WRITING_LEVEL = #{langWritingLevel,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    LANG_NO = #{langNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteLanguage">
+		DELETE FROM LANGUAGE
+		WHERE
+			LANG_NO = #{langNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectLanguage" resultType="LanguageVO">
+		SELECT
+		    lang_no,
+		    lang_nm,
+		    lang_speaking_level,
+		    lang_reading_level,
+		    lang_writing_level,
+		    mem_id
+		FROM
+		    language
+		WHERE
+			LANG_NO = #{langNo,jdbcType=NUMERIC}		    	
+	</select>
+	
+</mapper>

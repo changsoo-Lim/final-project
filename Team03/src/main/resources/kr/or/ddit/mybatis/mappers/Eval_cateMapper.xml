@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.eval.eval_cate.dao.Eval_cateMapper">
+	
+	<select id="interviewList" resultType="CodeVO">
+		SELECT
+		    code_cd,
+		    code_nm,
+		    code_parent
+		FROM
+		    code
+		WHERE
+		    code_parent = 'INTERVIEW'
+	</select>
+
+	<insert id="insertEvalCate">
+		<selectKey order="BEFORE" resultType="int" keyProperty="evalcateNo">
+		    SELECT EVAL_CATE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO eval_cate (
+		    evalcate_no,
+		    eval_no,
+		    eval_cate_nm,
+		    eval_cate_cont,
+		    eval_cate_score,
+		    eval_cate_del
+		) VALUES (
+		      #{evalcateNo,jdbcType=NUMERIC}
+		    , #{evalNo,jdbcType=NUMERIC}
+		    , #{evalCateNm,jdbcType=VARCHAR}
+		    , #{evalCateCont,jdbcType=VARCHAR}
+		    , #{evalCateScore,jdbcType=NUMERIC}
+		    , 'N'
+		)
+	</insert>
+	
+	<select id="memList" resultMap="kr.or.ddit.apply.dao.ApplyMapper.applyResultMap">
+		SELECT 
+		    a.APPLY_NO,
+		    a.MEM_ID,
+		    a.APP_PROC_STATUS,
+		    b.MEM_NM,
+		    c.FILED_NO,
+		    c.FILED_NM,
+		    d.INTV_NO,
+		    d.INTV_DT
+		FROM 
+		    APPLY a
+		JOIN 
+		    MEMBER b ON a.MEM_ID = b.MEM_ID
+		JOIN 
+		    FIELD c ON a.FILED_NO = c.FILED_NO
+		LEFT JOIN 
+		    INTERVIEW d ON d.APPLY_NO = a.APPLY_NO
+		WHERE 
+		    a.APP_DEL = 'N'
+		    AND
+		    c.filed_no =  #{filedNo,jdbcType=NUMERIC}
+		    AND
+		    a.APP_PROC_STATUS IN ('AP06','AP07')
+		    AND 
+		    TRUNC(d.INTV_DT) = TRUNC(SYSDATE)
+	</select>
+	
+</mapper>

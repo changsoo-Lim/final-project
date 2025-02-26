@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.test.dao.AdminTestMapper">
+	<select id="selectTestCode" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT = 'TEST'
+	</select>
+
+	<insert id="insertTest">
+		<selectKey order="BEFORE" resultType="int" keyProperty="testNo">
+				 SELECT TEST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST (
+		      TEST_NO	/* 시험번호 */
+		    , COMP_ID	/* 기업회원ID */
+		    , TEST_CD	/* 시험코드 */	
+		    , TEST_NM	/* 시험명 */
+		    , TEST_TIME	/* 시험시간 */
+		) VALUES (
+		      #{testNo, jdbcType=NUMERIC}
+		    , #{compId,		jdbcType=VARCHAR}
+		    , #{testCd,		jdbcType=VARCHAR}
+		    , #{testNm,		jdbcType=VARCHAR}
+		    , #{testTime,	jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="selectTestList" resultType="TestVO">
+	    SELECT 
+		      RNUM 		/* 역순 번호 계산 */
+		    , TEST_NO     /* 시험번호 */
+		    , COMP_ID   /* 기업회원ID */
+		    , TEST_CD   /* 시험코드 */  
+		    , TEST_NM   /* 시험명 */
+		    , TEST_TIME /* 시험시간 */
+		    , TEST_DEL  /* 삭제여부 */
+		FROM (
+		    SELECT 
+		        ROW_NUMBER() OVER (
+		            ORDER BY TEST_NO DESC  -- TEST_NO 기준 내림차순
+		        ) AS RNUM,
+		        TEST.*
+		    FROM TEST
+		    WHERE TEST_DEL = 'N'
+		      <if test="testCd != null">
+		        AND TEST_CD = #{testCd, jdbcType=VARCHAR}  -- testCd 조건 추가
+		      </if>
+		      <if test="paging.simpleCondition != null">
+		          <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.simpleCondition.searchWord)">
+		              <choose>
+		                  <when test="paging.simpleCondition.searchType == 'compId'">
+		                      AND COMP_ID LIKE '%' || #{paging.simpleCondition.searchWord} || '%'
+		                  </when>
+		                  <when test="paging.simpleCondition.searchType == 'testNm'">
+		                      AND TEST_NM LIKE '%' || #{paging.simpleCondition.searchWord} || '%'
+		                  </when>
+		                  <otherwise>
+		                      AND (COMP_ID LIKE '%' || #{paging.simpleCondition.searchWord} || '%'
+		                           OR TEST_NM LIKE '%' || #{paging.simpleCondition.searchWord} || '%')
+		                  </otherwise>
+		              </choose>
+		          </if>
+		      </if>
+		) 
+		<![CDATA[
+			WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+		]]>
+	</select>
+	
+	<select id="selectTotalTest" resultType="int">
+		SELECT COUNT(*) FROM TEST
+		<where>
+			<if test="paging.simpleCondition != null">
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.simpleCondition.searchWord)">
+                    <choose>
+                        <when test="paging.simpleCondition.searchType == 'compId'">
+					        AND COMP_ID LIKE '%' || #{paging.simpleCondition.searchWord} || '%'
+					    </when>
+					    <when test="paging.simpleCondition.searchType == 'testNm'">
+					        AND TEST_NM LIKE '%' || #{paging.simpleCondition.searchWord} || '%'
+					    </when>
+					    <otherwise>
+					        AND (COMP_ID LIKE '%' || #{paging.simpleCondition.searchWord} || '%'
+					             OR TEST_NM LIKE '%' || #{paging.simpleCondition.searchWord} || '%')
+					    </otherwise>
+                    </choose>
+                </if>
+            </if>
+			AND TEST_DEL = 'N' AND TEST_CD = #{testCd, jdbcType=VARCHAR}
+		</where>
+	</select>
+	
+	
+	<resultMap type="kr.or.ddit.vo.TestVO" id="testResultMap" autoMapping="true">
+	    <!-- TestVO Mapping -->
+	    <id property="testNo" column="TEST_NO"/>
+	    <result property="compId" column="COMP_ID"/>
+	    <result property="testCd" column="TEST_CD"/>
+	    <result property="testNm" column="TEST_NM"/>
+	    <result property="testTime" column="TEST_TIME"/>
+	    <result property="testDel" column="TEST_DEL"/>
+	
+	    <!-- Nested Mapping for Test_QuestnVO -->
+	    <collection property="testQuestnList" ofType="kr.or.ddit.vo.Test_QuestnVO">
+	        <id property="queNo" column="QUE_NO"/> 
+	        <result property="queCont" column="QUE_CONT"/>
+	        <result property="queTurn" column="QUE_TURN"/>
+	        <result property="testNo" column="TEST_NO"/>
+	        <result property="atchFileNo" column="Q_ATCH_FILE_NO"/>
+	        <result property="queDel" column="QUE_DEL"/>
+	        <association property="questionFile" javaType="kr.or.ddit.vo.FileVO" >
+	        	<id property="atchFileNo" column="QF_ATCH_FILE_NO"/>
+	        	<collection property="fileDetails" ofType="kr.or.ddit.vo.File_DetailVO" >
+	        		<id property="atchFileNo" column="QFD_ATCH_FILE_NO"/>
+	        		<result property="fileSn" column="QFD_FILE_SN"/>
+	        		<result property="fileStreCours" column="QFD_FILE_STRE_COURS"/>
+	        		<result property="streFileNm" column="QFD_STRE_FILE_NM"/>
+	        		<result property="orignlFileNm" column="QFD_ORIGNL_FILE_NM"/>
+	        		<result property="fileExtsn" column="QFD_FILE_EXTSN"/>
+	        		<result property="fileCn" column="QFD_FILE_CN"/>
+	        		<result property="fileSize" column="QFD_FILE_SIZE"/>
+	        		<result property="fileMime" column="QFD_FILE_MIME"/>
+	        		<result property="fileFancysize" column="QFD_FILE_FANCYSIZE"/>
+	        		<result property="fileDwncnt" column="QFD_FILE_DWNCNT"/>
+	        	</collection>
+	        </association>
+	
+	        <!-- Nested Mapping for TestItemVO -->
+	        <collection property="itemList" ofType="kr.or.ddit.vo.TestItemVO">
+	            <id property="itemNo" column="ITEM_NO"/>
+	            <result property="itemCont" column="ITEM_CONT"/>
+	            <result property="itemScore" column="ITEM_SCORE"/>
+	            <result property="itemYn" column="ITEM_YN"/>
+	            <result property="queType" column="QUE_TYPE"/>
+	            <result property="queNo" column="QUE_NO"/>
+	            <result property="atchFileNo" column="I_ATCH_FILE_NO"/>
+	            <result property="itemDel" column="ITEM_DEL"/>
+	            <association property="itemFile" javaType="kr.or.ddit.vo.FileVO">
+		        	<collection property="fileDetails" ofType="kr.or.ddit.vo.File_DetailVO">
+		        		<result property="fileSn" column="IFD_FILE_SN"/>
+		        		<result property="fileStreCours" column="IFD_FILE_STRE_COURS"/>
+		        		<result property="streFileNm" column="IFD_STRE_FILE_NM"/>
+		        		<result property="orignlFileNm" column="IFD_ORIGNL_FILE_NM"/>
+		        		<result property="fileExtsn" column="IFD_FILE_EXTSN"/>
+		        		<result property="fileCn" column="IFD_FILE_CN"/>
+		        		<result property="fileSize" column="IFD_FILE_SIZE"/>
+		        		<result property="fileMime" column="IFD_FILE_MIME"/>
+		        		<result property="fileFancysize" column="IFD_FILE_FANCYSIZE"/>
+		        		<result property="fileDwncnt" column="IFD_FILE_DWNCNT"/>
+		        	</collection>
+		        </association>
+	
+	            <!-- Nested Mapping for Test_KeywordVO -->
+	            <collection property="keywordList" ofType="Test_KeywordVO">
+	                <id property="keywdNo" column="KEYWD_NO"/>
+	                <result property="keywdCont" column="KEYWD_CONT"/>
+	                <result property="keywdScore" column="KEYWD_SCORE"/>
+	                <result property="itemNo" column="ITEM_NO"/>
+	                <result property="keywdDel" column="KEYWD_DEL"/>
+	            </collection>
+	        </collection>
+	    </collection>
+	</resultMap>
+	
+	<select id="selectTest" resultMap="testResultMap" flushCache="true">
+		SELECT 
+	          T.TEST_NO		/* 시험번호 */
+	        , T.COMP_ID		/* 기업회원ID */
+	        , T.TEST_CD		/* 시험코드 */
+	        , T.TEST_NM 	/* 시험명 */
+	        , T.TEST_TIME	/* 시험시간 */
+	        , T.TEST_DEL	/* 시험상태 */
+	        
+	        , Q.QUE_NO		/* 문제번호 */
+	        , Q.QUE_CONT	/* 문제내용 */
+	        , Q.QUE_TURN	/* 문제순번 */
+	        , Q.TEST_NO      AS Q_TEST_NO		/* 시험번호 */
+	        , Q.ATCH_FILE_NO AS Q_ATCH_FILE_NO	/* 문제파일그룹번호 */
+	        , Q.QUE_DEL		/* 삭제여부 */
+	        
+	        , I.ITEM_NO		/* 지문번호 */
+	        , I.ITEM_CONT	/* 지문내용 */
+	        , I.ITEM_SCORE	/* 지문별 점수 */
+	        , I.ITEM_YN		/* 객관식정답여부 */
+	        , I.QUE_TYPE	/* 문제타입 */
+	        , I.QUE_NO       AS I_QUE_NO		/* 문제번호 */	
+	        , I.ATCH_FILE_NO AS I_ATCH_FILE_NO	/* 지문파일그룹번호 */
+	        , I.ITEM_DEL						/* 삭제여부 */
+	        
+	        , K.KEYWD_NO				/* 키워드번호 */
+	        , K.KEYWD_CONT				/* 키워드내용 */
+	        , K.KEYWD_SCORE				/* 키워드별 점수 */
+	        , K.ITEM_NO AS K_ITEM_NO	/* 지문번호 */
+	        , K.KEYWD_DEL				/* 삭제여부 */
+	        
+	        , QF.ATCH_FILE_NO     AS QF_ATCH_FILE_NO		/* 문제 파일그룹번호 */
+	        , QF.CREAT_DT         AS QF_CREAT_DT			/* 문제 파일그룹 */
+	        , QF.USE_AT           AS QF_USE_AT				/* 문제 파일그룹사용여부 */
+	        
+	        , QFD.ATCH_FILE_NO    AS QFD_ATCH_FILE_NO		/* 문제 파일그룹번호 */
+	        , QFD.FILE_SN         AS QFD_FILE_SN			/* 문제 파일순번 */
+	        , QFD.FILE_STRE_COURS AS QFD_FILE_STRE_COURS	/* 문제 파일저장경로 */
+	        , QFD.STRE_FILE_NM    AS QFD_STRE_FILE_NM		/* 문제 저장파일명 */
+	        , QFD.ORIGNL_FILE_NM  AS QFD_ORIGNL_FILE_NM		/* 문제 원본파일명 */
+	        , QFD.FILE_EXTSN      AS QFD_FILE_EXTSN			/* 문제 파일확장자 */
+	        , QFD.FILE_CN         AS QFD_FILE_CN			/* 문제 파일내용 */
+	        , QFD.FILE_SIZE       AS QFD_FILE_SIZE			/* 문제 파일크기 */
+	        , QFD.FILE_FANCYSIZE  AS QFD_FILE_FANCYSIZE		/* 문제 파일팬시사이즈 */
+	        , QFD.FILE_MIME       AS QFD_FILE_MIME			/* 문제 파일MIME */
+	        
+	        , "IF".ATCH_FILE_NO   AS IF_ATCH_FILE_NO		/* 문제 파일그룹번호 */
+	        , "IF".CREAT_DT       AS IF_CREAT_DT			/* 문제 파일그룹 */
+	        , "IF".USE_AT         AS IF_USE_AT				/* 문제 파일그룹사용여부 */
+	        
+	        , IFD.ATCH_FILE_NO    AS IFD_ATCH_FILE_NO		/* 문제 파일그룹번호 */
+	        , IFD.FILE_SN         AS IFD_FILE_SN			/* 문제 파일순번 */
+	        , IFD.FILE_STRE_COURS AS IFD_FILE_STRE_COURS	/* 문제 파일저장경로 */
+	        , IFD.STRE_FILE_NM    AS IFD_STRE_FILE_NM		/* 문제 저장파일명 */
+	        , IFD.ORIGNL_FILE_NM  AS IFD_ORIGNL_FILE_NM		/* 문제 원본파일명 */
+	        , IFD.FILE_EXTSN      AS IFD_FILE_EXTSN			/* 문제 파일확장자 */
+	        , IFD.FILE_CN         AS IFD_FILE_CN			/* 문제 파일내용 */
+	        , IFD.FILE_SIZE       AS IFD_FILE_SIZE			/* 문제 파일크기 */
+	        , IFD.FILE_FANCYSIZE  AS IFD_FILE_FANCYSIZE		/* 문제 파일팬시사이즈 */
+	        , IFD.FILE_MIME       AS IFD_FILE_MIME			/* 문제 파일MIME */
+	        
+	    FROM TEST T
+	    LEFT JOIN TEST_QUESTN Q   ON T.TEST_NO         = Q.TEST_NO
+	    LEFT JOIN TEST_ITEM I     ON Q.QUE_NO          = I.QUE_NO
+	    LEFT JOIN TEST_KEYWORD K  ON I.ITEM_NO         = K.ITEM_NO
+	    LEFT JOIN "FILE" QF       ON Q.ATCH_FILE_NO    = QF.ATCH_FILE_NO
+	    LEFT JOIN FILE_DETAIL QFD ON QF.ATCH_FILE_NO   = QFD.ATCH_FILE_NO
+	    LEFT JOIN "FILE" "IF"     ON I.ATCH_FILE_NO    = "IF".ATCH_FILE_NO
+	    LEFT JOIN FILE_DETAIL IFD ON "IF".ATCH_FILE_NO = IFD.ATCH_FILE_NO
+	    
+	    WHERE T.TEST_NO   = #{testNo, jdbcType=NUMERIC} 
+	      AND T.TEST_DEL  = 'N'
+	      AND Q.QUE_DEL   = 'N' 
+	      AND I.ITEM_DEL  = 'N' 
+        ORDER BY Q.QUE_TURN ASC, I.ITEM_NO ASC
+	</select>
+	
+	<update id="updateTest">
+		UPDATE TEST
+		SET 
+		      TEST_CD	= #{testCd,		jdbcType=VARCHAR}	/* 시험코드 */
+		    , TEST_NM	= #{testNm,		jdbcType=VARCHAR}	/* 시험명 */
+		    , TEST_TIME	= #{testTime,	jdbcType=NUMERIC}	/* 시험시간 */
+		WHERE TEST_NO	= #{testNo,		jdbcType=NUMERIC}	/* 시험번호 */
+	</update>
+	
+	<update id="deleteTest">
+		UPDATE TEST
+		SET TEST_DEL = 'Y'
+		WHERE TEST_NO = #{testNo, jdbcType=NUMERIC}	/* 시험번호 */
+	</update>
+	
+	<update id="deleteAdminTestList" parameterType="list">
+		UPDATE TEST
+	    SET TEST_DEL = 'Y'
+	    WHERE TEST_NO IN 
+	    <foreach item="testNo" collection="list" open="(" separator="," close=")">
+	        #{testNo, jdbcType=NUMERIC}
+	    </foreach> /* 시험번호 */
+	</update>
+	
+</mapper>

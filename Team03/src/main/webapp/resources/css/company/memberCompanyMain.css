@@ -1,0 +1,333 @@
+:root {
+    --primary-color: #8041f6; /* 대표 보라색 */
+    --primary-hover-color: #6d36cc; /* 보라색의 어두운 톤 */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f6fa;
+    font-size: 16px;
+    color: #333;
+}
+
+.mem-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.company-logo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+}
+
+.company-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
+}
+
+.company-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.company-info-table th,
+.company-info-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.company-info-table th {
+    font-weight: bold;
+    color: #555;
+    background-color: #f9f9f9;
+    white-space: nowrap;
+    width: 120px;
+}
+
+.company-info-table td {
+    color: #333;
+}
+
+.company-info-table a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.company-info-table a:hover {
+    text-decoration: underline;
+    color: var(--primary-hover-color);
+}
+
+.map-button,
+.common-button {
+    display: block;
+    margin: 20px auto;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.map-button:hover,
+.common-button:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px);
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #333;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 10px;
+}
+
+.summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    background-color: #f7f9fc;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary div {
+    text-align: center;
+    flex: 1;
+    font-size: 15px;
+}
+
+.summary div span {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--primary-color);
+}
+
+.position-card {
+    display: flex;
+    justify-content: space-between;
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.position-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.position-card h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #222;
+}
+
+.position-card p {
+    margin: 5px 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.position-card div:last-child {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.benefit-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.benefit-group {
+    width: 23%;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-group h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #444;
+}
+
+.benefit-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.benefit-group ul li {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #555;
+    position: relative;
+    padding-left: 20px;
+}
+
+.benefit-group ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary-color);
+    font-size: 16px;
+    line-height: 1;
+}
+
+.timeline {
+    text-align: center;
+}
+
+.timeline ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.timeline ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #555;
+}
+
+.timeline ul li:before {
+    content: "\2022";
+    color: var(--primary-color);
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.no-positions {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    margin: 20px 0;
+}
+/* 면접 리뷰 섹션 */
+
+
+.review h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color); /* 보라색 포인트 */
+    padding-left: 10px;
+}
+
+/* 리뷰 카드 */
+.review-card {
+	cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 15px; /* 카드 내부 여백 */
+    height: auto; /* 높이 자동 조정 */
+    max-height: 150px; /* 최대 높이 제한 */
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.review-card .card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 8px;
+    text-overflow: ellipsis; /* 텍스트가 길 경우 ... 처리 */
+    white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+    overflow: hidden; /* 넘친 텍스트 숨기기 */
+    display: block; /* 블록 요소로 설정 */
+    max-width: 100%; /* 부모 요소의 너비에 맞게 */
+}
+
+.review-card .card-subtitle {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.review-card .card-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px; /* 아래 여백 추가 */
+}
+
+.review-card .text-muted {
+    font-size: 12px;
+    color: #888;
+}
+
+/* 리뷰 카드 간격 */
+.row.g-4 {
+    row-gap: 20px;
+}
+
+/* 별 아이콘 스타일 */
+.star {
+    font-size: 16px;
+    color: #f1c40f; /* 노란색 별 */
+    margin-right: 2px;
+}
+
+.star.gray {
+    color: #e0e0e0; /* 회색 별 */
+}
+
+.position-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.position-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.notification.dao.NotificationMapper">
+
+	<insert id="insertNotification" >
+		<selectKey order="BEFORE" resultType="int" keyProperty="notificNo">
+			SELECT NOTIFICATION_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO notification (
+		    notific_no,
+		    mem_id,
+		    notific_url,
+		    notific_cont,
+		    notific_dt,
+		    notific_openyn,
+		    notific_type
+		) VALUES (
+		      #{notificNo,jdbcType=NUMERIC}
+		    , #{memId,jdbcType=VARCHAR}
+			, #{notificUrl,jdbcType=VARCHAR}
+			, #{notificCont,jdbcType=VARCHAR}
+		    , SYSDATE
+		    , 'N'
+		    , #{notificType,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="getNotificationStatus" resultType="String">
+		SELECT 
+	        CASE #{type}
+	            WHEN 'REC' THEN STATUS_REC
+	            WHEN 'POSITION' THEN STATUS_POSITION
+	            WHEN 'COMMENT' THEN STATUS_COMMENT
+	            WHEN 'RESUME' THEN STATUS_RESUME
+	        END AS status
+	    FROM STATUS
+	    WHERE MEM_ID = #{memId}
+	</select>
+	
+	<select id="selectStatusList" resultType="NotificationVO">
+	    SELECT
+	        notific_no,
+	        mem_id,
+	        notific_url,
+	        notific_cont,
+	        TO_CHAR(notific_dt, 'YYYY-MM-DD HH24:MI:SS') AS notific_dt,
+	        notific_openyn,
+	        notific_type
+	    FROM
+	        notification
+	    WHERE
+	        mem_id = #{memId,jdbcType=VARCHAR}
+	        AND 
+	        notific_dt >= SYSDATE - 7
+	    ORDER BY 
+	        notific_dt DESC
+	</select>
+
+	
+</mapper>

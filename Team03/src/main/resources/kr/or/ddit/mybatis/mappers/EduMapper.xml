@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.edu.dao.EduMapper">
+	<insert id="insertEdu">
+		<selectKey order="BEFORE" resultType="int" keyProperty="eduNo">
+		    SELECT EDU_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO edu (
+		    edu_no,
+		    edu_title,
+		    edu_institution,
+		    edu_sdt,
+		    edu_edt,
+		    edu_desc,
+		    mem_id
+		) VALUES (
+		      #{eduNo,jdbcType=NUMERIC}
+		    , #{eduTitle,jdbcType=VARCHAR}
+		    , #{eduInstitution,jdbcType=VARCHAR}
+		    , #{eduSdt,jdbcType=VARCHAR}
+		    , #{eduEdt,jdbcType=VARCHAR}
+		    , #{eduDesc,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectEduList" resultType="EduVO">
+		SELECT
+		    edu_no,
+		    edu_title,
+		    edu_institution,
+		    edu_sdt,
+		    edu_edt,
+		    edu_desc,
+		    mem_id
+		FROM
+		    edu
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY edu_edt DESC
+	</select>
+	
+	<update id="updateEdu">
+		UPDATE edu
+		SET
+		    EDU_NO = #{eduNo,jdbcType=NUMERIC}
+		    ,EDU_TITLE = #{eduTitle,jdbcType=VARCHAR}
+		    ,EDU_INSTITUTION = #{eduInstitution,jdbcType=VARCHAR}
+		    ,EDU_SDT = #{eduSdt,jdbcType=VARCHAR}
+		    ,EDU_EDT = #{eduEdt,jdbcType=VARCHAR}
+		    ,EDU_DESC = #{eduDesc,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    EDU_NO = #{eduNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteEdu">
+		DELETE FROM EDU
+		WHERE
+			EDU_NO = #{eduNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectEdu" resultType="EduVO">
+		SELECT
+		    edu_no,
+		    edu_title,
+		    edu_institution,
+		    edu_sdt,
+		    edu_edt,
+		    edu_desc,
+		    mem_id
+		FROM
+		    edu
+		WHERE
+			EDU_NO = #{eduNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

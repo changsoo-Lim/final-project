@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.employ.field.dao.FieldMapper">
+	<resultMap type="FieldVO" id="fieldMap">
+	    <id property="filedNo" column="filed_no"/>
+	    <result property="employNo" column="employ_no"/>
+	    <result property="filedNm" column="filed_nm"/>
+	    <result property="filedRegion" column="filed_region"/>
+	    <result property="filedRegionGungu" column="filed_region_gungu"/>
+	    <result property="filedPersonnel" column="filed_personnel"/>
+	    <result property="filedJobs" column="filed_jobs"/>
+	    <result property="filedPreference" column="filed_preference"/>
+	    <result property="filedEndYn" column="filed_end_yn"/>
+	
+	    <!-- applyList 매핑 -->
+	    <collection property="applyList" ofType="ApplyVO" autoMapping="true">
+	    	<id property="applyNo" column="apply_no"/>
+	    	<result property="memId" column="mem_id"/>
+	    	<result property="filedNo" column="filed_no"/>
+	    	<result property="appProcStatus" column="app_proc_status"/>
+	    	<result property="appProcChangeDt" column="app_proc_change_dt"/>
+	    	<result property="appDate" column="app_date"/>
+	    	<result property="appOpenYn" column="app_open_yn"/>
+	    	<result property="appCancelYn" column="app_cancel_yn"/>
+	    	<result property="appCancelDt" column="app_cancel_dt"/>
+	    	<result property="appDel" column="app_del"/>
+	    	<result property="atchFileNo" column="atch_file_no"/>
+	    	<result property="appPassYn" column="app_pass_yn"/>
+	    	<association property="member" autoMapping="true" javaType="MemberVO"/>
+	    </collection>
+	</resultMap>
+	
+	<resultMap type="kr.or.ddit.vo.FieldVO" id="recommendMap" autoMapping="true">
+		<id property="filedNo" column="FILED_NO" />
+		<association property="employ" javaType="kr.or.ddit.vo.EmployVO" autoMapping="true">
+			<id property="employNo" column="EMPLOY_NO"/>
+			<association property="company" javaType="kr.or.ddit.vo.CompanyVO" autoMapping="true">
+				<id property="compId" column="COMP_ID"/>
+			</association>
+		</association>
+	</resultMap>
+	
+	
+	<select id="selectRecommendField" resultMap="recommendMap" >
+		SELECT
+		    a.filed_no,
+		    a.filed_nm,
+		    
+			(SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+			FROM code
+			WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.filed_region, '[^,]+', 1, LEVEL)
+			FROM DUAL
+			CONNECT BY LEVEL &lt;= LENGTH(a.filed_region) -
+			LENGTH(REPLACE(a.filed_region, ',', '')) + 1))
+			AS filed_region,
+		    
+		    (SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+			FROM code
+			WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.filed_region_gungu, '[^,]+', 1, LEVEL)
+			FROM DUAL
+			CONNECT BY LEVEL &lt;= LENGTH(a.filed_region_gungu) -
+			LENGTH(REPLACE(a.filed_region_gungu, ',', '')) + 1))
+		    AS filed_region_gungu,
+		    b.employ_title,
+		    b.employ_type,
+		    b.employ_experience,
+	
+			(SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+			FROM code
+			WHERE code_cd IN (SELECT REGEXP_SUBSTR(b.employ_education, '[^,]+', 1, LEVEL)
+			FROM DUAL
+			CONNECT BY LEVEL &lt;= LENGTH(b.employ_education) -
+			LENGTH(REPLACE(b.employ_education, ',', '')) + 1))
+		    AS employ_education,
+					    
+		    b.employ_no,
+		    TO_CHAR(TO_DATE(b.employ_sd, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_sd,
+		    TO_CHAR(TO_DATE(b.employ_ed, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_ed,
+    		TO_CHAR(CEIL(TO_DATE(b.employ_ed, 'YYYY-MM-DD') - SYSDATE)) AS employ_dday,
+		    c.comp_id,
+		    c.comp_nm
+		FROM
+		    field a
+		INNER JOIN employ b ON a.employ_no = b.employ_no
+		INNER JOIN company c ON b.comp_id = c.comp_id	
+		<if test="list != null and list.size > 0">
+	        WHERE a.filed_no IN
+	        <foreach item="filed_no" collection="list" open="(" separator="," close=")">
+	            #{filed_no}
+	        </foreach>
+	    </if>
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.admin.buy.dao.AdminBuyMapper">
+
+	<resultMap type="BuyVO" id="buyMap" autoMapping="true">
+		<id property="buyNo" column="BUY_NO" />
+		<result property="productCd" column="PRODUCT_CD" />
+		<result property="employNo" column="EMPLOY_NO" />
+		<result property="compId" column="COMP_ID" />
+		<result property="buyAmount" column="BUY_AMOUNT" />
+		<result property="buyMethod" column="BUY_METHOD" />
+		<result property="buyDate" column="BUY_DATE" />
+		<result property="buyQty" column="BUY_QTY" />
+		<result property="buySdt" column="BUY_SDT" />
+		<result property="buyEdt" column="BUY_EDT" />
+		<result property="atchFileNo" column="ATCH_FILE_NO" />
+
+		<association property="file" column="ATCH_FILE_NO"
+			select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+
+		<association property="prod" javaType="ProductVO">
+			<id property="productCd" column="PRODUCT_CD" />
+			<result property="productNm" column="PRODUCT_NM" />
+			<result property="productPrice" column="PRODUCT_PRICE" />
+			<result property="productType" column="PRODUCT_TYPE" />
+		</association>
+
+		<association property="employ" javaType="EmployVO">
+			<id property="employNo" column="EMPLOY_NO" />
+			<result property="employTitle" column="EMPLOY_TITLE" />
+			<result property="employType" column="EMPLOY_TYPE" />
+			<result property="employSalary" column="EMPLOY_SALARY" />
+		</association>
+
+		<association property="company" javaType="CompanyVO">
+			<id property="compId" column="COMP_ID" />
+			<result property="compNm" column="COMP_NM" />
+			<result property="compStatus" column="COMP_STATUS" />
+		</association>
+	</resultMap>
+	
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+			<where>
+				<if test="simpleCondition neq null">
+					<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+						<choose>
+							<when test="simpleCondition.searchType eq 'buyMethod'">
+								AND INSTR(BUY_METHOD, #{simpleCondition.searchWord}) > 0 
+							</when>
+							<when test="simpleCondition.searchType eq 'compNm'">
+								AND INSTR(COMP_NM, #{simpleCondition.searchWord}) > 0 
+							</when>
+							<when test="simpleCondition.searchType eq 'productType'">
+								AND INSTR(PRODUCT_TYPE, #{simpleCondition.searchWord}) > 0 
+							</when>
+							<when test="simpleCondition.searchType eq 'productNm'">
+								AND INSTR(PRODUCT_NM, #{simpleCondition.searchWord}) > 0 
+							</when>
+							<otherwise>
+									AND INSTR(BUY_METHOD, #{simpleCondition.searchWord}) > 0 
+										OR 
+										INSTR(COMP_NM, #{simpleCondition.searchWord}) > 0 
+										OR
+										INSTR(PRODUCT_TYPE, #{simpleCondition.searchWord}) > 0 
+										OR
+										INSTR(PRODUCT_NM, #{simpleCondition.searchWord}) > 0 
+							</otherwise>
+						</choose>
+					</if>
+				</if>
+				AND b.COMP_STATUS = 'N'
+			</where>
+	</sql>
+	
+	<select id="selectCompantBuyList" resultMap="buyMap">
+		SELECT 
+		    B.*
+		FROM
+		    (
+		    SELECT 
+		        A.*, ROWNUM RNUM
+		    FROM
+		        (
+		        SELECT 
+		            a.BUY_NO,
+		            a.BUY_DATE,
+		            a.BUY_AMOUNT,
+		            a.BUY_QTY,
+		            a.BUY_METHOD,
+		            b.COMP_ID,
+		            b.COMP_NM,
+		            c.EMPLOY_NO,
+		            c.EMPLOY_TITLE,
+		            d.PRODUCT_CD,
+		            d.PRODUCT_NM,
+		            d.PRODUCT_PRICE,
+		            d.PRODUCT_TYPE
+		        FROM 
+		            BUY a
+		        LEFT OUTER JOIN 
+		            COMPANY b ON a.COMP_ID = b.COMP_ID
+		        LEFT OUTER JOIN 
+		            EMPLOY c ON a.EMPLOY_NO = c.EMPLOY_NO
+		        LEFT OUTER JOIN 
+		            PRODUCT d ON a.PRODUCT_CD = d.PRODUCT_CD
+		         
+		         <include refid="searchFrag" />
+		
+		        ORDER BY BUY_NO ASC
+		        ) A
+		    ) B
+			<![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow}
+			]]>
+		ORDER BY RNUM DESC
+	</select>
+	
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*)
+	    FROM 
+		    BUY a
+		LEFT OUTER JOIN 
+		    COMPANY b ON a.COMP_ID = b.COMP_ID
+		LEFT OUTER JOIN 
+		    EMPLOY c ON a.EMPLOY_NO = c.EMPLOY_NO
+		LEFT OUTER JOIN 
+		    PRODUCT d ON a.PRODUCT_CD = d.PRODUCT_CD
+	    <include refid="searchFrag" />
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM 
+		    BUY a
+		LEFT OUTER JOIN 
+		    COMPANY b ON a.COMP_ID = b.COMP_ID
+		LEFT OUTER JOIN 
+		    EMPLOY c ON a.EMPLOY_NO = c.EMPLOY_NO
+		LEFT OUTER JOIN 
+		    PRODUCT d ON a.PRODUCT_CD = d.PRODUCT_CD
+	    <include refid="searchFrag" />
+	</select>
+
+
+</mapper>

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.or.ddit.company.project.dao.CompanyProjectMapper">
+	<resultMap type="kr.or.ddit.vo.CompanyVO" id="company"
+		autoMapping="true">
+		<association property="file" column="ATCH_FILE_NO"
+			select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+	</resultMap>
+
+	<resultMap type="kr.or.ddit.vo.ProjectVO" id="projectMap"
+		autoMapping="true">
+		<id property="projectNo" column="PROJECT_NO" />
+		<collection property="freeOfferList"
+			ofType="kr.or.ddit.vo.Free_OfferVO" autoMapping="true">
+			<id property="projectNo" column="PROJECT_NO" />
+			<id property="memId" column="MEM_ID" />
+			<association property="member"
+				javaType="kr.or.ddit.vo.MemberVO" autoMapping="true" />
+		</collection>
+	</resultMap>
+
+	<select id="getCode" resultType="kr.or.ddit.vo.CodeVO">
+		SELECT
+		code_cd
+		, code_nm
+		,
+		code_parent
+		FROM
+		code
+		WHERE
+		code_cd LIKE 'jo%'
+		OR code_cd LIKE 'city%'
+		OR
+		code_cd LIKE 'sk%'
+	</select>
+
+	<select id="detailCode" resultType="kr.or.ddit.vo.CodeVO">
+		SELECT
+		code_cd
+		, code_nm
+		,
+		code_parent
+		FROM
+		code
+		WHERE
+		code_cd LIKE 'FS%'
+	</select>
+
+	<insert id="insertProject">
+		<selectKey keyProperty="projectNo" resultType="int"
+			order="BEFORE">
+			SELECT PROJECT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO project (
+		project_no,
+		comp_id,
+		project_name,
+		project_cont,
+		project_salary,
+		project_skills,
+		project_sdt,
+		project_edt,
+		project_status,
+		project_del,
+		project_apply_sdt,
+		project_apply_edt,
+		project_region,
+		project_wfh,
+		project_recruit,
+		project_job,
+		project_deadline
+		) VALUES (
+		#{projectNo, jdbcType=NUMERIC}
+		, #{compId, jdbcType=VARCHAR}
+		,
+		#{projectName, jdbcType=VARCHAR}
+		, #{projectCont, jdbcType=CLOB}
+		,
+		#{projectSalary, jdbcType=NUMERIC}
+		, #{projectSkills, jdbcType=VARCHAR}
+		, TO_CHAR(TO_DATE(#{projectSdt, jdbcType=VARCHAR}, 'YYYY-MM-DD'),
+		'YYYYMMDD')
+		, TO_CHAR(TO_DATE(#{projectEdt, jdbcType=VARCHAR},
+		'YYYY-MM-DD'),
+		'YYYYMMDD')
+		, 'PJ01'
+		, 'N'
+		, TO_CHAR(TO_DATE(SYSDATE,
+		'YYYY-MM-DD'), 'YYYYMMDD')
+		, TO_CHAR(TO_DATE(#{projectApplyEdt,
+		jdbcType=VARCHAR}, 'YYYY-MM-DD'),
+		'YYYYMMDD')
+		, #{projectRegion,
+		jdbcType=VARCHAR}
+		, #{projectWfh, jdbcType=VARCHAR}
+		, #{projectRecruit,
+		jdbcType=NUMERIC}
+		, #{projectJob, jdbcType=VARCHAR}
+		, #{projectDeadline,
+		jdbcType=NUMERIC}
+		)
+	</insert>
+
+	<select id="selectProjectList"
+		resultType="kr.or.ddit.vo.ProjectVO">
+		
+		SELECT
+		a.project_no,
+		a.project_name,
+		a.project_cont,
+		a.project_salary,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY
+		code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT
+		REGEXP_SUBSTR(a.project_skills, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY
+		LEVEL &lt;= LENGTH(a.project_skills) -
+		LENGTH(REPLACE(a.project_skills, ',', '')) + 1))
+		AS project_skills,
+		TO_CHAR(TO_DATE(a.project_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_sdt,
+		TO_CHAR(TO_DATE(a.project_edt, 'YYYYMMDD'), 'YYYY-MM-DD')
+		AS
+		project_edt,
+		ps.code_nm AS project_status,
+		TO_CHAR(TO_DATE(a.project_apply_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_apply_sdt,
+		TO_CHAR(TO_DATE(a.project_apply_edt, 'YYYYMMDD'),
+		'YYYY-MM-DD') AS
+		project_apply_edt,
+		a.project_region,
+		a.project_wfh,
+		a.project_recruit,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER
+		BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT
+		REGEXP_SUBSTR(a.project_job, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY
+		LEVEL &lt;= LENGTH(a.project_job) -
+		LENGTH(REPLACE(a.project_job, ',',
+		'')) + 1))
+		AS project_job,
+		project_deadline,
+		(select count(*) from
+		free_offer
+		where project_no = a.project_no
+		and FREE_OFFER_STATUS = 'OF02') as offer_cnt
+		FROM
+		project a
+		LEFT JOIN CODE b
+		ON a.project_skills = b.code_cd
+		AND a.project_job = b.code_cd
+		LEFT JOIN
+		code ps ON a.project_status = ps.code_cd
+		WHERE comp_id =
+		#{compId,
+		jdbcType=VARCHAR}
+		AND project_del = 'N'
+		ORDER BY project_no
+		
+	</select>
+
+	<select id="selectProject" resultType="kr.or.ddit.vo.ProjectVO">
+		SELECT
+		project_no,
+		comp_id,
+		project_name,
+		project_cont,
+		project_salary,
+		project_skills,
+		TO_CHAR(TO_DATE(project_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_sdt,
+		TO_CHAR(TO_DATE(project_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_edt,
+		project_status,
+		atch_file_no,
+		TO_CHAR(TO_DATE(project_apply_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_apply_sdt,
+		TO_CHAR(TO_DATE(project_apply_edt, 'YYYYMMDD'),
+		'YYYY-MM-DD') AS
+		project_apply_edt,
+		project_region,
+		project_wfh,
+		project_recruit,
+		project_job,
+		project_deadline
+		FROM
+		project
+		WHERE
+		project_no = #{projectNo}
+		AND project_del = 'N'
+	</select>
+
+
+	<update id="updateProject">
+		UPDATE project
+		SET
+		PROJECT_APPLY_EDT =
+		TO_CHAR(TO_DATE(#{projectApplyEdt, jdbcType=VARCHAR}, 'YYYY-MM-DD'),
+		'YYYYMMDD')
+		, PROJECT_JOB = #{projectJob, jdbcType=VARCHAR}
+		,
+		PROJECT_REGION = #{projectRegion, jdbcType=VARCHAR}
+		, PROJECT_WFH =
+		#{projectWfh, jdbcType=VARCHAR}
+		, PROJECT_RECRUIT = #{projectRecruit,
+		jdbcType=NUMERIC}
+		, PROJECT_DEADLINE = #{projectDeadline,
+		jdbcType=NUMERIC}
+		, PROJECT_NAME = #{projectName, jdbcType=VARCHAR}
+		,
+		PROJECT_CONT = #{projectCont, jdbcType=CLOB}
+		, PROJECT_SALARY =
+		#{projectSalary, jdbcType=NUMERIC}
+		, PROJECT_SKILLS = #{projectSkills,
+		jdbcType=VARCHAR}
+		, PROJECT_SDT = TO_CHAR(TO_DATE(#{projectSdt,
+		jdbcType=VARCHAR}, 'YYYY-MM-DD'),
+		'YYYYMMDD')
+		, PROJECT_EDT =
+		TO_CHAR(TO_DATE(#{projectEdt, jdbcType=VARCHAR}, 'YYYY-MM-DD'),
+		'YYYYMMDD')
+		WHERE
+		project_no = #{projectNo, jdbcType=NUMERIC}
+		AND comp_id
+		= #{compId, jdbcType=VARCHAR}
+		AND project_del = 'N'
+	</update>
+
+	<update id="deleteProject">
+		UPDATE project
+		SET
+		PROJECT_DEL = 'Y'
+		WHERE
+		project_no =
+		#{projectNo, jdbcType=NUMERIC}
+	</update>
+
+	<select id="selectProjcetDetail"
+		resultType="kr.or.ddit.vo.ProjectVO">
+		SELECT
+		a.comp_id,
+		a.project_no,
+		a.project_name,
+		a.project_cont,
+		a.project_salary,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.project_skills, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(a.project_skills) -
+		LENGTH(REPLACE(a.project_skills, ',', '')) + 1))
+		AS project_skills,
+		TO_CHAR(TO_DATE(a.project_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS project_sdt,
+		TO_CHAR(TO_DATE(a.project_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_edt,
+		ps.code_nm AS project_status,
+		TO_CHAR(TO_DATE(a.project_apply_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS project_apply_sdt,
+		TO_CHAR(TO_DATE(a.project_apply_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_apply_edt,
+		(SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.project_region, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(a.project_region) -
+		LENGTH(REPLACE(a.project_region, ',', '')) + 1))
+		AS project_region,
+		a.project_wfh,
+		a.project_recruit,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.project_job, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(a.project_job) -
+		LENGTH(REPLACE(a.project_job, ',', '')) + 1))
+		AS project_job,
+		project_deadline
+		FROM
+		project a
+		LEFT JOIN CODE b ON a.project_skills = b.code_cd
+		AND a.project_job =
+		b.code_cd
+		AND a.project_region = b.code_cd
+		LEFT JOIN code ps ON
+		a.project_status = ps.code_cd
+		WHERE project_no =
+		#{projectNo,
+		jdbcType=NUMERIC}
+		AND project_del = 'N'
+	</select>
+
+
+	<select id="selectCompnyProjectDetail" resultMap="projectMap">
+		SELECT
+		a.comp_id,
+		a.project_no,
+		a.project_name,
+		a.project_cont,
+		a.project_salary,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.project_skills, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(a.project_skills) -
+		LENGTH(REPLACE(a.project_skills, ',', '')) + 1)) AS project_skills,
+		TO_CHAR(TO_DATE(a.project_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_sdt,
+		TO_CHAR(TO_DATE(a.project_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS project_edt,
+		ps.code_nm AS project_status,
+		TO_CHAR(TO_DATE(a.project_apply_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS project_apply_sdt,
+		TO_CHAR(TO_DATE(a.project_apply_edt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_apply_edt,
+		(SELECT LISTAGG(code_nm, ' ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.project_region, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(a.project_region) -
+		LENGTH(REPLACE(a.project_region, ',', '')) + 1))
+		AS project_region,
+		a.project_wfh,
+		a.project_recruit,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT REGEXP_SUBSTR(a.project_job, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY LEVEL &lt;= LENGTH(a.project_job) -
+		LENGTH(REPLACE(a.project_job, ',', '')) + 1)) AS project_job,
+		a.project_deadline,
+		c.mem_id,
+		c.project_no,
+		fo.code_nm AS free_offer_status,
+		d.mem_id,
+		d.mem_nm,
+		d.mem_email,
+		d.mem_hp
+
+		FROM
+		project a
+		LEFT JOIN free_offer c ON a.project_no = c.project_no
+		LEFT JOIN member d ON c.mem_id = d.mem_id
+		LEFT JOIN code ps ON
+		a.project_status = ps.code_cd
+		LEFT JOIN code fo ON c.free_offer_status = fo.code_cd
+
+		WHERE a.project_no = #{projectNo, jdbcType=NUMERIC}
+		AND a.project_del = 'N'
+
+	</select>
+
+
+
+	<select id="selectCompany" resultMap="company">
+		SELECT
+		c.COMP_ID,
+		c.COMP_NUM,
+		c.COMP_NM,
+		(SELECT code_nm FROM CODE WHERE code_cd = c.COMP_IND) AS COMP_IND,
+		c.COMP_ADDR1,
+		c.COMP_ADDR2,
+		c.COMP_PHONE,
+		c.COMP_EMAIL,
+		CASE
+		WHEN LENGTH(c.COMP_MOBILE) = 11 THEN
+		SUBSTR(c.COMP_MOBILE, 1, 3) || '-' || SUBSTR(c.COMP_MOBILE, 4, 4) || '-' ||
+		SUBSTR(c.COMP_MOBILE, 8, 4)
+		WHEN LENGTH(c.COMP_MOBILE) = 10 THEN
+		SUBSTR(c.COMP_MOBILE, 1, 3) || '-' || SUBSTR(c.COMP_MOBILE, 4, 3) || '-' ||
+		SUBSTR(c.COMP_MOBILE, 7, 4)
+		ELSE
+		c.COMP_MOBILE
+		END AS COMP_MOBILE,
+		c.ATCH_FILE_NO,
+		(SELECT code_nm FROM CODE WHERE code_cd = c.COMP_JOB_DETAIL) AS
+		COMP_JOB_DETAIL
+		FROM
+		COMPANY c
+		WHERE
+		c.COMP_ID = #{compId}
+		AND c.COMP_STATUS = 'N'
+	</select>
+
+	<select id="selectFreeOffer"
+		resultType="kr.or.ddit.vo.Free_OfferVO">
+		SELECT
+		free_offer_status
+		FROM
+		free_offer
+		WHERE mem_id = #{memId}
+		AND project_no = #{projectNo}
+	</select>
+
+	<update id="deleteMember">
+		UPDATE free_offer
+		SET free_offer_status = 'OF04'
+		WHERE project_no =
+		#{projectNo}
+		AND mem_id IN
+		<foreach collection="idList" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="constructUpdate">
+		UPDATE project
+		SET project_status = 'PJ02'
+		WHERE TO_DATE(PROJECT_APPLY_EDT, 'YYYY-MM-DD') &lt; TRUNC(SYSDATE)
+		AND project_del = 'N'
+	</update>
+	
+	<select id="selectTotalRecorde" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE comp_id = #{compId, jdbcType=VARCHAR}
+		AND project_del = 'N'
+		ORDER BY project_no
+	</select>
+	
+
+	<select id="selectProjectListPaging" resultType="kr.or.ddit.vo.ProjectVO">
+		
+					SELECT B.*
+    FROM
+        (
+        SELECT A.*, ROWNUM RNUM
+        FROM
+            (
+		
+		SELECT
+		a.project_no,
+		a.project_name,
+		a.project_cont,
+		a.project_salary,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY
+		code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT
+		REGEXP_SUBSTR(a.project_skills, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY
+		LEVEL &lt;= LENGTH(a.project_skills) -
+		LENGTH(REPLACE(a.project_skills, ',', '')) + 1))
+		AS project_skills,
+		TO_CHAR(TO_DATE(a.project_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_sdt,
+		TO_CHAR(TO_DATE(a.project_edt, 'YYYYMMDD'), 'YYYY-MM-DD')
+		AS
+		project_edt,
+		ps.code_nm AS project_status,
+		TO_CHAR(TO_DATE(a.project_apply_sdt, 'YYYYMMDD'), 'YYYY-MM-DD') AS
+		project_apply_sdt,
+		TO_CHAR(TO_DATE(a.project_apply_edt, 'YYYYMMDD'),
+		'YYYY-MM-DD') AS
+		project_apply_edt,
+		a.project_region,
+		a.project_wfh,
+		a.project_recruit,
+		(SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER
+		BY code_cd)
+		FROM code
+		WHERE code_cd IN (SELECT
+		REGEXP_SUBSTR(a.project_job, '[^,]+', 1, LEVEL)
+		FROM DUAL
+		CONNECT BY
+		LEVEL &lt;= LENGTH(a.project_job) -
+		LENGTH(REPLACE(a.project_job, ',',
+		'')) + 1))
+		AS project_job,
+		project_deadline,
+		(select count(*) from
+		free_offer
+		where project_no = a.project_no
+		and FREE_OFFER_STATUS = 'OF02') as offer_cnt
+		FROM project a
+		LEFT JOIN CODE b
+		ON a.project_skills = b.code_cd
+		AND a.project_job = b.code_cd
+		LEFT JOIN
+		code ps ON a.project_status = ps.code_cd
+		WHERE comp_id =
+		#{compId,
+		jdbcType=VARCHAR}
+		AND project_del = 'N'
+		ORDER BY project_no
+		
+		) A 
+			) B
+			<![CDATA[
+				WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+			]]> 
+		
+	</select>
+		
+
+</mapper>

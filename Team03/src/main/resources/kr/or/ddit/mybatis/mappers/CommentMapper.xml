@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.comment.dao.CommentMapper">
+
+	<select id="selectCommentList" parameterType="int" resultType="CommentVO">
+			SELECT
+				    MEM_ID,
+				    COMMENT_CONT,
+				    COMMENT_DATE
+				  
+			  FROM "COMMENT"
+			  WHERE BOARD_NO = #{boardNo}
+			  AND COMMENT_DEL = 'N'
+			  ORDER BY COMMENT_DATE ASC
+	</select>
+	
+	<insert id="insertComment" parameterType="CommentVO">
+		INSERT INTO "COMMENT" (
+				    COMMENT_DATE,
+				    BOARD_NO,
+				    MEM_ID,
+				    COMMENT_CONT
+				) VALUES (
+				      #{commentDate,jdbcType=DATE}
+					, #{boardNo,jdbcType=NUMERIC}
+					, #{memId,jdbcType=VARCHAR}
+					, #{commentCont,jdbcType=VARCHAR}
+				)
+	</insert>
+	
+	<update id="updateComment">
+			    UPDATE COMMENT
+			    SET COMMENT_CONT = #{commentCont}
+			    WHERE BOARD_NO = #{boardNo}
+			    AND COMMENT_DATE = #{commentDate, jdbcType=TIMESTAMP}
+			    AND COMMENT_DEL = 'N'
+	</update>
+	
+	<update id="deleteComment">
+	    UPDATE "COMMENT"
+		    SET 
+		    COMMENT_DEL = 'Y'
+		    WHERE COMMENT_DATE = #{commentDate}
+	</update>	
+		
+	
+</mapper>

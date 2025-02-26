@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.test.test_answer.dao.Test_AnswerMapper">
+
+	<insert id="insertTestAnswer">
+		<selectKey order="BEFORE" resultType="int" keyProperty="answerNo">
+				 SELECT TEST_ANSWER_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST_ANSWER (
+		      ANSWER_NO         /* 정답번호 */
+		    , ITEM_NO           /* 지문번호 */
+		    , CANDIDATE_NO      /* 응시자번호 */
+		    , ANSWER_CONTENT    /* 정답내용 */
+		) VALUES (
+		      TEST_ANSWER_SEQ.NEXTVAL
+		    , #{itemNo, jdbcType=NUMERIC}
+		    , #{candidateNo, jdbcType=NUMERIC}
+		    , #{answerContent, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="getItemScore" parameterType="int" resultType="int">
+	    SELECT ITEM_SCORE
+	    FROM TEST_ITEM
+	    WHERE ITEM_NO = #{itemNo}
+	</select>
+	
+	<select id="selectCorrectItem" parameterType="int" resultType="int">
+	    SELECT ITEM_NO
+	    FROM TEST_ITEM
+	    WHERE QUE_NO = #{queNo}
+	      AND ITEM_YN = 'Y'
+	</select>
+	
+	<select id="selectKeywordsForItem" parameterType="int" resultType="Test_KeywordVO">
+	    SELECT 
+			  KEYWD_NO
+			, KEYWD_CONT
+			, KEYWD_SCORE
+			, ITEM_NO
+	    FROM TEST_KEYWORD
+	    WHERE ITEM_NO = #{itemNo}
+	      AND KEYWD_DEL = 'N'
+	</select>
+	
+	<update id="updateCandidateScore" parameterType="CandidateVO">
+	    UPDATE CANDIDATE
+	    SET   CANDIDATE_SCORE = #{candidateScore}
+	    	, CANDIDATE_YN = 'Y'
+	    	, CANDIDATE_CDT = sysdate
+	    WHERE CANDIDATE_NO = #{candidateNo}
+	</update>
+	
+	
+	<select id="selectTestAnswerList" resultType="Test_AnswerVO">
+		SELECT 
+		      ANSWER_NO			/* 정답번호 	*/
+		    , ITEM_NO			/* 지문번호 	*/
+		    , CANDIDATE_NO		/* 응시자번호 	*/
+		    , ANSWER_CONTENT	/* 정답내용 	*/	
+		FROM TEST_ANSWER
+		WHERE CANDIDATE_NO = #{candidateNo, jdbcType=NUMERIC}	/* 응시자번호 */
+	</select>
+	
+	
+	
+</mapper>

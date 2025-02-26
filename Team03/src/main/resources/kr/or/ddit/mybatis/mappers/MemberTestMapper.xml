@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.test.dao.MemberTestMapper">
+	<select id="selectTestCode" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT = 'TEST'
+	</select>
+	
+	<select id="selectCandidateList" resultType="CandidateDTO">
+		SELECT 
+		    R.RNUM AS RNUM,               
+		    R.CANDIDATE_NO,       
+		    R.TEST_CD,            
+		    R.EMPLOY_NO,          
+		    R.EMPLOY_TITLE,       
+		    R.FILED_NO,           
+		    R.FILED_NM,           
+		    R.TEST_NO,            
+		    R.CANDIDATE_CDT,      
+		    R.CANDIDATE_YN,       
+		    R.COMP_ID,            
+		    R.COMP_NM             
+		FROM (
+		        SELECT 
+		            ROW_NUMBER() OVER (
+		            	ORDER BY C.CANDIDATE_CDT DESC
+		            ) AS RNUM, 
+		            C.CANDIDATE_NO,
+		            T.TEST_CD,
+		            F.EMPLOY_NO,
+		            E.EMPLOY_TITLE,
+		            F.FILED_NO,
+		            F.FILED_NM,
+		            T.TEST_NO,
+		            C.CANDIDATE_CDT,
+		            C.CANDIDATE_YN,
+		            CP.COMP_ID,
+		            CP.COMP_NM
+		        FROM CANDIDATE C
+		        JOIN TEST T ON C.TEST_NO = T.TEST_NO
+		        JOIN APPLY A ON C.APPLY_NO = A.APPLY_NO
+		        JOIN FIELD F ON A.FILED_NO = F.FILED_NO
+		        JOIN EMPLOY E ON F.EMPLOY_NO = E.EMPLOY_NO
+		        JOIN COMPANY CP ON E.COMP_ID = CP.COMP_ID
+		        WHERE A.MEM_ID = #{memId, jdbcType=VARCHAR}
+		        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.candidateYn)">
+		          AND C.CANDIDATE_YN = #{paging.variousCondition.candidateYn}
+		        </if>
+		        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.testCd)">
+		          AND T.TEST_CD = #{paging.variousCondition.testCd}
+		        </if>
+		        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.employTitle)">
+		          AND E.EMPLOY_TITLE LIKE '%' || #{paging.variousCondition.employTitle} || '%'
+		        </if>
+		        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.compNm)">
+		          AND CP.COMP_NM LIKE '%' || #{paging.variousCondition.compNm} || '%'
+		        </if>
+			) R
+		<![CDATA[
+			WHERE R.RNUM >= #{paging.startRow} AND R.RNUM <= #{paging.endRow}
+		]]>
+	</select>
+	
+	<select id="selectTotalCandidate" resultType="int">
+		SELECT COUNT(*) 
+		  FROM CANDIDATE C
+          JOIN TEST T ON C.TEST_NO = T.TEST_NO
+          JOIN APPLY A ON C.APPLY_NO = A.APPLY_NO
+          JOIN FIELD F ON A.FILED_NO = F.FILED_NO
+          JOIN EMPLOY E ON F.EMPLOY_NO = E.EMPLOY_NO
+          JOIN COMPANY CP ON E.COMP_ID = CP.COMP_ID
+		<where>
+			<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.candidateYn)">
+	          AND C.CANDIDATE_YN = #{paging.variousCondition.candidateYn}
+	        </if>
+	        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.testCd)">
+	          AND T.TEST_CD = #{paging.variousCondition.testCd}
+	        </if>
+	        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.employTitle)">
+	          AND E.EMPLOY_TITLE LIKE '%' || #{paging.variousCondition.employTitle} || '%'
+	        </if>
+	        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.variousCondition.compNm)">
+	          AND CP.COMP_NM LIKE '%' || #{paging.variousCondition.compNm} || '%'
+	        </if>
+			AND A.MEM_ID = #{memId, jdbcType=VARCHAR}
+		</where>
+	</select>
+	
+	<select id="selectCandidateDetail" resultType="CandidateDTO">
+		SELECT 
+              C.CANDIDATE_NO
+            , C.APPLY_NO
+            , C.CANDIDATE_SDT
+            , C.CANDIDATE_EDT
+            , T.TEST_NO
+            , T.COMP_ID
+            , T.TEST_CD
+            , T.TEST_NM
+            , T.TEST_TIME
+        FROM CANDIDATE C
+        INNER JOIN TEST T ON (C.TEST_NO = T.TEST_NO)
+        WHERE C.CANDIDATE_NO = #{candidateNo, jdbcType=NUMERIC}
+	</select>
+	
+	<select id="selectTestQuestnCount" resultType="int">
+		SELECT COUNT(*)
+		FROM TEST T
+		INNER JOIN TEST_QUESTN TQ ON (T.TEST_NO = TQ.TEST_NO)
+		WHERE T.TEST_NO = #{testNo, jdbcType=NUMERIC}
+	</select>
+</mapper>

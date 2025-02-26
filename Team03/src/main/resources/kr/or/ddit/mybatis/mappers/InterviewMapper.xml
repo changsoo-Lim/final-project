@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.interview.dao.InterviewMapper">
+
+	<update id="updateInterview">
+		UPDATE interview
+		SET
+		    INTV_YN = 'Y'
+		WHERE
+		    INTV_NO = #{intvNo,jdbcType=NUMERIC} 
+	</update>
+
+</mapper>

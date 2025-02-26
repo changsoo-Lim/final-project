@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.position.dao.PositionMapper">
+	
+	<resultMap type="kr.or.ddit.vo.PositionVO" id="positionMap" autoMapping="true">
+		<id property="memId" column="MEM_ID"/>
+		<id property="compId" column="COMP_ID"/>
+		<id property="filedNo" column="FILED_NO"/>
+		
+		<association property="field" javaType="kr.or.ddit.vo.FieldVO"  autoMapping="true">
+			<id property="filedNo" column="FILED_NO"/>
+		</association>	
+		
+		<association property="employ" javaType="kr.or.ddit.vo.EmployVO" autoMapping="true">
+		 	<id property="employNo" column="EMPLOY_NO"/>
+		</association>
+		
+		<association property="company" javaType="kr.or.ddit.vo.CompanyVO" autoMapping="true">
+			<id property="compId" column="COMP_ID"/>
+		</association>
+		
+		<association property="member" javaType="kr.or.ddit.vo.MemberVO" autoMapping="true">
+			<id property="memId" column="MEM_ID"/>
+		</association>
+		
+	</resultMap>
+	
+	<insert id="insertPosition">
+		INSERT INTO position (
+		    mem_id,
+		    filed_no,
+		    comp_id,
+		    position_date,
+		    position_cancel_yn,
+		    position_del
+		) VALUES (
+		    #{memId, jdbcType=VARCHAR}
+		   , #{filedNo, jdbcType=NUMERIC}
+		   , #{compId, jdbcType=VARCHAR}
+		   , TO_CHAR(SYSDATE, 'YYYYMMDD')
+		   , 'N'
+		   , 'N'
+		)
+	</insert>
+	
+	<select id="selectMemberPositionList" resultMap="positionMap">
+		<include refid="CommonsMapper.pageHeader"/>
+		SELECT
+		    a.mem_id,
+		    a.filed_no,
+		    a.comp_id,
+		    a.position_date,
+		    a.position_status_cd, 
+		    a.position_cancel_yn,
+		    a.position_cancel_dt,
+		    a.position_del,
+		    b.filed_nm,
+		    c.employ_title,
+			c.employ_no,
+			TO_CHAR(TO_DATE(c.employ_sd, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_sd,
+			TO_CHAR(TO_DATE(c.employ_ed, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_ed,
+		    d.comp_nm
+		FROM
+		    position a
+		inner join field b on a.filed_no = b.filed_no
+		inner join employ c on b.employ_no = c.employ_no
+		inner join company d on c.comp_id = d.comp_id
+		WHERE mem_id = #{memId}
+		<include refid="CommonsMapper.pageFooterParam"/>
+	</select>
+	
+	<select id="selectEmployNo" resultMap="kr.or.ddit.employ.employ.dao.EmployMapper.employMap">
+		SELECT 
+		    a.EMPLOY_NO,
+		    b.FILED_NO
+		FROM 
+		    EMPLOY a
+		    INNER JOIN FIELD b ON (a.EMPLOY_NO = b.EMPLOY_NO)
+		WHERE
+		    FILED_NO = #{filedNo,jdbcType=NUMERIC}
+		    AND
+		    EMPLOY_DEL = 'N'
+	</select>
+	
+<select id="selectPoistionCheck" resultType="int">
+		SELECT
+		    count(*)
+		FROM
+		    position
+		WHERE mem_id = #{memId, jdbcType=VARCHAR}
+		AND filed_no = #{filedNo, jdbcType=NUMERIC}
+		AND comp_id = #{compId, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectTotalRecorde" resultType="int">
+		SELECT
+		    count(*)
+		FROM
+		    position a
+		inner join field b on a.filed_no = b.filed_no
+		inner join employ c on b.employ_no = c.employ_no
+		inner join company d on c.comp_id = d.comp_id
+		inner join member e on a.mem_id = e.mem_id
+		WHERE a.comp_id = #{compId}
+	</select>
+	
+	<select id="selectPositionList" resultMap="positionMap">
+			SELECT B.*
+    FROM
+        (
+        SELECT A.*, ROWNUM RNUM
+        FROM
+            (
+				SELECT
+		    a.mem_id,
+		    a.filed_no,
+		    a.comp_id,
+		    a.position_date,
+		    a.position_status_cd, 
+		    a.position_cancel_yn,
+		    a.position_cancel_dt,
+		    a.position_del,
+		    b.filed_nm,
+		    c.employ_title,
+			c.employ_no,
+			TO_CHAR(TO_DATE(c.employ_sd, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_sd,
+			TO_CHAR(TO_DATE(c.employ_ed, 'YYYYMMDD'), 'YYYY-MM-DD') AS employ_ed,
+		    d.comp_nm,
+		    e.mem_nm
+		FROM
+		    position a
+		inner join field b on a.filed_no = b.filed_no
+		inner join employ c on b.employ_no = c.employ_no
+		inner join company d on c.comp_id = d.comp_id
+		inner join member e on a.mem_id = e.mem_id
+		WHERE a.comp_id = #{compId}
+				) A 
+			) B
+			<![CDATA[
+				WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+			]]> 
+		
+	</select>
+	
+	<update id="updatePosition" parameterType="PositionVO">
+		UPDATE POSITION
+		SET
+		    POSITION_STATUS_CD = #{positionStatusCd, jdbcType=VARCHAR}
+		WHERE
+			MEM_ID = #{memId}
+		AND	FILED_NO = #{filedNo}
+	</update>
+	
+	
+	
+</mapper>

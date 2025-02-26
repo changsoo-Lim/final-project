@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.review.dao.ReviewMapper">
+
+
+	<resultMap type="kr.or.ddit.vo.ReviewVO" id="reviewMap" autoMapping="true">
+		<id property="compId" column="COMP_ID"/>
+		<association property="companyVO" autoMapping="true" column="COMP_ID"
+			select="kr.or.ddit.company.company.dao.CompanyMapper.selectCompany"
+		/>
+		<association property="codeVO" autoMapping="true" />
+	</resultMap>
+	
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+	    <where>
+	        <!-- 검색어가 비어있지 않은 경우에만 조건 추가 -->
+	        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+	    	    <choose>
+					<when test="simpleCondition.searchType eq 'compId'">
+		        	    INSTR(COMP_ID, #{simpleCondition.searchWord}) > 0
+		            	AND
+					</when>
+	        	</choose>
+	        </if>
+	        review_status = 'Y'
+	        AND
+	        review_del = 'N'
+	    </where>
+	</sql>
+
+	
+
+	<select id="selectReviewList" resultType="kr.or.ddit.vo.ReviewVO">
+		SELECT
+		    review_no,
+		    review_title,
+		    review_cont,
+		    review_rating,
+		    review_dt,
+		    mem_id,
+		    comp_id
+		FROM
+		    review
+		WHERE   comp_id = #{compId}
+		AND     review_status = 'Y'
+		AND     review_del = 'N'
+	</select>
+	
+	<select id="selectReview" resultMap="reviewMap">
+		SELECT
+		    a.review_no,
+		    a.review_title,
+		    a.review_cont,
+		    a.review_rating,
+		    a.review_dt,
+		    a.mem_id,
+		    a.comp_id,
+		    comp_nm,
+		    atch_file_no,
+		    (SELECT c.code_nm FROM code c WHERE c.code_cd = b.comp_type) as comp_type,
+		    (SELECT c.code_nm FROM code c WHERE c.code_cd = b.comp_ind) as comp_ind,
+		    (SELECT c.code_nm FROM code c WHERE c.code_cd = b.comp_job) as comp_job,
+		    (SELECT c.code_nm FROM code c WHERE c.code_cd = b.comp_job_detail) as comp_job_detail
+		FROM
+		    review a
+			INNER JOIN company b ON a.comp_id = b.comp_id
+		WHERE
+		    a.review_no = #{reviewNo}
+		    AND a.review_status = 'Y'
+		    AND a.review_del = 'N'
+	</select>
+	
+	<select id="selectInterviewReviewList" resultType="ReviewVO">
+            SELECT 
+			B.*
+	    FROM
+	        (
+	        SELECT 
+	        	A.*, ROWNUM RNUM
+	        FROM
+	            (
+				SELECT
+				    review_no,
+                    review_title,
+                    review_cont,
+                    review_rating,
+                    review_dt,
+                    mem_id,
+                    comp_id
+			    FROM
+				    REVIEW
+				<include refid="searchFrag" />
+            	ORDER BY REVIEW_NO ASC
+	            ) A
+	        ) B
+	    WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	    ORDER BY RNUM ASC
+	    
+	</select>
+	
+	<select id="selectMyReviewList" resultType="ReviewVO">
+		SELECT
+		    review_no,
+		    review_title,
+		    review_cont,
+		    review_rating,
+		    review_status,
+		    review_dt,
+		    mem_id,
+		    comp_id
+	    FROM
+		    review
+	    <where>
+	        <!-- 검색어가 비어있지 않은 경우에만 조건 추가 -->
+	        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.simpleCondition.searchWord)">
+	    	    <choose>
+					<when test="paging.simpleCondition.searchType eq 'compId'">
+		        	    INSTR(COMP_ID, #{paging.simpleCondition.searchWord}) > 0
+		            	AND
+					</when>
+	        	</choose>
+	        </if>
+	        review_del = 'N'
+	    </where>
+		    AND
+		    	mem_id = #{memId}
+	</select>
+	
+	<select id="selectMyApplyList" resultMap="kr.or.ddit.employ.employ.dao.EmployMapper.employMap">
+		SELECT 
+		    a.employ_no,
+		    a.comp_id,
+		    e.comp_nm,
+		    a.employ_title,
+		    b.filed_no,
+		    b.filed_nm,
+		    c.apply_no,
+		    c.mem_id,
+		    d.intv_no
+		FROM 
+		    EMPLOY a
+		    LEFT OUTER JOIN FIELD b ON (a.EMPLOY_NO = b.EMPLOY_NO)
+		    LEFT OUTER JOIN APPLY c ON (b.FILED_NO = c.FILED_NO)
+		    LEFT OUTER JOIN INTERVIEW d ON (c.APPLY_NO = d.APPLY_NO)
+		    LEFT OUTER JOIN COMPANY e ON (a.comp_id = e.comp_id)
+		WHERE
+		    c.mem_id = #{memId}
+		    AND
+		    d.intv_yn = 'Y'
+	</select>
+	
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*) FROM REVIEW
+	    <include refid="searchFrag" />
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+	    SELECT COUNT(*) FROM REVIEW
+	    <include refid="searchFrag" />
+	</select>
+	
+	<insert id="insertReview">
+		<selectKey order="BEFORE" keyProperty="reviewNo" resultType="int">
+			SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO review (
+		    review_no,
+		    review_title,
+		    review_cont,
+		    review_rating,
+		    review_dt,
+		    review_status,
+		    review_del,
+		    mem_id,
+		    comp_id
+		) VALUES (
+		      #{reviewNo,jdbcType=NUMERIC}
+		    , #{reviewTitle,jdbcType=VARCHAR}
+		    , #{reviewCont,jdbcType=CLOB}
+		    , #{reviewRating,jdbcType=NUMERIC}
+		    , TO_CHAR(SYSDATE, 'YYYYMMDD')
+		    , 'N'
+		    , 'N'
+		    , #{memId,jdbcType=VARCHAR}
+		    , #{compId,jdbcType=VARCHAR}
+		)
+
+	</insert>
+</mapper>

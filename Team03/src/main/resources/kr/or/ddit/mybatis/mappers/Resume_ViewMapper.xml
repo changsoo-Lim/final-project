@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume_view.dao.Resume_ViewMapper">
+
+<select id="resumeViewSelectList" resultType="Resume_ViewVO">
+	<include refid="CommonsMapper.pageHeader"/>
+	SELECT
+	    mem_id
+	FROM
+	    resume_view
+	WHERE comp_id = #{compId}
+		AND res_del = 'N' 
+	  	AND TRUNC(res_dt) = TRUNC(SYSDATE)
+	) A 
+		) B
+		<![CDATA[
+			WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+		]]>  	  	
+</select>
+
+<insert id="resumeViewInsert">
+	<selectKey keyProperty="resumeViewNo" resultType="int" order="BEFORE" >
+		SELECT RESUME_VIEW_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+		INSERT INTO resume_view (
+	        resume_view_no,
+	        comp_id,
+	        mem_id,
+	        res_dt,
+	        res_del
+    ) VALUES (
+	        #{resumeViewNo},
+	        #{compId},
+	        #{memId},
+	        SYSDATE,
+	        'N'
+    )
+</insert>
+
+<select id="selectTotalRecorde" resultType="int">
+	SELECT
+	    COUNT(*)
+	FROM
+	    resume_view
+	WHERE comp_id = #{compId}
+		AND res_del = 'N' 
+	  	AND TRUNC(res_dt) = TRUNC(SYSDATE)
+</select>
+
+
+
+<select id="resumeCheck" resultType="int">
+	SELECT COUNT(*)
+	FROM resume_view
+	WHERE res_del = 'N' 
+	  AND TRUNC(res_dt) = TRUNC(SYSDATE) 
+	  AND comp_id = #{compId}
+	  AND mem_id = #{memId}
+</select>
+
+
+
+<!-- <update id="resumeViewDelete">
+	UPDATE resume_view
+	SET
+	    res_del = 'Y'
+	WHERE
+	    comp_id = #{}
+	AND 
+	    mem_id = #{}
+</update> -->
+
+</mapper>

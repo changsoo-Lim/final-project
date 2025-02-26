@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.member.dao.MemberMapper">
+
+<resultMap type="kr.or.ddit.vo.MemberVO" id="memberMap">
+    <!-- 기본 정보 매핑 -->
+    <id property="memId" column="MEM_ID" />
+    <result property="memNm" column="MEM_NM" />
+    <result property="memGen" column="MEM_GEN" />
+    <result property="memRegno" column="MEM_REGNO" />
+    <result property="memZip" column="MEM_ZIP" />
+    <result property="memAddr1" column="MEM_ADDR1" />
+    <result property="memAddr2" column="MEM_ADDR2" />
+    <result property="memEmail" column="MEM_EMAIL" />
+    <result property="memHp" column="MEM_HP" />
+    <result property="memClassify" column="MEM_CLASSIFY" />
+    <result property="memStatus" column="MEM_STATUS" />
+    <result property="memUrl" column="MEM_URL" />
+    <result property="memDateType" column="MEM_DATE_TYPE" />
+
+    <!-- 첨부 파일 -->
+    <association property="file" column="ATCH_FILE_NO" select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+
+    <!-- 고등학교 정보 -->
+	<collection property="highSchoolList" ofType="kr.or.ddit.vo.HighSchoolVO" autoMapping="true">
+        <id property="highschoolNo" column="HIGHSCHOOL_NO" />
+        <result property="highschoolNm" column="HIGHSCHOOL_NM" />
+        <result property="highschoolLocation" column="HIGHSCHOOL_LOCATION" />
+        <result property="highschoolPeriod" column="HIGHSCHOOL_PERIOD" />
+        <result property="highschoolStatus" column="HIGHSCHOOL_STATUS" />
+        <result property="highschoolMajor" column="HIGHSCHOOL_MAJOR" />
+    </collection>
+
+    <!-- 경력 목록 -->
+    <collection property="careerList" ofType="kr.or.ddit.vo.CareerVO" autoMapping="true">
+        <id property="careerNo" column="CAREER_NO" />
+        <result property="careerCompanyNm" column="CAREER_COMPANY_NM" />
+        <result property="careerIndustryType" column="CAREER_INDUSTRY_TYPE" />
+        <result property="careerSubIndustry" column="CAREER_SUB_INDUSTRY" />
+        <result property="careerCompanySize" column="CAREER_COMPANY_SIZE" />
+        <result property="careerCompanyType" column="CAREER_COMPANY_TYPE" />
+        <result property="careerListed" column="CAREER_LISTED" />
+        <result property="careerCity" column="CAREER_CITY" />
+        <result property="careerDistrict" column="CAREER_DISTRICT" />
+        <result property="careerJobTitle" column="CAREER_JOB_TITLE" />
+        <result property="careerStartDate" column="CAREER_START_DATE" />
+        <result property="careerEndDate" column="CAREER_END_DATE" />
+        <result property="careerSalary" column="CAREER_SALARY" />
+        <result property="careerReason" column="CAREER_REASON" />
+    </collection>
+
+    <!-- 학력 목록 -->
+    <collection property="uniList" ofType="kr.or.ddit.vo.UniVO" autoMapping="true">
+        <id property="uniNo" column="UNI_NO" />
+        <result property="uniNm" column="UNI_NM" />
+        <result property="uniType" column="UNI_TYPE" />
+        <result property="uniMajorCategory" column="UNI_MAJOR_CATEGORY" />
+        <result property="uniMajorNm" column="UNI_MAJOR_NM" />
+        <result property="uniGpa" column="UNI_GPA" />
+        <result property="uniSdt" column="UNI_SDT" />
+        <result property="uniEdt" column="UNI_EDT" />
+    </collection>
+
+    <!-- 스킬 목록 -->
+    <collection property="compList" ofType="kr.or.ddit.vo.CompVO" autoMapping="true">
+        <id property="compSkillNo" column="COMP_SKILL_NO" />
+        <result property="compSkillField" column="COMP_SKILL_FIELD" />
+        <result property="compSkillDetail" column="COMP_SKILL_DETAIL" />
+        <result property="compSkillLevel" column="COMP_SKILL_LEVEL" />
+    </collection>
+
+    <!-- 자격증 목록 -->
+    <collection property="certrList" ofType="kr.or.ddit.vo.CertVO" autoMapping="true">
+        <id property="certNo" column="CERT_NO" />
+        <result property="certNm" column="CERT_NM" />
+        <result property="certIssuer" column="CERT_ISSUER" />
+        <result property="certDate" column="CERT_DATE" />
+        <result property="certPassCd" column="CERT_PASS_CD" />
+    </collection>
+
+    <!-- 언어 목록 -->
+    <collection property="languageList" ofType="kr.or.ddit.vo.LanguageVO" autoMapping="true">
+        <id property="langNo" column="LANG_NO" />
+        <result property="langNm" column="LANG_NM" />
+        <result property="langSpeakingLevel" column="LANG_SPEAKING_LEVEL" />
+        <result property="langReadingLevel" column="LANG_READING_LEVEL" />
+        <result property="langWritingLevel" column="LANG_WRITING_LEVEL" />
+    </collection>
+
+    <!-- 활동 목록 -->
+    <collection property="activityList" ofType="kr.or.ddit.vo.ActivityVO" autoMapping="true">
+        <id property="activityNo" column="ACTIVITY_NO" />
+        <result property="activityOrganization" column="ACTIVITY_ORGANIZATION" />
+        <result property="activityDesc" column="ACTIVITY_DESC" />
+        <result property="activitySdt" column="ACTIVITY_SDT" />
+        <result property="activityEdt" column="ACTIVITY_EDT" />
+    </collection>
+
+    <!-- 수상 목록 -->
+    <collection property="awardList" ofType="kr.or.ddit.vo.AwardVO" autoMapping="true">
+        <id property="awardNo" column="AWARD_NO" />
+        <result property="awardTitle" column="AWARD_TITLE" />
+        <result property="awardIssuer" column="AWARD_ISSUER" />
+        <result property="awardDate" column="AWARD_DATE" />
+    </collection>
+
+    <!-- 자기소개서 -->
+    <collection property="intro" ofType="kr.or.ddit.vo.IntroVO" autoMapping="true">
+        <id property="introNo" column="INTRO_NO" />
+        <result property="introTitle" column="INTRO_TITLE" />
+        <result property="introDel" column="INTRO_DEL" />
+        <collection property="introDetail" ofType="kr.or.ddit.vo.Intro_DetailVO">
+            <id property="introDetailNo" column="INTRO_DETAIL_NO" />
+            <result property="introDetailTitle" column="INTRO_DETAIL_TITLE" />
+            <result property="introDetailCont" column="INTRO_DETAIL_CONT" />
+        </collection>
+    </collection>
+
+    <!-- 근무 조건 -->
+    <collection property="workCondList" ofType="kr.or.ddit.vo.Work_CondVO" autoMapping="true">
+        <id property="workCondNo" column="WORK_COND_NO" />
+        <result property="workCondJobType" column="WORK_COND_JOB_TYPE" />
+        <result property="workCondType" column="WORK_COND_TYPE" />
+        <result property="workCondSalary" column="WORK_COND_SALARY" />
+        <result property="workCondSalaryVisible" column="WORK_COND_SALARY_VISIBLE" />
+        <collection property="workCity" ofType="kr.or.ddit.vo.Work_CityVO">
+            <id property="workCityNo" column="WORK_CITY_NO" />
+            <result property="sidoCd" column="SIDO_CD" />
+            <result property="gugunCd" column="GUGUN_CD" />
+            <result property="workCityYn" column="WORK_CITY_YN" />
+        </collection>
+    </collection>
+
+    <!-- 선호 정보 -->
+    <collection property="prefList" ofType="kr.or.ddit.vo.PrefVO" autoMapping="true">
+        <id property="prefNo" column="PREF_NO" />
+        <result property="prefMilitary" column="PREF_MILITARY" />
+        <result property="prefPatriot" column="PREF_PATRIOT" />
+        <result property="prefDisability" column="PREF_DISABILITY" />
+        <result property="prefEmploySupport" column="PREF_EMPLOY_SUPPORT" />
+        <result property="prefHobbies" column="PREF_HOBBIES" />
+        <result property="prefSkills" column="PREF_SKILLS" />
+    </collection>
+
+    <!-- 교육 정보 -->
+    <collection property="eduList" ofType="kr.or.ddit.vo.EduVO" autoMapping="true">
+        <id property="eduNo" column="EDU_NO" />
+        <result property="eduTitle" column="EDU_TITLE" />
+        <result property="eduInstitution" column="EDU_INSTITUTION" />
+        <result property="eduSdt" column="EDU_SDT" />
+        <result property="eduEdt" column="EDU_EDT" />
+        <result property="eduDesc" column="EDU_DESC" />
+    </collection>
+
+    <!-- 언어 시험 -->
+    <collection property="langTestList" ofType="kr.or.ddit.vo.Lang_TestVO" autoMapping="true">
+        <id property="langTestNo" column="LANG_TEST_NO" />
+        <result property="langTestName" column="LANG_TEST_NAME" />
+        <result property="langTestLevel" column="LANG_TEST_LEVEL" />
+        <result property="langTestDate" column="LANG_TEST_DATE" />
+    </collection>
+
+    <!-- 해외 경험 -->
+    <collection property="experienceList" ofType="kr.or.ddit.vo.ExperienceVO" autoMapping="true"> 
+        <id property="expNo" column="EXP_NO" />
+        <result property="expCountry" column="EXP_COUNTRY" />
+        <result property="expSdt" column="EXP_SDT" />
+        <result property="expEdt" column="EXP_EDT" />
+        <result property="expDesc" column="EXP_DESC" />
+    </collection>
+</resultMap>
+
+
+
+	<select id="selectPhoneMember" resultType="MemberVO">
+		SELECT 
+			MEM_ID  /* 회원 아이디 */
+		  FROM MEMBER
+		 WHERE MEM_HP = #{memHp, jdbcType=VARCHAR}
+	</select>
+	
+	
+	
+	
+	
+	
+	<select id="selectMember" resultMap="memberMap">
+	    SELECT 
+	        a.mem_id,
+	        a.mem_nm,
+	        a.mem_gen,
+	        a.mem_regno,
+	        a.mem_zip,
+	        a.mem_addr1,
+	        a.mem_addr2,
+	        a.mem_email,
+	        a.mem_hp,
+	        a.mem_classify,
+	        a.mem_status,
+	        a.mem_url,
+	        a.atch_file_no,
+	        a.mem_date_type,
+
+	
+	        -- 학력 정보
+	        d.uni_no,
+	        d.uni_nm,
+	        d.uni_type,
+	        d.uni_sdt,
+	        d.uni_s_status,
+	        d.uni_edt,
+	        d.uni_e_status,
+	        d.uni_major_category,
+	        d.uni_major_nm,
+	        d.uni_major_degree,
+	        d.uni_gpa,
+	        d.uni_project_nm,
+	        d.uni_project_desc,
+	
+	        -- 자격증 정보
+	        i.cert_no,
+	        i.cert_nm,
+	        i.cert_issuer,
+	        i.cert_date,
+	        i.cert_pass_cd,
+	
+	        -- 언어 정보
+	        n.lang_no,
+	        n.lang_nm,
+	        n.lang_speaking_level,
+	        n.lang_reading_level,
+	        n.lang_writing_level,
+	
+	        -- 근무 조건, 급여
+	        m.work_cond_no,
+	        m.work_cond_type,
+	        m.work_cond_job_type,
+	        m.work_cond_salary, -- salary 코드 네임 매핑
+	        m.work_cond_salary_visible, -- 기존 visible 값
+	
+	        -- 근무지 정보
+	        o.work_city_no,
+	        o.sido_cd,
+	        o.gugun_cd,
+	        o.work_city_yn
+
+	    FROM 
+	        member a
+	        LEFT JOIN HIGHSCHOOL b ON a.mem_id = b.mem_id
+	        LEFT JOIN CAREER c ON a.mem_id = c.mem_id
+	        LEFT JOIN UNI d ON a.mem_id = d.mem_id
+	        LEFT JOIN PORTFOLIO e ON a.mem_id = e.mem_id
+	        LEFT JOIN AWARD f ON a.mem_id = f.mem_id
+	        LEFT JOIN EDU g ON a.mem_id = g.mem_id
+	        LEFT JOIN COMP h ON a.mem_id = h.mem_id
+	        LEFT JOIN CERT i ON a.mem_id = i.mem_id
+	        LEFT JOIN INTRO j ON a.mem_id = j.mem_id
+	        LEFT JOIN INTRO_DETAIL k ON j.intro_no = k.intro_no
+	        LEFT JOIN ACTIVITY l ON a.mem_id = l.mem_id
+	        LEFT JOIN LANGUAGE n ON a.mem_id = n.mem_id
+	        LEFT JOIN WORK_COND m ON a.mem_id = m.mem_id
+	        LEFT JOIN WORK_CITY o ON m.WORK_COND_NO = o.WORK_COND_NO
+	        LEFT JOIN pref p ON a.mem_id = p.mem_id
+	        LEFT JOIN edu q ON a.mem_id = q.mem_id
+	        LEFT JOIN lang_test r ON a.mem_id = r.mem_id
+	        LEFT JOIN experience s ON a.mem_id = s.mem_id
+	    WHERE 
+	        a.mem_id = #{memId}
+	</select>
+
+</mapper>

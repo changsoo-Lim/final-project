@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.users.dao.UsersMapper">
+
+	<resultMap id="userCompMemberMap" type="UsersVO">
+	    <result property="userId" column="USER_ID" />
+	    <result property="userCd" column="USER_CD" />
+	    <result property="userPass" column="USER_PASS" />
+	    <association property="memberVO" javaType="MemberVO">
+	        <result property="memNm" column="MEM_NM" />
+	        <result property="memStatus" column="MEM_STATUS" />
+	    </association>
+	    <association property="companyVO" javaType="CompanyVO">
+	        <result property="compNm" column="COMP_NM" />
+	        <result property="compStatus" column="COMP_STATUS" />
+	    </association>
+	</resultMap>
+	<select id="selectUserForAuth" resultMap="userCompMemberMap">		
+		SELECT
+		      U.USER_ID
+		    , U.USER_CD
+		    , U.USER_PASS
+		    , C.COMP_NM
+		    , M.MEM_NM
+		    , M.MEM_STATUS
+		    , C.COMP_STATUS
+		FROM USERS U
+		LEFT OUTER JOIN MEMBER  M ON (U.USER_ID = M.MEM_ID)
+		LEFT OUTER JOIN COMPANY C ON (U.USER_ID = C.COMP_ID)
+		WHERE U.USER_ID = #{userId, jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertUser">
+        INSERT INTO USERS (
+        	  USER_ID		/* 유저아이디 */
+        	, USER_PASS		/* 유저비밀번호 */
+        	, USER_JOINDT	/* 유저가입일자 */
+        	, USER_CD		/* 유저회원구분 */
+        )
+        VALUES (
+        	  #{userId}
+        	, #{userPass}
+        	, TO_CHAR(SYSDATE, 'YYYYMMDD')
+        	, <if test="userCd == 'MEMBER'">  'ROLE02' </if>
+	          <if test="userCd == 'COMPANY'"> 'ROLE03' </if>
+        )
+    </insert>
+	
+	<insert id="insertDetails">
+	 	<choose>
+			<when test="userCd == 'MEMBER'">
+                INSERT INTO MEMBER (
+                      MEM_ID		/* 개인 아이디 */
+                    , MEM_NM		/* 개인 이름 */
+                    , MEM_GEN		/* 개인 성별 */
+                    , MEM_REGNO		/* 개인 생년월일 */
+                    , MEM_ZIP		/* 개인 우편번호 */
+                    , MEM_ADDR1		/* 개인 주소 */
+                    , MEM_ADDR2		/* 개인 상세주소 */
+                    , MEM_EMAIL		/* 개인 이메일 */
+                    , MEM_HP		/* 개인 휴대폰번호 */
+                    , MEM_CLASSIFY	/* 개인 상태코드 */
+                )
+                VALUES (
+                      #{userId,            jdbcType=VARCHAR}
+                    , #{memberVO.memNm,    jdbcType=VARCHAR}
+                    , #{memberVO.memGen,   jdbcType=VARCHAR}
+                    , #{memberVO.memRegno, jdbcType=VARCHAR}
+                    , #{memberVO.memZip,   jdbcType=VARCHAR}
+                    , #{memberVO.memAddr1, jdbcType=VARCHAR}
+                    , #{memberVO.memAddr2, jdbcType=VARCHAR}
+                    , #{memberVO.memEmail, jdbcType=VARCHAR}
+                    , #{memberVO.memHp,    jdbcType=VARCHAR}
+                    , 'USER002'
+                )
+            </when>
+            <when test="userCd == 'COMPANY'">
+                INSERT INTO COMPANY (
+                      COMP_ID				/* 기업 회원아이디 */
+                    , COMP_NUM				/* 기업 사업자등록번호 */
+                    , COMP_NM				/* 기업 회사명 */
+                    , COMP_REPRESENTATIVE	/* 기업 대표자명*/
+                    , COMP_TYPE				/* 기업 구분*/
+                    , COMP_IND				/* 기업 직종*/
+                    , COMP_JOB       		/* 기업 직무*/
+                    , COMP_ZIP				/* 기업 우편번호*/
+                    , COMP_ADDR1			/* 기업 기본주소*/
+                    , COMP_ADDR2			/* 기업 상세주소*/
+                    , COMP_PHONE			/* 기업 사무실 전화번호*/
+                    , COMP_EMAIL			/* 기업 담당자 이메일*/
+                    , COMP_MOBILE			/* 기업 담당자 휴대번호*/
+                    , COMP_JOB_DETAIL		/* 기업 직무 상세*/
+                )
+                VALUES (
+                      #{userId, 						jdbcType=VARCHAR}
+                    , #{companyVO.compNum, 				jdbcType=VARCHAR}
+                    , #{companyVO.compNm, 				jdbcType=VARCHAR}
+                    , #{companyVO.compRepresentative, 	jdbcType=VARCHAR}
+                    , #{companyVO.compType, 			jdbcType=VARCHAR}
+                    , #{companyVO.compInd, 				jdbcType=VARCHAR}
+                    , #{companyVO.compJob,              jdbcType=VARCHAR}
+                    , #{companyVO.compZip, 				jdbcType=VARCHAR}
+                    , #{companyVO.compAddr1, 			jdbcType=VARCHAR}
+                    , #{companyVO.compAddr2, 			jdbcType=VARCHAR}
+                    , #{companyVO.compPhone, 			jdbcType=VARCHAR}
+                    , #{companyVO.compEmail, 			jdbcType=VARCHAR}
+                    , #{companyVO.compMobile, 			jdbcType=VARCHAR}
+                    , #{companyVO.compJobDetail,        jdbcType=VARCHAR}
+                )
+            </when>
+		</choose>
+	</insert>
+	
+    <insert id="insertUserRole">
+        INSERT INTO USERROLE (
+        	  USER_ID	/* 유저아이디 */
+        	, ROLE_CD	/* 유저권한코드 */
+        )
+        VALUES (
+              #{userId, jdbcType=VARCHAR}
+            , <if test="userCd == 'MEMBER'">  'ROLE02' </if>
+              <if test="userCd == 'COMPANY'"> 'ROLE03' </if>
+        )
+    </insert>
+    
+    <insert id="insertStatus">
+    	INSERT INTO STATUS (
+    		  MEM_ID		/* 개인 회원아이디 */
+    		, STATUS_SMS	/* SMS 수신여부 */
+    		, STATUS_EMAIL	/* EMAIL 수신여부 */
+    	) VALUES (
+    		  #{userId, 				jdbcType=VARCHAR}
+    		, #{statusVO.statusSms, 	jdbcType=VARCHAR}
+    		, #{statusVO.statusEmail,	jdbcType=VARCHAR}
+    	)
+    </insert>
+    
+    <insert id="insertCertStatus">
+    	INSERT INTO CERT_STATUS (
+		      MEM_ID   /* 회원아이디 */
+		    , EMAIL_YN  /* 이메일 인증여부 */
+		    , HP_YN     /* 휴대폰번호 인증여부 */
+		) VALUES (
+		      #{userId,               jdbcType=VARCHAR}
+		    , #{certStatusVO.emailYn, jdbcType=VARCHAR}
+		    , #{certStatusVO.hpYn,    jdbcType=VARCHAR}
+		)
+    </insert>
+    
+    <select id="selectUser" resultType="UsersVO">
+    	SELECT 
+    		  USER_ID		/* 유저 아이디 */
+    		, USER_JOINDT	/* 유저생성일자 */
+    		, USER_CD		/* 유저회원구분 */
+		FROM USERS
+		WHERE USER_ID = #{userId, jdbcType=VARCHAR}
+    </select>
+    
+    <select id="selectPass" resultType="UsersVO"> 
+    	SELECT 
+    		  USER_PASS		/* 유저 비밀번호 */
+		FROM USERS
+		WHERE USER_ID = #{userId, jdbcType=VARCHAR}
+    </select>
+    
+    <update id="updatePassword" parameterType="UsersVO">
+		UPDATE USERS
+		SET USER_PASS = #{userPass, jdbcType=VARCHAR}
+		WHERE USER_ID = #{userId,   jdbcType=VARCHAR}
+	</update>
+	
+	<select id="selectCodeGender" resultType="CodeVO">
+		<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT = 'gender'
+	</select>
+    
+    <select id="selectCompanySizeCode" resultType="CodeVO">
+    	<include refid="CommonsMapper.codeList" />
+    	WHERE CODE_PARENT = 'company-size'
+    </select>
+    
+    <select id="selectIndustryCode" resultType="CodeVO">
+    	<include refid="CommonsMapper.codeList" />
+		WHERE CODE_PARENT LIKE 'in%'
+    </select>
+    
+    <update id="deleteUser">
+    	<choose>
+            <when test="userCd == 'ROLE02'">
+                UPDATE MEMBER
+                SET MEM_STATUS = 'Y'
+                WHERE MEM_ID = #{userId, jdbcType=VARCHAR}
+            </when>
+            <when test="userCd == 'ROLE03'">
+                UPDATE COMPANY
+                SET COMP_STATUS = 'Y'
+                WHERE COMP_ID = #{userId, jdbcType=VARCHAR}
+            </when>
+        </choose>
+    </update>
+</mapper>

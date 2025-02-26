@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      @@include("../../partials/head/meta.html")
+      <link href="@@webRoot/node_modules/prismjs/themes/prism-okaidia.min.css" rel="stylesheet" />
+      <link rel="stylesheet" href="@@webRoot/node_modules/glightbox/dist/css/glightbox.min.css" />
+
+      @@include("../../partials/head/head-links.html") @@include("../../partials/head/analytics.html")
+      <title>Glightbox - Responsive Website Template | Block</title>
+   </head>
+
+   <body>
+      <!-- Main wrapper start-->
+      <main class="docs-main-wrapper">
+         @@include("../../partials/docs-navbar.html", { "classList": "w-100 fixed-top bg-white" })
+         <!-- left sidebar -->
+         @@include("../../partials/docs-sidenav.html")
+         <!-- Wrapper  start-->
+         <div class="docs-wrapper">
+            <div class="docs-content">
+               <!-- Content start-->
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="mb-5" id="intro">
+                           <h1>Glightbox</h1>
+                           <p>
+                              GLightbox is a pure javascript lightbox. It can display images, iframes, inline content and videos with optional autoplay for YouTube, Vimeo and even self hosted videos.
+                           </p>
+                           <div class="alert alert-warning d-flex gap-3">
+                              <div>
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path
+                                       d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                 </svg>
+                              </div>
+                              <div>
+                                 Requires JS.
+                                 <div class="my-2 fw-semibold">assets/js/vendors/glight.js</div>
+
+                                 <div class="mt-1">
+                                    Note that this component requires the use of the third-party
+                                    <a href="https://github.com/biati-digital/glightbox" class="alert-link" target="_blank">glightbox</a>
+                                    plugin.
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <!--Form control end-->
+                  <!--Glightbox start-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h3 class="text-truncate h5 mb-0">Gllightbox</h3>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <div>
+                              <ul class="nav nav-pills nav-custom-pill" id="pills-tabOne" role="tablist">
+                                 <li class="nav-item">
+                                    <a
+                                       class="nav-link active"
+                                       id="pills-glight-preview-tab"
+                                       data-bs-toggle="pill"
+                                       href="#pills-glight-preview"
+                                       role="tab"
+                                       aria-controls="pills-glight-preview"
+                                       aria-selected="true">
+                                       <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Preview</span>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" id="pills-glight-code-tab" data-bs-toggle="pill" href="#pills-glight-code" role="tab" aria-controls="pills-glight-code" aria-selected="false">
+                                       <span class="lh-1"><i class="bi bi-code"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Code</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabOneContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-glight-preview" role="tabpanel" aria-labelledby="pills-glight-preview-tab">
+                                 <div class="row gy-4">
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="@@webRoot/assets/images/about-img/about-img-1.jpg" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="@@webRoot/assets/images/about-img/about-img-2.jpg" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="@@webRoot/assets/images/about-img/about-img-3.jpg" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-glight-code" role="tabpanel" aria-labelledby="pills-glight-code-tab">
+                                 <pre
+                                    class="language-markup"
+                                    tabindex="0"><code class="language-markup"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>row gy-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/about-img/about-img-1.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/about-img/about-img-2.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/about-img/about-img-3.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Glightbox end-->
+                  <!--Glightbox discription start-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h3 class="text-truncate h5 mb-0">Gllightbox with discription</h3>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <div>
+                              <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                                 <li class="nav-item">
+                                    <a
+                                       class="nav-link active"
+                                       id="pills-discription-preview-tab"
+                                       data-bs-toggle="pill"
+                                       href="#pills-discription-preview"
+                                       role="tab"
+                                       aria-controls="pills-discription-preview"
+                                       aria-selected="true">
+                                       <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Preview</span>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a
+                                       class="nav-link"
+                                       id="pills-discription-code-tab"
+                                       data-bs-toggle="pill"
+                                       href="#pills-discription-code"
+                                       role="tab"
+                                       aria-controls="pills-discription-code"
+                                       aria-selected="false">
+                                       <span class="lh-1"><i class="bi bi-code"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Code</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-discription-preview" role="tabpanel" aria-labelledby="pills-discription-preview-tab">
+                                 <div class="row gy-4">
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a
+                                          href="@@webRoot/assets/images/about-img/about-img-1.jpg"
+                                          class="glightbox rounded-3"
+                                          data-glightbox="title:Description Bottom; description: You can set the position of the description">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a
+                                          href="@@webRoot/assets/images/about-img/about-img-2.jpg"
+                                          class="glightbox rounded-3"
+                                          data-glightbox="title:Description Right; descPosition: right; description: You can set the position of the description">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a
+                                          href="@@webRoot/assets/images/about-img/about-img-3.jpg"
+                                          class="glightbox rounded-3"
+                                          data-glightbox="title:Description left; descPosition: left; description: You can set the position of the description">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-discription-code" role="tabpanel" aria-labelledby="pills-discription-code-tab">
+                                 <pre
+                                    class="language-markup"
+                                    tabindex="0"><code class="language-markup"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>row gy-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span>
+      <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/about-img/about-img-1.jpg<span class="token punctuation">"</span></span>
+      <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span>
+      <span class="token attr-name">data-glightbox</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title:Description Bottom; description: You can set the position of the description<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span>
+      <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/about-img/about-img-2.jpg<span class="token punctuation">"</span></span>
+      <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span>
+      <span class="token attr-name">data-glightbox</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title:Description Right; descPosition: right; description: You can set the position of the description<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span>
+   <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>@@webRoot/assets/images/about-img/about-img-3.jpg<span class="token punctuation">"</span></span>
+   <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span>
+   <span class="token attr-name">data-glightbox</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title:Description left; descPosition: left; description: You can set the position of the description<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+      <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+      <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+         background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+         background-repeat: no-repeat;
+         height: 350px;
+         background-size: cover;
+      <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Glightbox discription end-->
+                  <!--Glightbox video start-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h3 class="text-truncate h5 mb-0">Video gallery</h3>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <div>
+                              <ul class="nav nav-pills nav-custom-pill" id="pills-tabThree" role="tablist">
+                                 <li class="nav-item">
+                                    <a
+                                       class="nav-link active"
+                                       id="pills-video-preview-tab"
+                                       data-bs-toggle="pill"
+                                       href="#pills-video-preview"
+                                       role="tab"
+                                       aria-controls="pills-video-preview"
+                                       aria-selected="true">
+                                       <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Preview</span>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" id="pills-video-code-tab" data-bs-toggle="pill" href="#pills-video-code" role="tab" aria-controls="pills-video-code" aria-selected="false">
+                                       <span class="lh-1"><i class="bi bi-code"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Code</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabThreeContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-video-preview" role="tabpanel" aria-labelledby="pills-video-preview-tab">
+                                 <div class="row gy-4">
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="https://youtu.be/CivuutI6lXY" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="https://youtu.be/CivuutI6lXY" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="https://youtu.be/CivuutI6lXY" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-video-code" role="tabpanel" aria-labelledby="pills-video-code-tab">
+                                 <pre
+                                    class="language-markup"
+                                    tabindex="0"><code class="language-markup"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>row gy-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://youtu.be/CivuutI6lXY<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://youtu.be/CivuutI6lXY<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://youtu.be/CivuutI6lXY<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Glightbox video end-->
+                  <!--Glightbox iframe start-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h3 class="text-truncate h5 mb-0">Iframes and Inline Elements</h3>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <div>
+                              <ul class="nav nav-pills nav-custom-pill" id="pills-tabFour" role="tablist">
+                                 <li class="nav-item">
+                                    <a
+                                       class="nav-link active"
+                                       id="pills-iframe-preview-tab"
+                                       data-bs-toggle="pill"
+                                       href="#pills-iframe-preview"
+                                       role="tab"
+                                       aria-controls="pills-iframe-preview"
+                                       aria-selected="true">
+                                       <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Preview</span>
+                                    </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" id="pills-iframe-code-tab" data-bs-toggle="pill" href="#pills-iframe-code" role="tab" aria-controls="pills-iframe-code" aria-selected="false">
+                                       <span class="lh-1"><i class="bi bi-code"></i></span>
+                                       <span class="ms-2 d-none d-lg-block">Code</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabFourContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-iframe-preview" role="tabpanel" aria-labelledby="pills-iframe-preview-tab">
+                                 <div class="row gy-4">
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="#inline-example" class="glightbox rounded-3 text-reset">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                          <div id="inline-example" style="display: none">
+                                             <div class="inline-inner p-6 d-flex align-items-center flex-column">
+                                                <h3 class="text-center mb-4">Example of inline content</h3>
+                                                <div class="text-center">
+                                                   <p class="lead text-body">
+                                                      Duis quis ipsum vehicula eros ultrices lacinia. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec nec
+                                                      sollicitudin felis. Donec vel nulla vel leo varius tempor. Duis suscipit pharetra quam id imperdiet. Praesent vitae eros metus. Donec placerat
+                                                      sagittis rhoncus. In condimentum eleifend ante et ornare. Curabitur pharetra nibh non purus gravida.
+                                                   </p>
+                                                </div>
+
+                                                <a class="btn btn-warning inline-close-btn" href="#">Close Box</a>
+                                             </div>
+                                          </div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a
+                                          href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12085.977306439116!2d-73.96648875371474!3d40.77314541916876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258bf08488f6b%3A0x618706a9142daa0d!2sUpper+East+Side%2C+Nueva+York%2C+EE.+UU.!5e0!3m2!1ses-419!2smx!4v1511830027642"
+                                          class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-12">
+                                       <a href="https://youtu.be/CivuutI6lXY" class="glightbox rounded-3">
+                                          <div
+                                             class="rounded-3 card-lift"
+                                             style="
+                                                background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+                                                background-repeat: no-repeat;
+                                                height: 350px;
+                                                background-size: cover;
+                                             "></div>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-iframe-code" role="tabpanel" aria-labelledby="pills-iframe-code-tab">
+                                 <pre
+                                    class="language-markup"
+                                    tabindex="0"><code class="language-markup"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>row gy-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#inline-example<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3 text-reset<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-1.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>inline-example<span class="token punctuation">"</span></span> <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>display: none<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>inline-inner p-6 d-flex align-items-center flex-column<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-center mb-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Example of inline content<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-center<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+               <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>lead text-body<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                  Duis quis ipsum vehicula eros ultrices lacinia. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec nec
+                  sollicitudin felis. Donec vel nulla vel leo varius tempor. Duis suscipit pharetra quam id imperdiet. Praesent vitae eros metus. Donec placerat
+                  sagittis rhoncus. In condimentum eleifend ante et ornare. Curabitur pharetra nibh non purus gravida.
+               <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>btn btn-warning inline-close-btn<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Close Box<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span>
+      <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12085.977306439116!2d-73.96648875371474!3d40.77314541916876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c258bf08488f6b%3A0x618706a9142daa0d!2sUpper+East+Side%2C+Nueva+York%2C+EE.+UU.!5e0!3m2!1ses-419!2smx!4v1511830027642<span class="token punctuation">"</span></span>
+      <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-2.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-4 col-md-4 col-12<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://youtu.be/CivuutI6lXY<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>glightbox rounded-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>
+         <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-3 card-lift<span class="token punctuation">"</span></span>
+         <span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>
+            background-image: url(@@webRoot/assets/images/about-img/about-img-3.jpg);
+            background-repeat: no-repeat;
+            height: 350px;
+            background-size: cover;
+         <span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--Glightbox iframe end-->
+               </div>
+               <!-- Content end-->
+            </div>
+            @@include("../../partials/docs-footer.html")
+         </div>
+         <!-- Wrapper  start-->
+      </main>
+      <!-- Main wrapper start-->
+      <!-- Scripts -->
+      @@include("../../partials/scripts.html")
+
+      <script src="@@webRoot/node_modules/prismjs/prism.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/components/prism-scss.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/sidebar-menu.js"></script>
+      <script src="@@webRoot/node_modules/glightbox/dist/js/glightbox.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/glight.js"></script>
+      <script src="@@webRoot/assets/js/vendors/search.js"></script>
+   </body>
+</html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vchat.dao.VchatMapper">
+
+	<resultMap type="VchatVO" id="vchatMap" autoMapping="true">
+        <id property="vchatNo" column="VCHAT_NO"/>
+        <result property="filedNo" column="FILED_NO"/>
+        <result property="vchatTitle" column="VCHAT_TITLE"/>
+        <result property="vchatRid" column="VCHAT_RID"/>
+        <result property="vchatRpass" column="VCHAT_RPASS"/>
+        <result property="vchatUrl" column="VCHAT_URL"/> 
+        <result property="vchatDt" column="VCHAT_DT"/> 
+        <result property="vchatDel" column="VCHAT_DEL"/> 
+        <association property="fieldVO" column="FILED_NO" autoMapping="true"/>
+    </resultMap>
+
+	<insert id="insertVacht">
+		<selectKey order="BEFORE" resultType="int" keyProperty="vchatNo">
+			SELECT VCHAT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO vchat (
+		    vchat_no,
+		    filed_no,
+		    vchat_title,
+		    vchat_rid,
+		    vchat_rpass,
+		    vchat_url,
+		    vchat_dt,
+		    vchat_del
+		) VALUES (
+		      #{vchatNo,jdbcType=NUMERIC}
+		    , #{filedNo,jdbcType=NUMERIC}
+		    , #{vchatTitle,jdbcType=VARCHAR}
+		    , #{vchatRid,jdbcType=VARCHAR}
+		    , #{vchatRpass,jdbcType=VARCHAR}
+		    , #{vchatUrl,jdbcType=VARCHAR}
+		    , SYSDATE
+		    , 'N'
+		)
+	</insert>
+	
+	<select id="employAndFieldList" resultMap="kr.or.ddit.employ.employ.dao.EmployMapper.employMap">
+		SELECT 
+		    a.employ_no,
+		    a.employ_title,
+		    b.filed_no,
+		    b.filed_nm
+		FROM 
+		    employ a
+		    inner join field b on (a.employ_no = b.employ_no)
+		WHERE
+		    comp_Id = #{compId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectVchatList" resultMap="vchatMap">
+		SELECT
+		      a.vchat_no
+		    , a.filed_no
+		    , a.vchat_title
+		    , a.vchat_rid
+		    , a.vchat_rpass
+		    , a.vchat_url
+		    , a.vchat_dt
+		    , a.vchat_del
+		    , c.employ_no
+		    , d.comp_id
+		FROM
+		    vchat a
+		    RIGHT OUTER JOIN field b on (a.filed_no = b.filed_no)
+		    LEFT OUTER JOIN employ c on (b.employ_no = c.employ_no)
+		    LEFT OUTER JOIN company d on (c.comp_id = d.comp_id)
+		WHERE
+		    a.vchat_del = 'N'
+		    AND
+		    d.comp_Id = #{compId,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="deleteVchat">
+	UPDATE vchat
+	SET
+	    vchat_del = 'Y'
+	WHERE
+	    vchat_no = #{vchatNo,jdbcType=NUMERIC}
+	</update>
+	
+	<select id="employAndFieldMemList" resultMap="kr.or.ddit.employ.employ.dao.EmployMapper.employMap">
+		SELECT 
+		    a.employ_no,
+		    a.employ_title,
+		    b.filed_no,
+		    b.filed_nm,
+		    c.apply_no,
+		    c.mem_id
+		FROM 
+		    employ a
+		    INNER JOIN field b on (a.employ_no = b.employ_no)
+		    LEFT OUTER JOIN apply c on (b.filed_no = c.filed_no)
+		WHERE
+		    c.app_cancel_yn  = 'N'
+		    AND
+		    c.mem_id = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectVchatMemList" resultMap="vchatMap">
+		SELECT
+		      a.vchat_no
+		    , a.filed_no
+		    , a.vchat_title
+		    , a.vchat_rid
+		    , a.vchat_rpass
+		    , a.vchat_url
+		    , a.vchat_dt
+		    , a.vchat_del
+		    , c.employ_no
+		    , d.apply_no
+		    , d.mem_id
+		FROM
+		    vchat a
+		    RIGHT OUTER JOIN field b on (a.filed_no = b.filed_no)
+		    LEFT OUTER JOIN employ c on (b.employ_no = c.employ_no)
+		    LEFT OUTER JOIN apply d on (b.filed_no = d.filed_no)
+		WHERE
+		    a.vchat_del = 'N'
+		    AND
+		    d.app_cancel_yn  = 'N'
+		    AND
+		    d.mem_id = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

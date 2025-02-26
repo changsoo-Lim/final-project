@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+
+	.conts{
+		margin-top: -4px;
+    margin-bottom: 20px;
+    border-top: 2px solid #1d1f22;
+	}
+	
+	.job_info_detail{
+		padding: 0;
+    border-radius: 0 0 13px 13px;
+    border: 1px solid #C3C3C3;
+    border-top: 0;
+    background: var(--bg-gray-color);
+	}
+	.job_info_detail_head_center {
+    text-align: center;
+    padding: 0 0 20px 0;
+}
+.layerWrap {
+    position: relative;
+    display: inline-block;
+    z-index: 3;
+}
+.btns_scraps.btns_downs {
+    border-color: var(--c-color) !important;
+}
+
+.imgimg {
+     width: 600px;   /* 가로 크기 */
+    height: auto;   /* 세로 크기 자동 조절 */
+    display: block;
+    margin: 0 auto; /* 가로 중심 정렬 */
+}
+.textMessage{
+	text-align: right;
+	margin-right: 10px;
+	
+}
+.rogo{
+	width:150px;
+	float: right;
+	margin-right: 10px; 
+}
+.title-container label strong,
+.file-container strong {
+    font-size: 18px;
+}
+
+.title-container #resourceTitle {
+    font-size: 16px;
+}
+
+.file-container .file-list a {
+    font-size: 16px;
+}
+
+.img-center {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+/* ---------------------------------------------------------------- */
+
+/* 추가된 스타일 */
+.stackup-banner {
+    background-color: #51a4ff; /* 배경색 */
+    color: white; /* 글자색 */
+    text-align: center;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    font-size: 1.2em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stackup-banner p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.img-container img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+    
+}
+
+.button-container {
+    display: flex; 
+    justify-content: flex-end;  /* 오른쪽 정렬 */
+    margin-top: 20px;
+    gap: 10px; /* 버튼 간격 추가 */
+}

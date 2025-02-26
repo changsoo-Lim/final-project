@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/* 체크박스 숨기기 */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* 부모 컨테이너에 flex 적용 */
+.toggle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* 커스텀 토글 스타일 */
+.custom-toggle {
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    user-select: none;
+}
+
+/* 체크된 상태에 따른 스타일 */
+input[type="checkbox"]:checked + .custom-toggle {
+    background-color: #f0f8ff;
+    border-color: #007bff;
+    color: #007bff;
+    font-weight: bold;
+}
+
+input[type="checkbox"]:not(:checked) + .custom-toggle {
+    background-color: #ffe6e6;
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+    font-weight: bold;
+}

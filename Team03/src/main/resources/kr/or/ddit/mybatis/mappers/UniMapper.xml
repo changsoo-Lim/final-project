@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.uni.dao.UniMapper">
+	<insert id="insertUni">
+		<selectKey order="BEFORE" resultType="int" keyProperty="uniNo">
+		    SELECT UNI_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO uni (
+		    uni_no,
+		    uni_nm,
+		    uni_type,
+		    uni_sdt,
+		    uni_s_status,
+		    uni_edt,
+		    uni_e_status,
+		    uni_major_category,
+		    uni_major_nm,
+		    uni_major_degree,
+		    uni_gpa,
+		    uni_project_nm,
+		    uni_project_desc,
+		    mem_id
+		) VALUES (
+		      #{uniNo,jdbcType=NUMERIC}
+		    , #{uniNm,jdbcType=VARCHAR}
+		    , #{uniType,jdbcType=VARCHAR}
+		    , #{uniSdt,jdbcType=VARCHAR}
+		    , #{uniSStatus,jdbcType=VARCHAR}
+		    , #{uniEdt,jdbcType=VARCHAR}
+		    , #{uniEStatus,jdbcType=VARCHAR}
+		    , #{uniMajorCategory,jdbcType=VARCHAR}
+		    , #{uniMajorNm,jdbcType=VARCHAR}
+		    , #{uniMajorDegree,jdbcType=VARCHAR}
+		    , #{uniGpa,jdbcType=NUMERIC}
+		    , #{uniProjectNm,jdbcType=VARCHAR}
+		    , #{uniProjectDesc,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectUniList" resultType="UniVO">
+		SELECT
+		    uni_no,
+		    uni_nm,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = u.uni_type) as uni_type,
+		    uni_sdt,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = u.uni_s_status) as uni_s_status,
+		    uni_edt,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = u.uni_e_status) as uni_e_status,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = u.uni_major_category) as uni_major_category,
+		    uni_major_nm,
+		    (SELECT code_nm FROM CODE c WHERE c.code_cd = u.uni_major_degree) as uni_major_degree,
+		    uni_gpa,
+		    uni_project_nm,
+		    uni_project_desc,
+		    mem_id
+		FROM
+		    uni u
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY uni_e_status DESC
+	</select>
+	
+	<update id="updateUni">
+		UPDATE uni
+		SET
+		     UNI_NO = #{uniNo,jdbcType=NUMERIC}
+		    ,UNI_NM = #{uniNm,jdbcType=VARCHAR}
+		    ,UNI_TYPE = #{uniType,jdbcType=VARCHAR}
+		    ,UNI_SDT = #{uniSdt,jdbcType=VARCHAR}
+		    ,UNI_S_STATUS = #{uniSStatus,jdbcType=VARCHAR}
+		    ,UNI_EDT = #{uniEdt,jdbcType=VARCHAR}
+		    ,UNI_E_STATUS = #{uniEStatus,jdbcType=VARCHAR}
+		    ,UNI_MAJOR_CATEGORY = #{uniMajorCategory,jdbcType=VARCHAR}
+		    ,UNI_MAJOR_NM = #{uniMajorNm,jdbcType=VARCHAR}
+		    ,UNI_MAJOR_DEGREE = #{uniMajorDegree,jdbcType=VARCHAR}
+		    ,UNI_GPA = #{uniGpa,jdbcType=NUMERIC}
+		    ,UNI_PROJECT_NM = #{uniProjectNm,jdbcType=VARCHAR}
+		    ,UNI_PROJECT_DESC = #{uniProjectDesc,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    UNI_NO = #{uniNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteUni">
+		DELETE FROM uni
+		WHERE
+			UNI_NO = #{uniNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectUni" resultType="UniVO">
+		SELECT
+		    uni_no,
+		    uni_nm,
+		    uni_type,
+		    uni_sdt,
+		    uni_s_status,
+		    uni_edt,
+		    uni_e_status,
+		    uni_major_category,
+		    uni_major_nm,
+		    uni_major_degree,
+		    uni_gpa,
+		    uni_project_nm,
+		    uni_project_desc,
+		    mem_id
+		FROM
+		    uni u
+		WHERE uni_no = #{uniNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

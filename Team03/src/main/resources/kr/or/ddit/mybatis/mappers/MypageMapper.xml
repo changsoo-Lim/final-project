@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.member.dao.MypageMapper"> 
+
+	<select id="selectSalaryCodeList" resultType="CodeVO">
+		SELECT *
+		FROM CODE
+		WHERE CODE_PARENT = 'salary-range'
+	</select>
+	
+	<select id="selectClassifyCodeList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE CODE_PARENT = 'classify'
+	</select>
+
+	<select id="selectWorkTypeCodeList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent = 'work-type'
+	</select>
+	
+	<select id="selectCompCodeList" resultType="CodeVO">
+		SELECT
+		code_cd
+		,code_nm
+		,code_parent
+		FROM
+		code
+		WHERE code_parent like 'com__'
+	</select>
+	
+	<resultMap type="MemberVO" id="memberDataMap">
+	    <!-- 기본 정보 매핑 -->
+	    <id property="memId" column="MEM_ID" />
+	    <result property="memNm" column="MEM_NM" />
+	    <result property="memClassify" column="MEM_CLASSIFY" />
+	    
+	    <!-- 첨부 파일 -->
+	    <association property="file" column="ATCH_FILE_NO" select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+	    
+	    <!-- 수신 및 알림여부 확인 -->
+	    <association property="status" javaType="StatusVO">
+			<id property="memId" column="MEM_ID" />
+			<result property="statusPosition" column="STATUS_POSITION" />
+		</association>
+	
+	    <!-- 고등학교 정보 -->
+		<collection property="highSchoolList" ofType="kr.or.ddit.vo.HighSchoolVO" autoMapping="true">
+	        <id property="highschoolNo" column="HIGHSCHOOL_NO" />
+	        <result property="highschoolNm" column="HIGHSCHOOL_NM" />
+	    </collection>
+	    	
+	    <!-- 학력 목록 -->
+	    <collection property="uniList" ofType="kr.or.ddit.vo.UniVO" autoMapping="true">
+	        <id property="uniNo" column="UNI_NO" />
+	        <result property="uniNm" column="UNI_NM" />
+	        <result property="uniMajorNm" column="UNI_MAJOR_NM" />
+	    </collection>
+	
+	    <!-- 스킬 목록 -->
+	    <collection property="compList" ofType="kr.or.ddit.vo.CompVO" autoMapping="true">
+	        <result property="compSkillDetail" column="COMP_SKILL_DETAIL" />
+	    </collection>
+	
+	    <!-- 근무 조건 -->
+	    <collection property="workCondList" ofType="kr.or.ddit.vo.Work_CondVO" autoMapping="true">
+	        <id property="workCondNo" column="WORK_COND_NO" />
+	        <result property="workCondJobType" column="WORK_COND_JOB_TYPE" />
+	        <result property="workCondType" column="WORK_COND_TYPE" />
+	        <result property="workCondSalary" column="WORK_COND_SALARY" />
+	        <collection property="workCity" ofType="kr.or.ddit.vo.Work_CityVO">
+			    <id property="workCityNo" column="WORK_CITY_NO" />
+			    <result property="sidoCd" column="SIDO_CD" />
+			</collection>
+	    </collection>
+	</resultMap>
+
+	<select id="selectMemberData" resultMap="memberDataMap" >
+		SELECT 
+		      M.MEM_ID
+		    , M.MEM_NM
+		    , M.ATCH_FILE_NO
+            , M.MEM_CLASSIFY
+		    , S.STATUS_POSITION
+		    , H.HIGHSCHOOL_NO
+		    , H.HIGHSCHOOL_NM
+		    , Q.QUALIFICATION_NO
+		    , U.UNI_NO
+		    , U.UNI_NM
+		    , U.UNI_MAJOR_NM
+		    , W.WORK_COND_NO
+		    , W.WORK_COND_JOB_TYPE
+		    , W.WORK_COND_TYPE
+		    , W.WORK_COND_SALARY
+		    , WC.WORK_CITY_NO
+		    , WC.SIDO_CD
+		    , COM.COMP_SKILL_DETAIL
+		
+		FROM MEMBER M
+		LEFT OUTER JOIN STATUS S ON (M.MEM_ID = S.MEM_ID)
+		LEFT OUTER JOIN HIGHSCHOOL H ON (M.MEM_ID = H.MEM_ID)
+		LEFT OUTER JOIN QUALIFICATION Q ON (M.MEM_ID = Q.MEM_ID)
+		LEFT OUTER JOIN UNI U ON (M.MEM_ID = U.MEM_ID)
+		LEFT OUTER JOIN WORK_COND W ON (M.MEM_ID = W.MEM_ID)
+		LEFT OUTER JOIN WORK_CITY WC ON (W.WORK_COND_NO = WC.WORK_COND_NO)
+		LEFT OUTER JOIN COMP COM ON (M.MEM_ID = COM.MEM_ID)
+		WHERE M.MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectTotalApply" resultType="int"> 
+		SELECT COUNT(*)
+		  FROM APPLY
+		 WHERE APP_CANCEL_YN = 'N' AND MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectTotalPosition" resultType="int"> 
+		SELECT COUNT(*)
+		FROM POSITION
+		WHERE POSITION_CANCEL_YN = 'N' AND MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectTotalCandidate" resultType="int"> 
+		SELECT COUNT(*)
+		FROM CANDIDATE C
+		INNER JOIN APPLY A ON (C.APPLY_NO = A.APPLY_NO)
+		WHERE CANDIDATE_YN = 'N' AND MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	<select id="selectTotalApplyOpen" resultType="int"> 
+		SELECT COUNT(*)
+		  FROM APPLY
+		 WHERE APP_OPEN_YN = 'Y' AND MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	<select id="selectTotalEmployScrap" resultType="int"> 
+		SELECT COUNT(*)
+		  FROM EMPLOYSCRAP
+		 WHERE EMPSCRAP_DEL = 'N' AND MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+	<select id="selectTotalInterComp" resultType="int"> 
+		SELECT COUNT(*)
+		  FROM INTER_COMP
+		 WHERE INTER_COMP_DEL = 'N' AND MEM_ID = #{memId, jdbcType=VARCHAR}
+	</select>
+</mapper>

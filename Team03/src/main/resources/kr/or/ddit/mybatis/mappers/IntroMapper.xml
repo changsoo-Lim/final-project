@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.intro.intro.dao.IntroMapper">
+
+	<select id="selectListIntro" resultType="IntroVO">
+		SELECT 
+			INTRO_NO,
+			MEM_ID,
+			INTRO_TITLE,
+			INTRO_DEL
+		FROM INTRO
+		WHERE MEM_ID = #{memId,jdbcType=VARCHAR} AND INTRO_DEL = 'N'
+	</select>
+	
+	
+	<insert id="insertIntro">
+		<selectKey order="BEFORE" resultType="int" keyProperty="introNo">
+		    SELECT INTRO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO intro (
+			INTRO_NO,
+			MEM_ID,
+			INTRO_TITLE,
+			INTRO_DEL
+		) VALUES (
+			#{introNo,jdbcType=NUMERIC}
+			, #{memId,jdbcType=VARCHAR}
+			, #{introTitle,jdbcType=VARCHAR}
+			, 'N'
+		)
+	</insert>
+	
+	<select id="selectIntro" resultType="IntroVO">
+		SELECT 
+		    INTRO_NO,
+			MEM_ID,
+			INTRO_TITLE,
+			INTRO_DEL
+		FROM INTRO
+		WHERE INTRO_NO = #{introNo,jdbcType=NUMERIC} AND INTRO_DEL = 'N'
+	</select>
+	
+	<update id="updateIntro">
+		UPDATE INTRO
+		SET
+			INTRO_NO = #{introNo,jdbcType=NUMERIC}
+			,MEM_ID = #{memId,jdbcType=VARCHAR}
+			,INTRO_TITLE = #{introTitle,jdbcType=VARCHAR}
+			,INTRO_DEL = 'N'
+		WHERE
+			INTRO_NO = #{introNo,jdbcType=NUMERIC}
+	</update>
+	
+	<update id="deleteIntro">
+		UPDATE INTRO
+		SET
+			INTRO_DEL = 'Y'
+		WHERE
+			INTRO_NO = #{introNo,jdbcType=NUMERIC}
+	</update>
+</mapper>

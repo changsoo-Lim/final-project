@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.career.dao.CareerMapper">
+	<insert id="insertCareer">
+		<selectKey order="BEFORE" resultType="int" keyProperty="careerNo">
+		    SELECT CAREER_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO career (
+		      career_no
+		    , career_company_nm
+		    , career_industry_type
+		    , career_sub_industry
+		    , career_company_size
+		    , career_company_type
+		    , career_listed
+		    , career_city
+		    , career_district
+		    , career_start_date
+		    , career_end_date
+		    , career_tentre
+		    , career_job_title
+		    , career_job_desc
+		    , career_position
+		    , career_department
+		    , career_type
+		    , career_salary
+		    , career_reason
+		    , mem_id
+		) VALUES (
+			  #{careerNo,jdbcType=NUMERIC}
+			, #{careerCompanyNm,jdbcType=VARCHAR}
+			, #{careerIndustryType,jdbcType=VARCHAR}
+			, #{careerSubIndustry,jdbcType=VARCHAR}
+			, #{careerCompanySize,jdbcType=VARCHAR}
+			, #{careerCompanyType,jdbcType=VARCHAR}
+			, #{careerListed,jdbcType=VARCHAR}
+			, #{careerCity,jdbcType=VARCHAR}
+			, #{careerDistrict,jdbcType=VARCHAR}
+			, #{careerStartDate,jdbcType=VARCHAR}
+			, #{careerEndDate,jdbcType=VARCHAR}
+			, #{careerTentre,jdbcType=VARCHAR}
+			, #{careerJobTitle,jdbcType=VARCHAR}
+			, #{careerJobDesc,jdbcType=VARCHAR}
+			, #{careerPosition,jdbcType=VARCHAR}
+			, #{careerDepartment,jdbcType=VARCHAR}
+			, #{careerType,jdbcType=VARCHAR}
+			, #{careerSalary,jdbcType=NUMERIC}
+			, #{careerReason,jdbcType=VARCHAR}
+			, #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectCareerList" resultType="CareerVO">
+		SELECT
+		    career_no,
+		    career_company_nm,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_industry_type) as career_industry_type,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_sub_industry) as career_sub_industry,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_company_size) as career_company_size,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_company_type) as career_company_type,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_listed) as career_listed,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_city) as career_city,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_district) as career_district,
+		    career_start_date,
+		    career_end_date,
+		    career_tentre,
+		    career_job_title,
+		    career_job_desc,
+		    career_position,
+		    career_department,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_type) as career_type,
+		    career_salary,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = c.career_reason) as career_reason,
+		    mem_id
+		FROM
+		    career c
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY career_end_date DESC
+				
+	</select>
+	
+	<update id="updateCareer">
+		UPDATE career
+		SET
+		     CAREER_NO = #{careerNo,jdbcType=NUMERIC}
+		    ,CAREER_COMPANY_NM = #{careerCompanyNm,jdbcType=VARCHAR}
+		    ,CAREER_INDUSTRY_TYPE = #{careerIndustryType,jdbcType=VARCHAR}
+		    ,CAREER_SUB_INDUSTRY = #{careerSubIndustry,jdbcType=VARCHAR}
+		    ,CAREER_COMPANY_SIZE = #{careerCompanySize,jdbcType=VARCHAR}
+		    ,CAREER_COMPANY_TYPE = #{careerCompanyType,jdbcType=VARCHAR}
+		    ,CAREER_LISTED = #{careerListed,jdbcType=VARCHAR}
+		    ,CAREER_CITY = #{careerCity,jdbcType=VARCHAR}
+		    ,CAREER_DISTRICT = #{careerDistrict,jdbcType=VARCHAR}
+		    ,CAREER_START_DATE = #{careerStartDate,jdbcType=VARCHAR}
+		    ,CAREER_END_DATE = #{careerEndDate,jdbcType=VARCHAR}
+		    ,CAREER_TENTRE = #{careerTentre,jdbcType=VARCHAR}
+		    ,CAREER_JOB_TITLE = #{careerJobTitle,jdbcType=VARCHAR}
+		    ,CAREER_JOB_DESC = #{careerJobDesc,jdbcType=VARCHAR}
+		    ,CAREER_POSITION = #{careerPosition,jdbcType=VARCHAR}
+		    ,CAREER_DEPARTMENT = #{careerDepartment,jdbcType=VARCHAR}
+		    ,CAREER_TYPE = #{careerType,jdbcType=VARCHAR}
+		    ,CAREER_SALARY = #{careerSalary,jdbcType=NUMERIC}
+		    ,CAREER_REASON = #{careerReason,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    CAREER_NO = #{careerNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteCareer">
+		DELETE FROM career
+		WHERE
+			CAREER_NO = #{careerNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectCareer" resultType="CareerVO">
+		SELECT
+		    career_no,
+		    career_company_nm,
+		    career_industry_type,
+		    career_sub_industry,
+		    career_company_size,
+		    career_company_type,
+		    career_listed,
+		    career_city,
+		    career_district,
+		    career_start_date,
+		    career_end_date,
+		    career_tentre,
+		    career_job_title,
+		    career_job_desc,
+		    career_position,
+		    career_department,
+		    career_type,
+		    career_salary,
+		    career_reason,
+		    mem_id
+		FROM
+		    career c
+		WHERE 
+			CAREER_NO = #{careerNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

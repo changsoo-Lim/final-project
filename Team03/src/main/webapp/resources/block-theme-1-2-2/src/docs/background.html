@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      @@include("../partials/head/meta.html")
+      <link href="@@webRoot/node_modules/prismjs/themes/prism-okaidia.min.css" rel="stylesheet" />
+      @@include("../partials/head/head-links.html") @@include("../partials/head/analytics.html")
+
+      <title>Background - Responsive Website Template | Block</title>
+   </head>
+
+   <body>
+      <!-- Main wrapper -->
+      <main class="docs-main-wrapper">
+         @@include("../partials/docs-navbar.html")
+         <!-- left sidebar -->
+         @@include("../partials/docs-sidenav.html")
+         <!-- Wrapper  -->
+         <div class="docs-wrapper">
+            <div class="docs-content">
+               <!-- Content -->
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="mb-5" id="intro">
+                           <h1>Background color</h1>
+                           <p class="mb-0">Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.</p>
+                        </div>
+                     </div>
+                  </div>
+                  <!--background color-->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Background color</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-background-color-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-background-color-preview"
+                                    role="tab"
+                                    aria-controls="pills-background-color-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    id="pills-background-color-code-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-background-color-code"
+                                    role="tab"
+                                    aria-controls="pills-background-color-code"
+                                    aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-background-color-preview" role="tabpanel" aria-labelledby="pills-background-color-preview-tab">
+                                 <!--background primary-->
+                                 <div class="p-3 mb-2 bg-primary text-white">.bg-primary</div>
+                                 <div class="p-3 mb-2 bg-primary-subtle text-emphasis-primary">.bg-primary-subtle</div>
+                                 <!--background secondary-->
+                                 <div class="p-3 mb-2 bg-secondary text-white">.bg-secondary</div>
+                                 <div class="p-3 mb-2 bg-secondary-subtle text-emphasis-secondary">.bg-secondary-subtle</div>
+                                 <div class="p-3 mb-2 bg-success text-white">.bg-success</div>
+                                 <div class="p-3 mb-2 bg-success-subtle text-emphasis-success">.bg-success-subtle</div>
+                                 <!--background danger-->
+                                 <div class="p-3 mb-2 bg-danger text-white">.bg-danger</div>
+                                 <div class="p-3 mb-2 bg-danger-subtle text-emphasis-danger">.bg-danger-subtle</div>
+                                 <!--background warning-->
+                                 <div class="p-3 mb-2 bg-warning text-dark">.bg-warning</div>
+                                 <div class="p-3 mb-2 bg-warning-subtle text-emphasis-warning">.bg-warning-subtle</div>
+                                 <!--background info-->
+                                 <div class="p-3 mb-2 bg-info text-dark">.bg-info</div>
+                                 <div class="p-3 mb-2 bg-info-subtle text-emphasis-info">.bg-info-subtle</div>
+                                 <!--background light-->
+                                 <div class="p-3 mb-2 bg-light text-dark">.bg-light</div>
+                                 <div class="p-3 mb-2 bg-light-subtle text-emphasis-light">.bg-light-subtle</div>
+                                 <!--background dark-->
+                                 <div class="p-3 mb-2 bg-dark text-white">.bg-dark</div>
+                                 <div class="p-3 mb-2 bg-dark-subtle text-emphasis-dark">.bg-dark-subtle</div>
+                                 <!--background secondary-->
+                                 <p class="p-3 mb-2 bg-body-secondary">.bg-body-secondary</p>
+                                 <p class="p-3 mb-2 bg-body-tertiary">.bg-body-tertiary</p>
+
+                                 <div class="p-3 mb-2 bg-body text-body">.bg-body</div>
+                                 <div class="p-3 mb-2 bg-black text-white">.bg-black</div>
+                                 <div class="p-3 mb-2 bg-white text-dark">.bg-white</div>
+                                 <div class="p-3 mb-2 bg-transparent text-body">.bg-transparent</div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-background-color-code" role="tabpanel" aria-labelledby="pills-background-color-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--background primary--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-primary text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-primary<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-primary-subtle text-emphasis-primary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-primary-subtle
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background secondary--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-secondary text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-secondary<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-secondary-subtle text-emphasis-secondary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    .bg-secondary-subtle<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-success text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-success<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-success-subtle text-emphasis-success<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-success-subtle
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background danger--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-danger text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-danger<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-danger-subtle text-emphasis-danger<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-danger-subtle
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background warning--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-warning text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-warning<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-warning-subtle text-emphasis-warning<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-warning-subtle
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background info--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-info text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-info<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-info-subtle text-emphasis-info<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-info-subtle<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background light--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-light text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-light<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-light-subtle text-emphasis-light<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-light-subtle<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background dark--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-dark text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-dark<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-dark-subtle text-emphasis-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-dark-subtle<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--background secondary--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-body-secondary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-body-secondary<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-body-tertiary<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-body-tertiary<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-body text-body<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-body<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-black text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-black<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-white text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-white<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-transparent text-body<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-transparent<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--background color-->
+                  <!--Background gradient -->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Background gradient</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-background-gradient-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-background-gradient-preview"
+                                    role="tab"
+                                    aria-controls="pills-background-gradient-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    id="pills-background-gradient-code-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-background-gradient-code"
+                                    role="tab"
+                                    aria-controls="pills-background-gradient-code"
+                                    aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-background-gradient-preview" role="tabpanel" aria-labelledby="pills-background-gradient-preview-tab">
+                                 <!--primary gradient-->
+                                 <div class="p-3 mb-2 bg-primary bg-gradient text-white">.bg-primary.bg-gradient</div>
+                                 <!--secondary gradient-->
+                                 <div class="p-3 mb-2 bg-secondary bg-gradient text-white">.bg-secondary.bg-gradient</div>
+                                 <!--success gradient-->
+                                 <div class="p-3 mb-2 bg-success bg-gradient text-white">.bg-success.bg-gradient</div>
+                                 <!--danger gradient-->
+                                 <div class="p-3 mb-2 bg-danger bg-gradient text-white">.bg-danger.bg-gradient</div>
+                                 <!--warning gradient-->
+                                 <div class="p-3 mb-2 bg-warning bg-gradient text-dark">.bg-warning.bg-gradient</div>
+                                 <!--info gradient-->
+                                 <div class="p-3 mb-2 bg-info bg-gradient text-dark">.bg-info.bg-gradient</div>
+                                 <!--light gradient-->
+                                 <div class="p-3 mb-2 bg-light bg-gradient text-dark">.bg-light.bg-gradient</div>
+                                 <!--dark gradient-->
+                                 <div class="p-3 mb-2 bg-dark bg-gradient text-white">.bg-dark.bg-gradient</div>
+                                 <!--black gradient-->
+                                 <div class="p-3 mb-2 bg-black bg-gradient text-white">.bg-black.bg-gradient</div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-background-gradient-code" role="tabpanel" aria-labelledby="pills-background-gradient-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--primary gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-primary bg-gradient text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-primary.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--secondary gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-secondary bg-gradient text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-secondary.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--success gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-success bg-gradient text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-success.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--danger gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-danger bg-gradient text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-danger.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--warning gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-warning bg-gradient text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-warning.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--info gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-info bg-gradient text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-info.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--light gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-light bg-gradient text-dark<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-light.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--dark gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-dark bg-gradient text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-dark.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--black gradient--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>p-3 mb-2 bg-black bg-gradient text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>.bg-black.bg-gradient<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--background gradient-->
+                  <!--Background gradient -->
+                  <div class="border rounded mb-lg-7 mb-5">
+                     <div class="row align-items-center py-2 px-3">
+                        <div class="col-lg-8 col-xl-9 col-7">
+                           <div>
+                              <h2 class="text-truncate h5 mb-0">Opacity</h2>
+                           </div>
+                        </div>
+                        <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                           <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    id="pills-opacity-preview-tab"
+                                    data-bs-toggle="pill"
+                                    href="#pills-opacity-preview"
+                                    role="tab"
+                                    aria-controls="pills-opacity-preview"
+                                    aria-selected="true">
+                                    <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Preview</span>
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="pills-opacity-code-tab" data-bs-toggle="pill" href="#pills-opacity-code" role="tab" aria-controls="pills-opacity-code" aria-selected="false">
+                                    <span class="lh-1"><i class="bi bi-code"></i></span>
+                                    <span class="ms-2 d-none d-lg-block">Code</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                              <div class="tab-pane tab-example-preview fade show active" id="pills-opacity-preview" role="tabpanel" aria-labelledby="pills-opacity-preview-tab">
+                                 <!--opacity-->
+                                 <div class="bg-success p-2 text-white">This is default success background</div>
+                                 <div class="bg-success p-2 text-white bg-opacity-75">This is 75% opacity success background</div>
+                                 <div class="bg-success p-2 text-dark bg-opacity-50">This is 50% opacity success background</div>
+                                 <div class="bg-success p-2 text-dark bg-opacity-25">This is 25% opacity success background</div>
+                                 <div class="bg-success p-2 text-dark bg-opacity-10">This is 10% opacity success background</div>
+                              </div>
+                              <div class="tab-pane tab-example-code fade" id="pills-opacity-code" role="tabpanel" aria-labelledby="pills-opacity-code-tab">
+                                 <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--opacity--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-success p-2 text-white<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>This is default success background<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-success p-2 text-white bg-opacity-75<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>This is 75% opacity success
+    background<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-success p-2 text-dark bg-opacity-50<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>This is 50% opacity success
+    background<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-success p-2 text-dark bg-opacity-25<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>This is 25% opacity success
+    background<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>bg-success p-2 text-dark bg-opacity-10<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>This is 10% opacity success
+    background<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--background gradient-->
+               </div>
+            </div>
+            @@include("../partials/docs-footer.html")
+         </div>
+      </main>
+
+      <!-- Scripts -->
+
+      @@include("../partials/scripts.html")
+
+      <script src="@@webRoot/node_modules/prismjs/prism.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/components/prism-scss.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/sidebar-menu.js"></script>
+      <script src="@@webRoot/assets/js/vendors/search.js"></script>
+   </body>
+</html>

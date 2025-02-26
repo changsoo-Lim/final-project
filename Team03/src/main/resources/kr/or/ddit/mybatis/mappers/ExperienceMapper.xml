@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.experience.dao.ExperienceMapper">
+	<insert id="insertExperience">
+		<selectKey order="BEFORE" resultType="int" keyProperty="expNo">
+		    SELECT EXPERIENCE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO experience (
+		    exp_no,
+		    exp_country,
+		    exp_sdt,
+		    exp_edt,
+		    exp_desc,
+		    mem_id
+		) VALUES (
+		      #{expNo,jdbcType=NUMERIC}
+		    , #{expCountry,jdbcType=VARCHAR}
+		    , #{expSdt,jdbcType=VARCHAR}
+		    , #{expEdt,jdbcType=VARCHAR}
+		    , #{expDesc,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectExperienceList" resultType="ExperienceVO">
+		SELECT
+		    exp_no,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = e.exp_country) as exp_country,
+		    exp_sdt,
+		    exp_edt,
+		    exp_desc,
+		    mem_id
+		FROM
+		    experience e
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY exp_edt DESC
+	</select>
+	
+	<update id="updateExperience">
+		UPDATE experience
+		SET
+		    EXP_NO = #{expNo,jdbcType=NUMERIC}
+		    ,EXP_COUNTRY = #{expCountry,jdbcType=VARCHAR}
+		    ,EXP_SDT = #{expSdt,jdbcType=VARCHAR}
+		    ,EXP_EDT = #{expEdt,jdbcType=VARCHAR}
+		    ,EXP_DESC = #{expDesc,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    EXP_NO = #{expNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteExperience">
+		DELETE FROM experience
+		WHERE
+			EXP_NO = #{expNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectExperience" resultType="ExperienceVO">
+		SELECT
+		    exp_no,
+		    exp_country,
+		    exp_sdt,
+		    exp_edt,
+		    exp_desc,
+		    mem_id
+		FROM
+		    experience
+		WHERE
+			EXP_NO = #{expNo,jdbcType=NUMERIC}
+	</select>
+</mapper>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="kr.or.ddit.freelancer.free_offer.dao.FreeOfferMapper">
+	<select id="memSelectTotalRecord" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		    SELECT 
+		    	DISTINCT MEM_ID
+		    		   , PROJECT_NO
+		     FROM FREE_OFFER
+		    WHERE MEM_ID = #{memId}
+		      AND FREE_OFFER_DEL = 'N'
+		)
+	</select>
+	<select id="compSelectTotalRecord" resultType="int">
+		SELECT COUNT(*)
+	    FROM (
+	        SELECT DISTINCT F.MEM_ID, F.PROJECT_NO
+	          FROM FREE_OFFER F
+	       		   JOIN PROJECT P ON F.PROJECT_NO = P.PROJECT_NO
+	         WHERE P.COMP_ID = #{companyId}
+	           AND FREE_OFFER_DEL = 'N'
+	    )
+	</select>
+	<resultMap type="Free_OfferVO" id="freeOfferMap" autoMapping="true">
+		<id property="memId" column="MEM_ID"/>
+		<id property="projectNo" column="PROJECT_NO"/>
+		<association property="project" column="PROJECT_NO" autoMapping="true"/>
+		<association property="freelancer" column="MEM_ID" autoMapping="true"/>
+		<association property="code" javaType="CodeVO" autoMapping="true"/>
+	</resultMap>
+	<select id="selectFreeOffer" resultType="Free_OfferVO">
+		SELECT 
+			  MEM_ID
+			, PROJECT_NO
+			, FREE_OFFER_STATUS
+			, FREE_OFFER_DT
+			, FREE_OFFER_CANCEL_YN
+			, FREE_OFFER_CANCEL_DT
+			, FREE_OFFER_DEL
+		 FROM FREE_OFFER
+		WHERE MEM_ID = #{memId}
+		  AND PROJECT_NO = #{projectNo}
+	</select>
+	<select id="memSelectFreeOfferList" resultMap="freeOfferMap">
+		SELECT B.* 
+		FROM 
+		( 
+			SELECT ROWNUM RNUM, A.* 
+			FROM 
+			( 
+				SELECT  F.MEM_ID
+						, F.PROJECT_NO
+						, ps.code_nm AS FREE_OFFER_STATUS
+						, F.FREE_OFFER_DT
+						, F.FREE_OFFER_CANCEL_YN
+						, F.FREE_OFFER_CANCEL_DT
+						, F.FREE_OFFER_DEL
+						, P.COMP_ID
+						, P.PROJECT_NAME
+						, P.PROJECT_CONT
+						, P.PROJECT_SALARY
+						, (SELECT LISTAGG(code_nm, ', ') WITHIN GROUP (ORDER BY code_cd)
+						FROM code
+						WHERE code_cd IN (SELECT REGEXP_SUBSTR(P.PROJECT_SKILLS, '[^,]+', 1, LEVEL)
+						FROM DUAL
+						CONNECT BY LEVEL &lt;= LENGTH(P.PROJECT_SKILLS) -
+						LENGTH(REPLACE(P.PROJECT_SKILLS, ',', '')) + 1))
+						AS project_skills
+						, TO_CHAR(TO_DATE(P.PROJECT_SDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS PROJECT_SDT
+						, TO_CHAR(TO_DATE(P.PROJECT_EDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS PROJECT_EDT
+						, P.PROJECT_STATUS
+						, P.PROJECT_DEL
+						, P.ATCH_FILE_NO
+				  FROM FREE_OFFER F
+				       JOIN PROJECT P ON F.PROJECT_NO = P.PROJECT_NO
+				   	   LEFT JOIN code ps ON F.FREE_OFFER_STATUS = ps.code_cd
+				 WHERE MEM_ID = #{memId}
+				   AND FREE_OFFER_DEL = 'N'
+				 ORDER BY F.FREE_OFFER_DT DESC
+			) A 
+		) B
+		<![CDATA[
+			WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+		]]>
+	</select>
+	<select id="compSelectFreeOfferList" resultMap="freeOfferMap">
+		SELECT B.* 
+		FROM 
+		( 
+			SELECT ROWNUM RNUM, A.* 
+			FROM 
+			(
+				SELECT  F.MEM_ID
+						, F.PROJECT_NO
+						, F.FREE_OFFER_STATUS
+						, F.FREE_OFFER_DT
+						, F.FREE_OFFER_CANCEL_YN
+						, F.FREE_OFFER_CANCEL_DT
+						, F.FREE_OFFER_DEL
+						, P.COMP_ID
+						, P.PROJECT_NAME
+						, P.PROJECT_CONT
+						, P.PROJECT_SALARY
+						, P.PROJECT_SKILLS
+						, P.PROJECT_SDT
+						, P.PROJECT_EDT
+						, P.PROJECT_STATUS
+						, P.PROJECT_DEL
+						, P.ATCH_FILE_NO
+				  FROM FREE_OFFER F
+				       JOIN PROJECT P ON F.PROJECT_NO = P.PROJECT_NO
+				 WHERE P.COMP_ID = #{companyId}
+				   AND FREE_OFFER_DEL = 'N'
+			) A 
+		) B
+		<![CDATA[
+			WHERE RNUM >= #{paging.startRow} AND RNUM <= #{paging.endRow}
+		]]>
+	</select>
+	<insert id="insertFreeOffer" parameterType="Free_OfferVO">
+		INSERT INTO FREE_OFFER (
+					      MEM_ID
+					    , PROJECT_NO
+					) VALUES (
+						  #{memId, jdbcType=VARCHAR}
+						, #{projectNo, jdbcType=NUMERIC}
+					)
+	</insert>
+	<update id="updateFreeOffer" parameterType="Free_OfferVO">
+		UPDATE FREE_OFFER
+	       SET
+			FREE_OFFER_STATUS = #{freeOfferStatus}
+			<if test="freeOfferStatus eq 'OF04'">
+				, FREE_OFFER_CANCEL_YN = 'Y'
+				, FREE_OFFER_CANCEL_DT = SYSDATE
+			</if>
+	     WHERE
+	    	MEM_ID = #{memId}
+	</update>
+	<select id="selectCodeList" resultType="CodeVO">
+		SELECT CODE_CD, CODE_NM, CODE_PARENT
+		FROM CODE
+		WHERE CODE_PARENT in ('OFFER'
+							, 'FREESTYLE'
+							, 'FREETYPE'
+							, 'SALARYTYPE'
+							, 'SKILLTYPE'
+							, 'SKILLPROF')
+		   OR CODE_CD LIKE 'jo%'
+	</select>
+	<update id="acceptOffer">
+		UPDATE free_offer
+		SET
+		    free_offer_status = 'OF02'
+		WHERE 
+		    mem_id = #{memId, jdbcType=VARCHAR}
+		AND 
+		    project_no = #{projectNo, jdbcType=NUMERIC}
+	</update>
+	<update id="rejectOffer">
+		UPDATE free_offer
+		SET
+		    free_offer_status = 'OF03'
+		WHERE 
+		    mem_id = #{memId, jdbcType=VARCHAR}
+		AND 
+		    project_no = #{projectNo, jdbcType=NUMERIC}
+	</update>
+</mapper>

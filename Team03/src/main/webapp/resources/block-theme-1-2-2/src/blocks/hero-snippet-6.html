@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      @@include("../partials/head/meta.html")
+      <link href="@@webRoot/node_modules/prismjs/themes/prism-okaidia.min.css" rel="stylesheet" />
+      @@include("../partials/head/head-links.html") @@include("../partials/head/analytics.html")
+      <title>Hero Snippet v6 - Responsive Website Template | Block</title>
+   </head>
+
+   <body>
+      @@include("../partials/navbar.html",{ "classList": " navbar-light w-100 transparent" })
+      <main>
+         <!--Hero start-->
+         <div
+            data-cue="fadeIn"
+            class="bg-dark"
+            style="background-image: url(../assets/images/landings/conference/event-hero-img.jpg); background-position: center; background-size: cover; background-repeat: no-repeat">
+            <section class="py-9">
+               <div class="container py-9">
+                  <div class="row">
+                     <div class="col-lg-10 offset-lg-1">
+                        <div class="text-center py-lg-8" data-cue="zoomIn">
+                           <span class="border border-warning text-warning px-3 rounded-pill py-1 fs-6">March 24 - 26, 2024 | San Diego, CA</span>
+                           <div class="mt-5 mx-xl-7">
+                              <h1 class="text-white-stable display-5 mb-3">Join the #1 conference for developers.</h1>
+                              <p class="mb-0 lead px-xl-7 mx-xl-7 text-white-stable">
+                                 Join us virtually for Block is the #1 conference for professional software developers. Improving efficiency, security, and developer productivity.
+                              </p>
+                           </div>
+                           <div class="mt-6 d-grid d-md-inline-flex mx-4">
+                              <!-- placement -->
+                              <a href="offcanvasRight" class="btn btn-primary me-md-2 mb-3 mb-md-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                 Register Now
+                              </a>
+
+                              <a href="#" class="btn btn-outline-primary">
+                                 Add to Calender
+                                 <span class="ms-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window-dock" viewBox="0 0 16 16">
+                                       <path
+                                          d="M3.5 11a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm3.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm4.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
+                                       <path
+                                          d="M14 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h12ZM2 14h12a1 1 0 0 0 1-1V5H1v8a1 1 0 0 0 1 1ZM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2Z" />
+                                    </svg>
+                                 </span>
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </div>
+         <!--Hero end-->
+
+         <section class="py-lg-8 py-5 mt-lg-7">
+            <div class="container">
+               <div class="row">
+                  <div class="col-12">
+                     <pre class="language-markup" tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--hero section start--&gt;</span>
+                                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>section</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>right-slant-shape bg-primary pb-10 pt-4<span class="token punctuation">"</span></span> <span class="token attr-name">data-cue</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fadeIn<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>row<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>col-lg-8 offset-lg-2 col-md-12 position-relaive<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-white-stable text-center position-relaive my-lg-8 my-6<span class="token punctuation">"</span></span> <span class="token attr-name">data-cue</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>zoomIn<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fw-medium fs-4<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Hi there, my name is<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+                                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-white-stable display-3 mt-3 mb-3<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Lee Robinson<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+                                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mb-0 pb-8 px-lg-7 text-opacity-75 lead<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                                        I'm the VP of Developer Experience at Vercel where my team helps developers build a faster web. I'm an advisor and investor in early stage startups.
+                                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+                                                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+                                            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+                                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>position-absolute z-1 w-100 text-center top-25 mt-n8<span class="token punctuation">"</span></span> <span class="token attr-name">data-cue</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>zoomIn<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>../../assets/images/perosnal-portfolio/personal-profile-img.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>avatar<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>rounded-circle shadow-sm border border-white border-4<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+                                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+                                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>section</span><span class="token punctuation">&gt;</span></span>
+                                <span class="token comment">&lt;!--hero section end--&gt;</span></code></pre>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+      @@include("../partials/footer.html") @@include("../partials/register-offcanvas.html") @@include("../partials/btn-scroll-top.html") @@include("../partials/scripts.html")
+      <script src="@@webRoot/node_modules/prismjs/prism.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/components/prism-scss.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+      <script src="@@webRoot/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+      <script src="@@webRoot/node_modules/scrollcue/scrollCue.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/scrollcue.js"></script>
+   </body>
+</html>

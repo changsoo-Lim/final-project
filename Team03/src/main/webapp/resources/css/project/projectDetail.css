@@ -1,0 +1,104 @@
+        /* 기본 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h4 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .status-header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .status-badges span {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #fff;
+        }
+        .badge-status {
+            background-color: #28a745;
+        }
+        .badge-deadline {
+            background-color: #dc3545;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        .project-content pre {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .applicants-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .applicants-container th, .applicants-container td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .applicants-container th {
+            background: #007bff;
+            color: white;
+        }
+        .applicants-container tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .applicants-container tr:hover {
+            background-color: #f1f1f1;
+        }
+        #select-all {
+            cursor: pointer;
+        }

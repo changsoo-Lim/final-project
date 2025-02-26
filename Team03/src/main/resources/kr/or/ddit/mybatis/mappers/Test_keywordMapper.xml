@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.test.test_keyword.dao.Test_keywordMapper">
+	<insert id="insertTestKeyword">
+		<selectKey order="BEFORE" resultType="int" keyProperty="keywdNo">
+				 SELECT TEST_KEYWORD_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST_KEYWORD (
+		        KEYWD_NO    /* 키워드번호 */
+		      , KEYWD_CONT  /* 키워드내용 */
+		      , KEYWD_SCORE /* 키워드별점수 */
+		      , ITEM_NO     /* 지문번호 */
+		) VALUES (
+		      #{keywdNo, jdbcType=NUMERIC}
+		    , #{keywdCont, jdbcType=VARCHAR}
+		    , #{keywdScore, jdbcType=NUMERIC}
+		    , #{itemNo, jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="selectTestKeywordList" resultType="Test_KeywordVO">
+		SELECT 
+		      KEYWD_NO		/* 키워드번호 */
+		    , KEYWD_CONT	/* 키워드내용 */
+		    , KEYWD_SCORE	/* 키워드별점수 */
+		    , ITEM_NO		/* 지문번호 */
+		    , KEYWD_DEL		/* 삭제여부 */
+		FROM TEST_KEYWORD
+		WHERE ITEM_NO = #{itemNo, jdbcType=NUMERIC}
+	</select>
+	
+	<update id="updateTestKeyword">
+		UPDATE TEST_KEYWORD
+		SET 
+		      KEYWD_CONT = #{keywdCont, jdbcType=VARCHAR}
+		    , KEYWD_SCORE = #{keywdScore, jdbcType=NUMERIC}
+		WHERE KEYWD_NO = #{keywdNo, jdbcType=NUMERIC}
+	</update>
+	
+	<update id="deleteTestKeyword">
+		UPDATE TEST_KEYWORD
+		SET 
+		    KEYWD_DEL = 'Y'
+		WHERE KEYWD_NO = #{keywdNo, jdbcType=NUMERIC}
+	</update>
+</mapper>

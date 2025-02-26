@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    @@include("../partials/head/meta.html")
+    <link href="@@webRoot/node_modules/prismjs/themes/prism-okaidia.min.css" rel="stylesheet" />
+    @@include("../partials/head/head-links.html") @@include("../partials/head/analytics.html")
+
+    <title>Vertical rule - Responsive Website Template | Block</title>
+</head>
+
+<body>
+
+
+    <!-- Main wrapper start -->
+    <main class="docs-main-wrapper">
+        @@include("../partials/docs-navbar.html")
+        <!-- left sidebar -->
+        @@include("../partials/docs-sidenav.html")
+        <!-- Wrapper start -->
+        <div class="docs-wrapper">
+            <div class="docs-content">
+                <!-- Content start-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="mb-5" id="intro">
+                                <h1>Vertical rule </h1>
+                                <p class="mb-0">Use the custom vertical rule helper to create vertical dividers like the
+                                    <hr> element.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Example start-->
+                    <div class="border rounded mb-lg-7 mb-5">
+                        <div class="row align-items-center py-2 px-3">
+                            <div class="col-lg-8 col-xl-9 col-7">
+                                <div>
+                                    <h2 class="text-truncate h5 mb-0">Example </h2>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                                <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-vertical-rule-preview-tab"
+                                            data-bs-toggle="pill" href="#pills-vertical-rule-preview" role="tab"
+                                            aria-controls="pills-vertical-rule-preview" aria-selected="true">
+                                            <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                            <span class="ms-2 d-none d-lg-block">Preview</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-vertical-rule-code-tab" data-bs-toggle="pill"
+                                            href="#pills-vertical-rule-code" role="tab"
+                                            aria-controls="pills-vertical-rule-code" aria-selected="false">
+                                            <span class="lh-1"><i class="bi bi-code"></i></span>
+                                            <span class="ms-2 d-none d-lg-block">Code</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                                    <div class="tab-pane tab-example-preview fade show active"
+                                        id="pills-vertical-rule-preview" role="tabpanel"
+                                        aria-labelledby="pills-vertical-rule-preview-tab">
+                                        <!--vertical rule-->
+                                        <div class="vr"></div>
+
+                                    </div>
+                                    <div class="tab-pane tab-example-code fade" id="pills-vertical-rule-code"
+                                        role="tabpanel" aria-labelledby="pills-vertical-rule-code-tab">
+                                        <pre class="language-markup"
+                                            tabindex="0"><code class="language-markup"><span class="token comment">&lt;!--vertical rule--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>vr<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Example end-->
+                    <!--With stack start-->
+                    <div class="border rounded mb-lg-7 mb-5">
+                        <div class="row align-items-center py-2 px-3">
+                            <div class="col-lg-8 col-xl-9 col-7">
+                                <div>
+                                    <h2 class="text-truncate h5 mb-0">With stacks </h2>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-xl-3 col-5 d-flex justify-content-end">
+                                <ul class="nav nav-pills nav-custom-pill" id="pills-tabTwo" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-with-stack-preview-tab"
+                                            data-bs-toggle="pill" href="#pills-with-stack-preview" role="tab"
+                                            aria-controls="pills-with-stack-preview" aria-selected="true">
+                                            <span class="lh-1"><i class="bi bi-eye"></i></span>
+                                            <span class="ms-2 d-none d-lg-block">Preview</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-with-stack-code-tab" data-bs-toggle="pill"
+                                            href="#pills-with-stack-code" role="tab"
+                                            aria-controls="pills-with-stack-code" aria-selected="false">
+                                            <span class="lh-1"><i class="bi bi-code"></i></span>
+                                            <span class="ms-2 d-none d-lg-block">Code</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tab-content border-top p-3" id="pills-tabTwoContent">
+                                    <div class="tab-pane tab-example-preview fade show active"
+                                        id="pills-with-stack-preview" role="tabpanel"
+                                        aria-labelledby="pills-with-stack-preview-tab">
+                                        <!--with stack-->
+                                        <div class="hstack gap-3">
+                                            <div class="p-2">First item</div>
+                                            <div class="p-2 ms-auto">Second item</div>
+                                            <div class="vr"></div>
+                                            <div class="p-2">Third item</div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane tab-example-code fade" id="pills-with-stack-code"
+                                        role="tabpanel" aria-labelledby="pills-with-stack-code-tab">
+                                        Code
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--With stack end-->
+
+
+
+
+
+                </div>
+                <!-- Content end-->
+            </div>
+            @@include("../partials/docs-footer.html")
+        </div>
+        <!-- Wrapper end -->
+
+
+
+
+    </main>
+<!-- Main wrapper end -->
+    <!-- Scripts -->
+
+    @@include("../partials/scripts.html")
+
+    <script src="@@webRoot/node_modules/prismjs/prism.js"></script>
+    <script src="@@webRoot/node_modules/prismjs/components/prism-scss.min.js"></script>
+    <script src="@@webRoot/node_modules/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="@@webRoot/node_modules/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+      <script src="@@webRoot/assets/js/vendors/sidebar-menu.js"></script>
+      <script src="@@webRoot/assets/js/vendors/search.js"></script>
+   </body>
+
+</html>

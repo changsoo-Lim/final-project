@@ -1,0 +1,243 @@
+@charset "UTF-8";
+
+.section {
+	margin: 30px 0px;
+}
+.emp-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.gungu {
+	display: none;
+}
+
+#filedJobs::placeholder {
+	white-space: pre-line; /* 줄바꿈을 지원 */
+}
+
+.textarea {
+	height: 150px;
+	resize: none;
+}
+/* ========== 절차 영역 스타일 ========== */
+.el {
+	flex:1;
+	text-align:center;
+}
+
+.processContainer {
+	border: 1px solid #ddd;
+	padding: 20px;
+	position: relative;
+	border-radius: 5px;
+}
+.proc-container .draggable:hover{
+	background-color: #ebf3fe;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+#processModal .modal-header {
+	border-radius: 0.7rem 0.7rem 0 0;
+}
+
+/* 고정 항목: 서류, 최종합격 */
+.draggable.fixed {
+	background: #f7f7f7;
+	cursor: default;
+	padding-right: 20px;
+}
+
+.draggable {
+	user-select: none;
+	background: #ebf3fe;
+	border: 1px solid #ebebeb;
+	margin: 0 0;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 5px;
+}
+
+.draggable:not(.fixed) {
+	cursor: move;
+}
+
+.delete-proc-btn {
+	border: none;
+	background: none;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+}
+
+.delete-proc-btn img {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 4px;
+}
+/* placeholder (드래그 중) */
+.dragging {
+	opacity: 0.4;
+}
+
+.placeholder {
+	background: #e8f0ff;
+	border: 2px dashed #00f;
+	height: 38px;
+	margin: 5px 0;
+}
+
+#processOptions {
+	list-style: none;
+	padding: 0 2rem;
+	margin: 1rem 0 0 0;
+}
+
+.field-btns {
+	display: flex; /* flex 컨테이너로 설정 */
+	justify-content: flex-end; /* 버튼들을 우측 정렬 */
+	gap: 10px; /* 버튼 간 간격 설정 (선택 사항) */
+}
+
+/* 목록 스타일 */
+#addedFieldList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+.addedField {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: nowrap;
+	margin-bottom: 10px;
+	max-width: 100%;
+	background-color: #f0f8ff; /* 기본 배경색 */
+	transition: background-color 0.3s ease, color 0.3s ease;
+	height: 3rem;
+	padding: 0 30px;
+	border-radius: 5px;
+}
+
+.addedField:hover {
+	background-color: #dff0ff; /* Hover 시 배경색 */
+	color: #0056b3; /* Hover 시 텍스트 색상 */
+	cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+.addedField .addedFieldTitle {
+	font-size: 14px;
+    font-weight: bold;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 80%;
+}
+.proc-checkbox {
+	height: 3rem;
+	padding: 0.5rem;
+	border-radius: 5px;
+}
+.proc-checkbox:hover {
+	background-color: #ebf3fe;
+    border-color: #3b82f6;
+    color: #0c4a6e;
+}
+.checkbox {
+	margin-right: 0.5rem;
+}
+.checkbox-box {
+	margin-right: 1.5rem;
+}
+/* 체크박스 */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 7.5rem;
+    height: 3rem;
+}
+.checkbox-item input[type="checkbox"] {
+    display: none;
+}
+.checkbox-item:hover {
+    background-color: #ebf3fe;
+    border-color: #3b82f6;
+    color: #0c4a6e;
+}
+/* 선택된 상태 (동적으로 추가될 클래스) */
+.checkbox-item.selected {
+    background-color: #ebf3fe;
+    border-color: #3b82f6;
+    color: #0c4a6e;
+}
+.submit-btn-div {
+	margin-top: 50px;
+	margin-bottom: 200px;
+}
+
+
+
+
+.filterCont-dropdown {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    width: 95%; /* 부모와 같은 너비 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filterCont-item {
+    cursor: pointer;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.filterCont-item:hover {
+    background-color: #f0f0f0;
+}
+
+.selected-filter-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background-color: #ebf3fe;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.selected-filter-item button {
+    border: none;
+	background: none;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+}
+.selected-filter-item button img {
+    width: 20px;
+	height: 20px;
+	margin-bottom: 4px;
+}

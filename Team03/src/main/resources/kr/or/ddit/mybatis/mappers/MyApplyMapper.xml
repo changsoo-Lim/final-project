@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.myapply.dao.MyApplyMapper">
+	<select id="selectApplyCodeList" resultType="CodeVO">
+		SELECT *
+		FROM CODE
+		WHERE CODE_PARENT = 'APPSTTUS'
+	</select>
+	
+	
+	<resultMap type="ApplyVO" id="myApplyMap" autoMapping="true">
+		<id property="applyNo" column="APPLY_NO"/>
+        <result property="memId" column="MEM_ID"/>
+        <result property="filedNo" column="FILED_NO"/>
+        <result property="appProcStatus" column="APP_PROC_STATUS"/>
+        <result property="appDate" column="APP_DATE"/>
+        <result property="appProcChangeDt" column="APP_PROC_CHANGE_DT"/>
+        <result property="appPassYn" column="APP_PASS_YN"/>
+        <result property="appCancelYn" column="APP_CANCEL_YN"/>
+        <result property="appCancelDt" column="APP_CANCEL_DT"/>
+        <result property="appDel" column="APP_DEL"/>
+        <result property="appOpenYn" column="APP_OPEN_YN"/>
+        <result property="codeNm" column="CODE_NM"/>
+        <result property="atchFileNo" column="ATCH_FILE_NO"/>
+        <association property="file" column="ATCH_FILE_NO"
+	                 select="kr.or.ddit.file.dao.FileMapper.selectFileEnable" />
+	    
+	    <association property="field" javaType="FieldVO">
+	    	<id property="filedNo" column="FILED_NO"/>
+	    	<result property="filedNm" column="FILED_NM"/>
+	    </association>
+	    
+	    <association property="employ" javaType="EmployVO">
+	    	<id property="employNo" column="EMPLOY_NO"/>
+	    	<result property="employTitle" column="EMPLOY_TITLE"/>
+	    </association>
+	    
+	    <association property="company" javaType="CompanyVO">
+	    	<id property="compId" column="COMP_ID"/>
+	    	<result property="compNm" column="COMP_NM"/>
+	    </association>
+	                
+	</resultMap>
+	
+	
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+			<where>
+			  MEM_ID = #{memId}
+				<if test="paging.simpleCondition neq null">
+					<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.simpleCondition.searchWord)">
+						<choose>
+							<when test="paging.simpleCondition.searchType eq 'compNm'">
+							AND	INSTR(COMP_NM, #{paging.simpleCondition.searchWord}) > 0 
+							</when>
+							<when test="paging.simpleCondition.searchType eq 'employTitle'">
+							AND	INSTR(EMPLOY_TITLE, #{paging.simpleCondition.searchWord}) > 0 
+							</when>
+							<when test="paging.simpleCondition.searchType eq 'filedNm'">
+							AND	INSTR(FILED_NM, #{paging.simpleCondition.searchWord}) > 0 
+							</when>
+							<otherwise>
+								AND	INSTR(COMP_NM, #{paging.simpleCondition.searchWord}) > 0
+									OR INSTR(EMPLOY_TITLE, #{paging.simpleCondition.searchWord}) > 0
+									OR INSTR(FILED_NM, #{paging.simpleCondition.searchWord}) > 0
+							</otherwise>
+						</choose>
+					</if>
+				</if>
+			</where>
+	</sql>
+	
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM 
+			APPLY A
+				JOIN 
+				    FIELD F ON A.FILED_NO = F.FILED_NO
+				JOIN 
+				    EMPLOY E ON F.EMPLOY_NO = E.EMPLOY_NO
+				JOIN 
+				    COMPANY C ON E.COMP_ID = C.COMP_ID
+	    <include refid="searchFrag" />
+	</select>
+	
+	<select id="selectMyApplyList" resultType="ApplyVO">
+	
+		SELECT B.*
+	    FROM
+	        (
+	        SELECT A.*, ROWNUM RNUM
+	        FROM
+	            (
+	            SELECT 
+					    A.APPLY_NO ,                   
+					    A.MEM_ID ,                   
+					    C.COMP_NM ,                  
+					    F.FILED_NM  ,            
+					    A.APP_PROC_STATUS , 
+					    E.EMPLOY_NO,  
+					    E.EMPLOY_TITLE ,           
+					    A.APP_DATE ,              
+					    A.APP_OPEN_YN ,     
+					    A.APP_CANCEL_YN      
+				FROM 
+				    APPLY A
+				JOIN 
+				    FIELD F ON A.FILED_NO = F.FILED_NO
+				JOIN 
+				    EMPLOY E ON F.EMPLOY_NO = E.EMPLOY_NO
+				JOIN 
+				    COMPANY C ON E.COMP_ID = C.COMP_ID
+    		
+            <where>
+                MEM_ID = #{memId}
+                <if test="paging.simpleCondition != null">
+                    <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(paging.simpleCondition.searchWord)">
+                        <choose>
+                            <when test="paging.simpleCondition.searchType == 'compNm'">
+                                AND INSTR(C.COMP_NM, #{paging.simpleCondition.searchWord}) > 0
+                            </when>
+                            <when test="paging.simpleCondition.searchType == 'employTitle'">
+                                AND INSTR(E.EMPLOY_TITLE, #{paging.simpleCondition.searchWord}) > 0
+                            </when>
+                            <when test="paging.simpleCondition.searchType == 'filedNm'">
+                                AND INSTR(F.FILED_NM, #{paging.simpleCondition.searchWord}) > 0
+                            </when>
+                            <otherwise>
+                                AND (
+                                    INSTR(C.COMP_NM, #{paging.simpleCondition.searchWord}) > 0
+                                    OR INSTR(E.EMPLOY_TITLE, #{paging.simpleCondition.searchWord}) > 0
+                                    OR INSTR(F.FILED_NM, #{paging.simpleCondition.searchWord}) > 0
+                                )
+                            </otherwise>
+                        </choose>
+                    </if>
+                </if>
+            </where>
+             
+			ORDER BY A.APP_DATE DESC
+            ) A
+        ) B
+    WHERE RNUM BETWEEN #{paging.startRow} AND #{paging.endRow}
+	
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+	    SELECT COUNT(*)
+	     FROM 
+	     APPLY A
+				JOIN 
+				    FIELD F ON A.FILED_NO = F.FILED_NO
+				JOIN 
+				    EMPLOY E ON F.EMPLOY_NO = E.EMPLOY_NO
+				JOIN 
+				    COMPANY C ON E.COMP_ID = C.COMP_ID
+	     <include refid="searchFrag" />
+	</select>
+	
+</mapper>

@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+.avatar avatar-xxl {
+    width: 120px; /* 원하는 고정 너비 */
+    height: 120px; /* 원하는 고정 높이 */
+    object-fit: contain; /* 이미지 비율 유지 */
+}
+.swiper-container {
+    margin: 0 auto; /* 수평 가운데 정렬 */
+    max-width: 70%; /* 전체 너비의 90%로 제한 */
+}
+
+
+.avatar-xxl {
+    height: 13rem;
+    width: 15rem;
+}
+small{
+	font-size: 13px;
+}

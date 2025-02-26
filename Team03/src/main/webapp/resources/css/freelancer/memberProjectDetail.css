@@ -1,0 +1,246 @@
+@charset "UTF-8";
+
+/* 기본 리셋 및 레이아웃 */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #F4F6F9;
+  color: #2D3748;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 전체 레이아웃 컨테이너 */
+.freelancer-layout {
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: flex-start; /* 상단 정렬 */
+  gap: 20px; /* 컨테이너 간 간격 */
+  margin: 20px;
+}
+
+/* 왼쪽 프로젝트 정보 컨테이너 */
+.freelancer-project-container {
+  width: 70%; /* 왼쪽 컨테이너 너비 */
+  max-width: 800px; /* 최대 너비 제한 */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* 상단 상태 영역 */
+.freelancer-status-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.freelancer-status-header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+.freelancer-status-badges {
+  display: flex;
+  gap: 10px;
+}
+.freelancer-badge {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #fff;
+  display: inline-block;
+}
+/* 모집 상태 */
+.freelancer-badge-status {
+  background-color: #f5365c;
+}
+/* 마감 일자 */
+.freelancer-badge-deadline {
+  background-color: #5e72e4;
+}
+
+/* 정보 섹션 */
+.freelancer-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 최소 크기 120px로 줄임 */
+  gap: 6px; /* 박스 간의 간격을 줄임 */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.freelancer-info-item {
+  padding: 8px; /* 내부 패딩을 줄임 */
+  background-color: #F7FAFC;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+  font-size: 0.85rem; /* 텍스트 크기를 약간 줄임 */
+  text-align: center; /* 중앙 정렬 */
+}
+
+.freelancer-info-item strong {
+  display: block;
+  color: #4A5568;
+  margin-bottom: 2px; /* 제목과 내용 간 간격 축소 */
+}
+
+
+/* 각 섹션 제목 */
+.freelancer-section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 6px;
+}
+
+/* 프로젝트 상세내용 */
+.freelancer-project-content ol, .freelancer-project-content ul {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+.freelancer-project-content li {
+  margin-bottom: 6px;
+}
+
+
+
+
+/* 기업  css*/
+
+
+/* 오른쪽 기업 정보 및 버튼 컨테이너 */
+.freelancer-company-container {
+  width: 35%; /* 컨테이너 너비를 약간 늘림 */
+  max-width: 450px; /* 최대 너비 증가 */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  word-wrap: break-word; /* 텍스트가 길 경우 줄바꿈 처리 */
+}
+
+.freelancer-company-container p {
+  margin: 8px 0; /* 텍스트 간격을 균일하게 설정 */
+  font-size: 0.9rem; /* 폰트 크기 약간 축소 */
+}
+
+.freelancer-company-container h4 {
+  margin-bottom: 15px; /* 섹션 제목과 내용 간 간격 */
+  font-size: 1.2rem; /* 섹션 제목 크기 */
+}
+
+/* 버튼 스타일 */
+.accept-button, .reject-button {
+  width: 100%; /* 버튼이 컨테이너 너비에 맞게 늘어남 */
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.accept-button {
+  background-color: #4CAF50;
+  transition: background-color 0.2s ease;
+}
+
+.accept-button:hover {
+  background-color: #45A049;
+}
+
+.reject-button {
+  background-color: #f5365c;
+  transition: background-color 0.2s ease;
+}
+
+.reject-button:hover {
+  background-color: #e02e4c;
+}
+/* 기업 로고 섹션 스타일 */
+.company-logo {
+    text-align: center; /* 이미지를 중앙 정렬 */
+    margin-bottom: 20px; /* 아래 요소와 간격 */
+}
+
+.company-logo img {
+    width: 150px; /* 이미지 너비 확대 */
+    height: auto; /* 비율 유지 */
+    border-radius: 12px; /* 이미지 모서리 둥글게 처리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 그림자 크기 확대 */
+    object-fit: cover; /* 이미지가 꽉 차게 표시 */
+}
+/* 공통 스타일 */
+.proposal-status-text {
+    font-size: 1.6rem; /* 기본 폰트 크기보다 약간 큼 */
+    font-weight: normal; /* 강조되지만 너무 두껍지 않게 */
+    color: #333; /* 기본 텍스트 색상보다 약간 강조된 색 */
+    padding: 5px 10px; /* 약간의 여백 추가 */
+    border: 1px solid #ddd; /* 얇은 테두리로 구분 */
+    border-radius: 3px; /* 모서리 약간 둥글게 */
+    background-color: #f9f9f9; /* 부드러운 배경 색 */
+    display: inline-block; /* 자연스럽게 블록 형태 유지 */
+    margin-top: 5px; /* 위쪽 여백 */
+    text-align: center;
+}
+
+/* 수락 텍스트 스타일 */
+.accepted-text {
+    color: #8b3dff; /* 녹색 텍스트 */
+}
+
+/* 거절 텍스트 스타일 */
+.rejected-text {
+    color: #8b3dff; /* 빨간색 텍스트 */
+}
+
+/* 중앙 정렬을 위한 부모 컨테이너 */
+.proposal-status-container {
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 100%; /* 부모 컨테이너 전체 너비 */
+    margin: 10px 0; /* 위아래 여백 */
+}
+
+/* 공통 스타일 */
+.proposal-status-text {
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+/* 수락 텍스트 스타일 */
+.accepted-text {
+    color: #8b3dff;
+}
+
+/* 거절 텍스트 스타일 */
+.rejected-text {
+    color: #8b3dff;
+}
+
+

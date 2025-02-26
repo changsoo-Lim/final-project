@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="kr.or.ddit.admin.review.dao.AdminReviewMapper">
+
+	<!-- 검색 조건 -->
+	<sql id="searchFrag">
+	    <where>
+	        <!-- 검색어가 비어있지 않은 경우에만 조건 추가 -->
+	        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+	    	    <choose>
+					<when test="simpleCondition.searchType eq 'reviewStatus'">
+		        	   REVIEW_STATUS = #{simpleCondition.searchWord}
+		            	AND
+					</when>
+	        	</choose>
+	        </if>
+	        review_del = 'N'
+	    </where>
+	</sql>
+
+	<select id="selectReviewList" resultType="ReviewVO">
+		SELECT 
+			B.*
+	    FROM
+	        (
+	        SELECT 
+	        	A.*, ROWNUM RNUM
+	        FROM
+	            (
+				SELECT
+				    REVIEW_NO,
+				    REVIEW_TITLE,
+				    REVIEW_CONT,
+				    REVIEW_RATING,
+				    REVIEW_STATUS,
+				    REVIEW_DT,
+				    MEM_ID,
+				    COMP_ID
+			    FROM
+				    REVIEW
+				<include refid="searchFrag" />
+            	ORDER BY REVIEW_NO ASC
+	            ) A
+	        ) B
+	    WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	    ORDER BY RNUM ASC
+	</select>
+	
+	<select id="selectTotalRecord" resultType="int">
+	    SELECT COUNT(*) FROM REVIEW
+	    <include refid="searchFrag" />
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+	    SELECT COUNT(*) FROM REVIEW
+	    <include refid="searchFrag" />
+	</select>
+	
+	<update id="updateReviewStatus">
+		UPDATE review
+		SET
+			REVIEW_STATUS = 'Y'
+		WHERE
+			REVIEW_NO = #{reviewNo,jdbcType=NUMERIC}
+	</update>
+</mapper>

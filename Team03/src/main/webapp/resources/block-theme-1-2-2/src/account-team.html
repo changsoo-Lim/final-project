@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+   @@include("partials/head/meta.html")
+   <link rel="stylesheet" href="@@webRoot/node_modules/swiper/swiper-bundle.min.css" />
+   @@include("partials/head/head-links.html") @@include("partials/head/analytics.html")
+   @@include("partials/head/clarity.html")
+
+   <title>Account Team - Responsive Website Template | Block</title>
+</head>
+
+<body>
+   @@include("partials/navbar.html",{ "classList": " navbar-light w-100" })
+   <main>
+      <!--Account team start-->
+      <section class="py-lg-7 py-5 bg-light-subtle">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-3 col-md-4">
+                  <div class="d-flex align-items-center mb-4 justify-content-center justify-content-md-start">
+                     <img src="./assets/images/avatar/avatar-1.jpg" alt="avatar"
+                        class="avatar avatar-lg rounded-circle" />
+                     <div class="ms-3">
+                        <h5 class="mb-0">Jitu Chauhan</h5>
+                        <small>Personal account</small>
+                     </div>
+                  </div>
+
+                  @@include("partials/navbar-account.html")
+               </div>
+               <div class="col-lg-9 col-md-8">
+                  <div class="mb-4">
+                     <h1 class="mb-0 h3">Teams</h1>
+                  </div>
+                  <div class="card border-0 shadow-sm mb-4">
+                     <div class="card-body p-lg-5">
+                        <div class="mb-5">
+                           <h4 class="mb-1">Add team members</h4>
+                           <p class="fs-6 mb-0">Invite as many team members as you need to help run this account. Learn
+                              More</p>
+                        </div>
+                        <form class="row g-3 needs-validation" novalidate>
+                           <div class="col-lg-6 col-md-12">
+                              <label for="formGroupEmailInput" class="form-label">Email</label>
+                              <input type="email" class="form-control" id="formGroupEmailInput"
+                                 placeholder="Team member’s email" required />
+                              <div class="invalid-feedback">Please enter an email.</div>
+                           </div>
+                           <div class="col-lg-6 col-md-12">
+                              <label for="formGroupRoleInput" class="form-label">Role</label>
+                              <select class="form-select" id="formGroupRoleInput" required>
+                                 <option selected disabled value="">Role</option>
+                                 <option value="Owner">Owner</option>
+                                 <option value="Front End Developer">Front End Developer</option>
+                                 <option value="Full Stack Developer">Full Stack Developer</option>
+                              </select>
+                           </div>
+                           <div class="col-12">
+                              <button class="btn btn-primary" type="submit">Send Invitation</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+                  <div class="card border-0 mb-4 shadow-sm">
+                     <div class="card-body p-lg-5">
+                        <div class="mb-5">
+                           <h4 class="mb-1">Team members</h4>
+                           <p class="mb-0 fs-6">List of member are in your team with its roles.</p>
+                        </div>
+                        <div class="table-responsive">
+                           <table class="table table-centered td table-centered th table-lg text-nowrap">
+                              <thead>
+                                 <tr>
+                                    <th scope="col">
+                                       <div class="fs-6 text-dark fw-semibold">Member</div>
+                                    </th>
+                                    <th scope="col">
+                                       <div class="fs-6 text-dark fw-semibold">Role</div>
+                                    </th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td>
+                                       <div class="d-flex align-items-center">
+                                          <img src="./assets/images/avatar/avatar-1.jpg" alt="avatar"
+                                             class="avatar avatar-lg rounded-circle" />
+                                          <div class="ms-3">
+                                             <div class="fs-5 fw-semibold text-dark">Jitu Chauhan</div>
+                                             <small>anitaexample@block.com</small>
+                                          </div>
+                                       </div>
+                                    </td>
+                                    <td><span>Owner</span></td>
+                                    <td></td>
+                                    <td></td>
+                                 </tr>
+                                 <tr>
+                                    <th scope="row">
+                                       <div class="d-flex align-items-center">
+                                          <img src="./assets/images/avatar/avatar-2.jpg" alt="avatar"
+                                             class="avatar avatar-lg rounded-circle" />
+                                          <div class="ms-3">
+                                             <div class="fs-5 fw-semibold text-dark">Anita parmar</div>
+                                             <small>anitaexample@block.com</small>
+                                          </div>
+                                       </div>
+                                    </th>
+                                    <td><span>Front End Developer</span></td>
+                                    <td></td>
+                                    <td>
+                                       <a href="#" class="btn btn-sm btn-dark me-2">Edit</a>
+                                       <a href="#" class="btn btn-sm btn-light">Remove</a>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <th scope="row">
+                                       <div class="d-flex align-items-center">
+                                          <img src="./assets/images/avatar/avatar-9.jpg" alt="avatar"
+                                             class="avatar avatar-lg rounded-circle" />
+                                          <div class="ms-3">
+                                             <div class="fs-5 fw-semibold text-dark">Sandip Chauhan</div>
+                                             <small>sandipexample@block.com</small>
+                                          </div>
+                                       </div>
+                                    </th>
+                                    <td><span>Full Stack Developer</span></td>
+                                    <td></td>
+                                    <td>
+                                       <a href="#" class="btn btn-sm btn-dark me-2">Edit</a>
+                                       <a href="#" class="btn btn-sm btn-light">Remove</a>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!--Account team end-->
+   </main>
+   @@include("partials/footer.html") @@include("partials/scripts.html")
+   <script src="@@webRoot/assets/js/vendors/sidenav.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 페이지 타이틀 */
+.page-title {
+    font-size: 25px;
+    color: #000000;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+
+/* 게시판 상세 정보 영역 */
+.board-detail-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* 게시판 번호와 회원 아이디 */
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.info-item {
+    font-size: 1.1em;
+    color: #333;
+}
+
+.info-item strong {
+    font-weight: bold;
+}
+
+/* 제목 및 내용 */
+.title-container, .content-container {
+    margin-bottom: 20px;
+}
+.content-container{
+	 min-height: 17em;
+}
+.title-container label, .content-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.title-container input, .content-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1.1em;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+.content-container  {
+    max-height: 200px; /* 제한된 높이 */
+        overflow-y: auto; /* 스크롤바 활성화 */
+}
+
+/* 파일 리스트 */
+.file-container {
+    margin-top: 15px;
+}
+
+.file-list a {
+    color: #9b37ff;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+.file-list a:hover {
+    text-decoration: underline;
+}
+
+.file-list a + a {
+    margin-left: 10px;
+}
+
+
+/* 버튼들을 한 줄로 배치 */
+.button-container {
+    display: flex;
+    justify-content: space-between; /* 왼쪽 버튼 그룹과 오른쪽 버튼 그룹을 분리 */
+    align-items: center; /* 버튼들을 세로로 정렬 */
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+    gap: 5px; /* 버튼 간 간격 조정 */
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 10px; /* 버튼 간격 */
+    flex-wrap: nowrap; /* 버튼이 한 줄에 유지되도록 설정 */
+    white-space: nowrap; /* 버튼 줄바꿈 방지 */
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+}
+.comment-actions button,
+.comment-actions form {
+    margin: 0; /* 여백 제거 */
+    min-width: 40px; /* 버튼 최소 크기 */
+    text-align: center; /* 버튼 안의 텍스트 정렬 */
+}
+
+.modal-header {
+    
+    background-color : #b19dff;
+}

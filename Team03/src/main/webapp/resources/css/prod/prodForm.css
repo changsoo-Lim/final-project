@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+.image-preview {
+	width: 400px;
+	height: 1000px;
+	border: 1px solid #ddd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	background-color: #f8f9fa;
+}
+
+.image-preview img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.text-end mt-3 position-relative {
+    position: relative;
+    width: 100%;
+}
+
+#addBtn, #editBtn {
+    position: absolute;
+    top: 0;
+    right: 16px;
+}
+
+
+.prod-productNm {
+	width: 15%;
+	text-align: left;
+}
+.prod-productPeriod {
+	width: 20%;
+	text-align: center;
+}
+.prod-productPrice {
+	width: 20%;
+	text-align: right;
+}
+.prod-productType {
+	width: 15%;
+	text-align: center;
+}
+.prod-del {
+	width: 20%;
+	text-align: right;
+}

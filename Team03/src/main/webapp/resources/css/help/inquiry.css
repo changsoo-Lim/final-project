@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.ck-editor__editable {
+    height: 300px; /* 초기 높이 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}
+
+/* 입력 시 크기 자동 조정 */
+.ck-editor__editable {
+    height: auto; /* 텍스트 입력에 따라 자동으로 조정 */
+    min-height: 200px; /* 최소 높이 설정 */
+    max-height: 200px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 스크롤바 활성화 */
+}

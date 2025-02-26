@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.logs.dao.LogMapper">
+	
+	<select id="selectLogList" resultType="Log">
+        SELECT LOG_NO, USER_ID, ACTION, ACTION_TIMESTAMP
+        FROM LOG0
+        ORDER BY ACTION_TIMESTAMP DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.intro.intro_detail.dao.Intro_DetailMapper">
+
+	<resultMap id="introDetailMap" type="Intro_DetailVO">
+	    <result property="introDetailNo" column="INTRO_DETAIL_NO" />
+	    <result property="introNo" column="INTRO_NO" />
+	    <result property="introDetailTitle" column="INTRO_DETAIL_TITLE" />
+	    <result property="introDetailCont" column="INTRO_DETAIL_CONT" jdbcType="CLOB" />
+	    <result property="introDetailDel" column="INTRO_DETAIL_DEL" />
+	</resultMap>
+	
+	<select id="selectListIntroDetail" resultMap="introDetailMap">
+		SELECT
+			INTRO_DETAIL_NO,
+			INTRO_NO,
+			INTRO_DETAIL_TITLE,
+			INTRO_DETAIL_CONT,
+			INTRO_DETAIL_DEL
+		FROM
+			INTRO_DETAIL
+		WHERE
+			INTRO_NO = #{introNo,jdbcType=NUMERIC}
+			AND
+			INTRO_DETAIL_DEL = 'N'
+		ORDER BY INTRO_DETAIL_NO
+	</select>
+
+	<insert id="insertIntroDetail">
+		<selectKey order="BEFORE" resultType="int" keyProperty="introDetailNo">
+				 SELECT INTRO_DETAIL_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO intro_detail (
+			INTRO_DETAIL_NO,
+			INTRO_NO,
+			INTRO_DETAIL_TITLE,
+			INTRO_DETAIL_CONT,
+			INTRO_DETAIL_DEL
+		) VALUES (
+			#{introDetailNo,jdbcType=NUMERIC}
+			, #{introNo,jdbcType=NUMERIC}
+			, #{introDetailTitle,jdbcType=VARCHAR}
+			, #{introDetailCont,jdbcType=CLOB}
+			, 'N'
+		)
+	</insert>
+
+	<update id="updateIntroDetail">
+		UPDATE INTRO_DETAIL
+		SET
+			INTRO_DETAIL_NO = #{introDetailNo,jdbcType=NUMERIC}
+			,INTRO_NO = #{introNo,jdbcType=NUMERIC}
+			,INTRO_DETAIL_TITLE = #{introDetailTitle,jdbcType=VARCHAR}
+			,INTRO_DETAIL_CONT = #{introDetailCont,jdbcType=CLOB}
+			,INTRO_DETAIL_DEL = 'N'
+		WHERE
+			INTRO_DETAIL_NO = #{introDetailNo,jdbcType=NUMERIC}
+	</update>
+	
+	<update id="deleteIntroDetail">
+		UPDATE INTRO_DETAIL
+		SET
+			INTRO_DETAIL_DEL = 'Y'
+		WHERE
+			INTRO_DETAIL_NO = #{introDetailNo,jdbcType=NUMERIC}
+	</update>
+
+</mapper>

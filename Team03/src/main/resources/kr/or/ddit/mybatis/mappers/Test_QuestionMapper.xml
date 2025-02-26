@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.test.test_question.dao.Test_QuestionMapper">
+	<insert id="insertTestQuestion">
+		<selectKey order="BEFORE" resultType="int" keyProperty="queNo">
+				 SELECT TEST_QUESTN_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEST_QUESTN (
+		      QUE_NO		/* 문제번호 */
+		    , QUE_CONT		/* 문제내용 */
+		    , QUE_TURN		/* 문제순번 */
+		    , TEST_NO		/* 시험번호 */
+		    , ATCH_FILE_NO	/* 문제파일그룹번호 */
+		) VALUES (
+		      #{queNo, jdbcType=NUMERIC}
+		    , #{queCont, jdbcType=VARCHAR}
+		    , #{queTurn, jdbcType=NUMERIC}
+		    , #{testNo, jdbcType=NUMERIC}
+		    , #{atchFileNo, jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<select id="selectTestQuestionList" resultType="Test_QuestnVO">
+		SELECT 
+		      QUE_NO		/* 문제번호 */
+		    , QUE_CONT		/* 문제내용 */
+		    , QUE_TURN		/* 문제순번 */
+		    , TEST_NO		/* 시험번호 */
+		    , ATCH_FILE_NO	/* 문제파일그룹번호 */
+		    , QUE_DEL		/* 삭제여부 */
+		FROM TEST_QUESTN
+		WHERE QUE_DEL = 'N' AND TEST_NO = #{testNo, jdbcType=NUMERIC} /* 문제번호 */
+		ORDER BY QUE_TURN
+	</select>
+	
+	<select id="selectTestQuestion" resultType="Test_QuestnVO">
+		SELECT 
+            QUE_NO		/* 문제번호 */
+		    , QUE_CONT		/* 문제내용 */
+		    , QUE_TURN		/* 문제순번 */
+		    , TEST_NO		/* 시험번호 */
+		    , ATCH_FILE_NO	/* 문제파일그룹번호 */
+		    , QUE_DEL		/* 삭제여부 */
+        FROM TEST_QUESTN
+        WHERE QUE_DEL = 'N' AND QUE_NO = #{queNo, jdbcType=NUMERIC}
+	</select>
+	
+	<update id="updateTestQuestion">
+		UPDATE TEST_QUESTN
+		SET 
+		      QUE_CONT = #{queCont, jdbcType=VARCHAR}			/* 문제내용 */
+		    , QUE_TURN = #{queTurn, jdbcType=NUMERIC}			/* 문제순번 */
+		    <if test="atchFileNo neq null">
+				, ATCH_FILE_NO = #{atchFileNo, jdbcType=NUMERIC}	/* 문제파일그룹번호 */
+			</if>
+		WHERE QUE_NO = #{queNo, jdbcType=NUMERIC}				/* 문제번호 */
+	</update>
+	
+	<update id="deleteTestQuestion">
+		UPDATE TEST_QUESTN 
+		SET
+			QUE_DEL = 'Y'
+		WHERE QUE_NO = #{queNo, jdbcType=NUMERIC}	/* 문제번호 */
+	</update>
+	
+</mapper>

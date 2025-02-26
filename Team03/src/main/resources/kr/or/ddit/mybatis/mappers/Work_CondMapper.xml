@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.work_cond.dao.Work_CondMapper">
+	<insert id="insertWorkCond">
+		<selectKey order="BEFORE" resultType="int" keyProperty="workCondNo">
+		    SELECT WORK_COND_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO work_cond (
+		    work_cond_no,
+		    work_cond_remote,
+		    work_cond_job_type,
+		    work_cond_type,
+		    work_cond_salary,
+		    work_cond_salary_visible,
+		    mem_id
+		) VALUES (
+		      #{workCondNo,jdbcType=NUMERIC}
+		    , #{workCondRemote,jdbcType=VARCHAR}
+		    , #{workCondJobType,jdbcType=VARCHAR}
+		    , #{workCondType,jdbcType=VARCHAR}
+		    , #{workCondSalary,jdbcType=VARCHAR}
+		    , #{workCondSalaryVisible,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertWorkCity">
+		<selectKey order="BEFORE" resultType="int" keyProperty="workCityNo">
+		    SELECT WORK_CITY_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO work_city (
+		    work_city_no,
+		    work_cond_no,
+		    sido_cd,
+		    gugun_cd,
+		    work_city_yn
+		) VALUES (
+		      #{workCityNo,jdbcType=NUMERIC}
+		    , #{workCondNo,jdbcType=NUMERIC}
+		    , #{sidoCd,jdbcType=VARCHAR}
+		    , #{gugunCd,jdbcType=VARCHAR}
+		    , 'N'
+		)
+	</insert>
+	
+	<select id="selectWorkCondOne" resultType="Work_CondVO">
+		SELECT
+		    work_cond_no,
+		    work_cond_remote,
+		    work_cond_job_type,
+		    work_cond_type,
+		    work_cond_salary,
+		    work_cond_salary_visible,
+		    mem_id
+		FROM
+		    work_cond w
+		WHERE 
+			MEM_ID = #{memId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectWorkCityList" resultType="Work_CityVO">
+		SELECT
+		    work_city_no,
+		    work_cond_no,
+		    sido_cd,
+		    gugun_cd,
+		    work_city_yn
+		FROM
+		    work_city w
+		WHERE 
+			work_city_yn = 'N'
+			AND
+			work_cond_no = #{workCondNo,jdbcType=NUMERIC}
+	</select>
+	
+	<update id="updateWorkCond">
+		UPDATE work_cond
+		SET
+		    WORK_COND_SALARY = #{workCondSalary,jdbcType=VARCHAR}
+		    ,WORK_COND_SALARY_VISIBLE = #{workCondSalaryVisible,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		    ,WORK_COND_NO = #{workCondNo,jdbcType=NUMERIC}
+		    ,WORK_COND_REMOTE = #{workCondRemote,jdbcType=VARCHAR}
+		    ,WORK_COND_JOB_TYPE = #{workCondJobType,jdbcType=VARCHAR}
+		    ,WORK_COND_TYPE = #{workCondType,jdbcType=VARCHAR}
+		WHERE
+		    WORK_COND_NO = #{workCondNo,jdbcType=NUMERIC}
+	</update>
+	
+	<update id="updateWorkCity">
+		UPDATE work_city
+		SET
+		    WORK_CITY_NO = #{workCityNo,jdbcType=NUMERIC}
+		    ,WORK_COND_NO = #{workCondNo,jdbcType=NUMERIC}
+		    ,SIDO_CD = #{sidoCd,jdbcType=VARCHAR}
+		    ,GUGUN_CD = #{gugunCd,jdbcType=VARCHAR}
+		    ,WORK_CITY_YN = 'N'
+		WHERE
+		    WORK_CITY_NO = #{workCityNo,jdbcType=NUMERIC}  
+	</update>
+	
+	<delete id="deleteWorkCond">
+		DELETE FROM WORK_COND
+		WHERE
+			WORK_COND_NO = #{workCondNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<delete id="deleteWorkCity">
+		UPDATE work_city
+		SET
+		    WORK_CITY_YN = 'Y'
+		WHERE
+		    WORK_CITY_NO = #{workCityNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectWorkCond" resultType="Work_CondVO">
+		SELECT
+		    work_cond_no,
+		    work_cond_remote,
+		    work_cond_job_type,
+		    work_cond_type,
+		    work_cond_salary,
+		    work_cond_salary_visible,
+		    mem_id
+		FROM
+		    work_cond
+		WHERE
+			WORK_COND_NO = #{workCondNo,jdbcType=NUMERIC}
+	</select>
+	
+	<select id="selectWorkCity" resultType="Work_CityVO">
+		SELECT
+		    work_city_no,
+		    work_cond_no,
+		    sido_cd,
+		    gugun_cd,
+		    work_city_yn
+		FROM
+		    work_city
+		WHERE 
+			work_city_yn = 'N'
+			AND
+			WORK_CITY_NO = #{workCityNo,jdbcType=NUMERIC} 
+	</select>
+</mapper>

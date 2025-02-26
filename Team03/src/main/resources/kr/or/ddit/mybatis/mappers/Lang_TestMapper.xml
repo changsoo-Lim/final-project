@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.resume.lang_test.dao.Lang_TestMapper">
+	<insert id="insertLangTest">
+		<selectKey order="BEFORE" resultType="int" keyProperty="langTestNo">
+		    SELECT LANG_TEST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO lang_test (
+		    lang_test_no,
+		    lang_test_name,
+		    lang_test_level,
+		    lang_test_date,
+		    mem_id
+		) VALUES (
+		      #{langTestNo,jdbcType=NUMERIC}
+		    , #{langTestName,jdbcType=VARCHAR}
+		    , #{langTestLevel,jdbcType=VARCHAR}
+		    , #{langTestDate,jdbcType=VARCHAR}
+		    , #{memId,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectLangtestList" resultType="Lang_TestVO">
+		SELECT
+		    lang_test_no,
+		    (SELECT code_nm FROM code c WHERE c.code_cd = l.lang_test_name) as lang_test_name,
+		    lang_test_level,
+		    lang_test_date,
+		    mem_id
+		FROM
+		    lang_test l
+		WHERE
+		    MEM_ID = #{memId,jdbcType=VARCHAR}
+		ORDER BY 
+			lang_test_date DESC
+	</select>
+	
+	<update id="updateLangTest">
+		UPDATE lang_test
+		SET
+		    LANG_TEST_NO = #{langTestNo,jdbcType=NUMERIC}
+		    ,LANG_TEST_NAME = #{langTestName,jdbcType=VARCHAR}
+		    ,LANG_TEST_LEVEL = #{langTestLevel,jdbcType=VARCHAR}
+		    ,LANG_TEST_DATE = #{langTestDate,jdbcType=VARCHAR}
+		    ,MEM_ID = #{memId,jdbcType=VARCHAR}
+		WHERE
+		    LANG_TEST_NO = #{langTestNo,jdbcType=NUMERIC}
+	</update>
+	
+	<delete id="deleteLangTest">
+		DELETE FROM LANG_TEST
+		WHERE
+			LANG_TEST_NO = #{langTestNo,jdbcType=NUMERIC}
+	</delete>
+	
+	<select id="selectLangtest" resultType="Lang_TestVO">
+		SELECT
+		    lang_test_no,
+		    lang_test_name,
+		    lang_test_level,
+		    lang_test_date,
+		    mem_id
+		FROM
+		    lang_test l
+		WHERE
+			LANG_TEST_NO = #{langTestNo,jdbcType=NUMERIC}    
+	</select>
+</mapper>

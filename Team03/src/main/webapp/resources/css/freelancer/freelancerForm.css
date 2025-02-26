@@ -1,0 +1,155 @@
+@charset "UTF-8";
+.Section_freelancer {
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 36px 0 160px;
+    width: 1100;
+    margin: 0 auto;
+}
+.free-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.form-label{
+	color: black;
+}
+ul {
+    list-style: none;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #e2e8f0
+}
+
+/* 희망 급여 레이아웃 */
+.salary-container {
+    display: flex; /* Flexbox 사용 */
+    gap: 10px; /* 드롭다운과 입력 필드 간 간격 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.salary-select {
+    width: 20%; /* 드롭다운 비율 설정 */
+    min-width: 80px; /* 최소 너비 */
+    height: 40px; /* 높이 통일 */
+}
+
+.salary-input {
+    flex: 1; /* 입력 필드가 남은 공간을 채움 */
+    height: 40px; /* 높이 통일 */
+}
+
+.freelancer-skill {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px 10px;
+    padding: 16px;
+    background-color: rgb(250, 251, 255);
+    border-radius: 5px;
+}
+
+.skill-add-Btn, .file-add-Btn {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(51, 51, 51);
+    background-color: #ebcbfd66;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none; /* 테두리 제거 */
+}
+.skill-del-btn{
+    border: none; /* 테두리 제거 */
+    background: none;
+    width: 30px;
+	height: 30px;
+}
+.freelancer-skill-top {
+    height: 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+.freelancer-skill-cont{
+	margin-top: 10px;
+}
+.freelancer-yn-radio{
+	display: flex;
+	padding: 9px;
+}
+#experienceYes{
+	margin-right: 30px;
+}
+.btn-upload {
+    background-color: rgb(242, 244, 247);
+    font-weight: normal;
+    border-radius: 4px;
+    width: 100%;
+    height: 44px;
+    border: none;
+    font-size: 15px;
+    color: rgb(51, 51, 51);
+}
+.freelancer-skill {
+    margin-bottom: 15px;
+}
+
+.freelancer-skill-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 드롭다운과 숙련도 비율 */
+    align-items: center;
+    gap: 50px; /* 드롭다운과 숙련도 간격 */
+    justify-items: start;
+}
+
+.freelancer-skill-type {
+    width: 100%; /* 드롭다운 너비를 맞춤 */
+}
+
+.skill-dropdown {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.freelancer-skill-prof {
+    display: flex;
+    justify-content: space-around; /* 숙련도 간격 균일화 */
+    gap: 30px; /* 숙련도 버튼 간격 */
+}
+
+.freelancer-skill-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.selected-job-box {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ebcbfd66;
+    color: #333;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: default;
+}
+
+.selected-job-box .remove-btn {
+    background: none;
+    border: none;
+    margin-left: 8px;
+    cursor: pointer;
+    color: black;
+    font-weight: bold;
+}
+#freeDetail {
+	height: 400px;
+	resize: none;
+}
